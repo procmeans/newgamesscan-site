@@ -221,8 +221,15 @@ td{padding:10px 12px;vertical-align:middle}
 .tx-cs time{font-family:var(--mono);font-size:10.5px;color:var(--dim);padding-top:1px;font-variant-numeric:tabular-nums}
 .tx-cs button{background:transparent;border:0;color:var(--dim);opacity:.35;cursor:pointer;font-size:13px;line-height:1;padding:0}
 .tx-cs button:hover{opacity:1;color:var(--new)}
-.tx-add{display:flex;gap:6px;margin-top:6px}
-.tx-add input{flex:1;min-width:0;background:var(--bg);border:1px solid var(--ln);color:var(--tx);font:inherit;
+.tx-cb{min-width:0;word-break:break-word}
+.tx-srcs{display:flex;flex-wrap:wrap;gap:4px 6px;margin-top:3px}
+.tx-srcs a{font-family:var(--mono);font-size:10px;color:var(--acc);border:1px solid var(--accbd);
+  background:var(--accbg);border-radius:3px;padding:1px 6px;max-width:34ch;overflow:hidden;
+  text-overflow:ellipsis;white-space:nowrap}
+.tx-srcs a:hover{border-color:var(--acc);text-decoration:underline}
+.tx-add{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:6px}
+.tx-add .tx-cu2{grid-column:1/-1;font-size:11.5px}
+.tx-add input{min-width:0;background:var(--bg);border:1px solid var(--ln);color:var(--tx);font:inherit;
   font-size:12px;padding:6px 9px;border-radius:4px;outline:none}
 .tx-add input:focus{border-color:var(--dim)}
 .tx-add button{background:var(--sf);border:1px solid var(--ln);color:var(--dim);font:inherit;font-size:11.5px;
@@ -455,7 +462,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
   <section class="sec" id="tree">
     <div class="sh"><h2>玩法树</h2><span>Taxonomy</span></div>
-    <p class="sd">把榜上的游戏拖到玩法分支上，用来追踪一个玩法怎么长出新变体。每个分支会实时汇总挂在它下面的作品数、进畅销榜数和最好名次。点分支右边的 <b>💬</b> 可以写<strong>分支备注</strong>、给单款作品写<strong>看点</strong>、按日期记<strong>评论</strong>；榜单里没有的老游戏（比如 Can Knockdown）用左栏「+ 手动添加」自己录进来，一样能拖。<strong>你的改动只存在本机浏览器里</strong>，不会影响别人；用「导出」把成果存成 JSON，导入即可恢复或分享。</p>
+    <p class="sd">把榜上的游戏拖到玩法分支上，用来追踪一个玩法怎么长出新变体。每个分支会实时汇总挂在它下面的作品数、进畅销榜数和最好名次。点分支右边的 <b>💬</b> 可以写<strong>分支备注</strong>、给单款作品写<strong>看点</strong>、按日期记<strong>评论</strong>（评论可以附信息来源网址，多个用空格隔开）；分支右边的 <b>+</b> 加并列分支、<b>↳</b> 加子分支；榜单里没有的老游戏（比如 Can Knockdown）用左栏「+ 手动添加」自己录进来，一样能拖。<strong>你的改动只存在本机浏览器里</strong>，不会影响别人；用「导出」把成果存成 JSON，导入即可恢复或分享。</p>
 
     <div class="tx">
       <aside class="tx-pal">
@@ -505,6 +512,31 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   const uid=()=>'n'+Math.random().toString(36).slice(2,9);
   const today=()=>new Date().toISOString().slice(0,10);
   const isCustom=k=>String(k).slice(0,2)==='x:';
+
+  // 评论的信息来源：一行里可以贴多条，空格 / 逗号 / 顿号都当分隔符。
+  // 只认 http(s)，裸域名补上 https://；其它一律丢掉 —— 存进来的东西最后会变成
+  // <a href>，放行 javascript: 之类的伪协议等于给自己开一个 XSS
+  const srcToks=s=>String(s==null?'':s).split(/[\s,，、;；]+/).map(x=>x.trim()).filter(Boolean);
+  function urls(s){
+    return srcToks(s).map(x=>{
+      if(/^https?:\/\//i.test(x))return x;
+      // 裸域名补协议。顶级域要求两个以上「字母」而不是 a-z，中文域名也能过
+      if(/^[^\s\/@]+\.[\p{L}]{2,}([\/?#]\S*)?$/u.test(x))return 'https://'+x;
+      return '';
+    }).filter(Boolean).slice(0,8);
+  }
+  const okUrl=u=>/^https?:\/\//i.test(String(u==null?'':u));
+  // 列表里只显示域名 + 短路径，完整地址留给 title。
+  // 直接切字符串而不是走 new URL()：后者会把中文域名转成 punycode、路径转成 %E8%B7…，
+  // 用户填的什么样就该显示什么样
+  function urlLabel(u){
+    const s=String(u==null?'':u).replace(/^https?:\/\//i,'').replace(/^www\./i,'');
+    const i=s.indexOf('/');
+    const host=i<0?s:s.slice(0,i);
+    let t=i<0?'':s.slice(i);
+    if(t==='/')t='';
+    return host+(t.length>16?t.slice(0,15)+'…':t);
+  }
 
   // 老版本（只有 nodes/games）存在 localStorage 里的状态要能直接接着用
   function norm(s){
@@ -682,11 +714,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
         '<div class="tx-gnr"><span class="tx-gnt" title="'+esc(g.t)+'">'+esc(g.t)+'</span>'+
         '<div class="tx-ed tx-gnote" contenteditable="true" spellcheck="false" data-k="'+esc(g.k)+'" data-ph="它在这条分支里做对了什么…">'+esc(g.note||'')+'</div></div>').join(''):'')+
       '<label class="tx-lb">评论'+(cs.length?' · '+cs.length:'')+'</label>'+
-      (cs.length?'<ul class="tx-cs">'+cs.map(c=>
-        '<li><time>'+esc(c.d)+'</time><span>'+esc(c.t)+'</span>'+
-        '<button data-act="delc" data-cid="'+esc(c.id)+'" title="删除">×</button></li>').join('')+'</ul>':'')+
+      (cs.length?'<ul class="tx-cs">'+cs.map(c=>{
+        const us=(c.u||[]).filter(okUrl);
+        return '<li><time>'+esc(c.d)+'</time><div class="tx-cb"><span>'+esc(c.t)+'</span>'+
+          (us.length?'<span class="tx-srcs">'+us.map(u=>
+            '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer" title="'+esc(u)+'">'+esc(urlLabel(u))+'</a>').join('')+'</span>':'')+
+          '</div><button data-act="delc" data-cid="'+esc(c.id)+'" title="删除">×</button></li>';
+      }).join('')+'</ul>':'')+
       '<div class="tx-add"><input class="tx-ci" placeholder="写点观察，回车提交…" autocomplete="off">'+
-      '<button data-act="addc">提交</button></div>'+
+      '<button data-act="addc">提交</button>'+
+      '<input class="tx-cu2" placeholder="信息来源网址，多个用空格或逗号隔开（可选）" autocomplete="off"></div>'+
     '</div>';
   }
   function nodeHtml(n,depth){
@@ -701,7 +738,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
         '<span class="tx-name" contenteditable="true" spellcheck="false">'+esc(n.name)+'</span>'+
         (s.n?'<span class="tx-st">'+s.n+' 款'+(s.live?' · 在榜 '+s.live:'')+(s.gr?' · 畅销 '+s.gr:'')+(s.best?' · 最好 #'+s.best:'')+'</span>':'<span class="tx-st tx-empty">拖游戏到这里</span>')+
         '<button class="tx-cmt'+(noted?' has':'')+(isOpen?' on':'')+'" data-act="cmt" title="备注与评论">💬'+(cs.length?'<em>'+cs.length+'</em>':'')+'</button>'+
-        '<span class="tx-acts"><button data-act="add" title="新增子分支">+</button><button data-act="del" title="删除分支">×</button></span>'+
+        '<span class="tx-acts"><button data-act="sib" title="在下面加一个并列分支（同一层）">+</button>'+
+        '<button data-act="add" title="加一个子分支（缩进一层）">↳</button>'+
+        '<button data-act="del" title="删除分支">×</button></span>'+
       '</div>'+
       (n.note&&!isOpen?'<p class="tx-note" title="点开写备注">'+esc(n.note)+'</p>':'')+
       (gs.length?'<div class="tx-chips">'+gs.map(g=>{
@@ -715,15 +754,21 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       (kids.length?'<div class="tx-kids">'+kids.map(k=>nodeHtml(k,depth+1)).join('')+'</div>':'')+
     '</div>';
   }
-  function render(focusId){
+  // focus: {id, what:'ci'|'name'} —— 整棵树是重绘的，新加的分支要自己把光标送回去
+  function render(focus){
     const box=$('ttree'), top=box.scrollTop;
     const roots=state.nodes.filter(n=>!n.parent);
     box.innerHTML=roots.map(n=>nodeHtml(n,0)).join('')||'<p class="tx-hint">还没有分支，点「+ 新建根分支」开始</p>';
     box.scrollTop=top;
     $('tdirty').textContent=dirty()?'已本地修改':'';
-    if(focusId){
-      const el=box.querySelector('.tx-node[data-id="'+focusId+'"] .tx-ci');
-      if(el)el.focus();
+    if(!focus)return;
+    const el=box.querySelector('.tx-node[data-id="'+focus.id+'"] .'+(focus.what==='name'?'tx-name':'tx-ci'));
+    if(!el)return;
+    el.focus();
+    if(focus.what==='name'){ // 选中「新分支」三个字，直接打字就能覆盖
+      const r=document.createRange(); r.selectNodeContents(el);
+      const sel=getSelection(); sel.removeAllRanges(); sel.addRange(r);
+      el.scrollIntoView({block:'nearest'});
     }
   }
 
@@ -739,11 +784,25 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     e.preventDefault(); hd.classList.remove('tx-over');
     drop(hd.closest('.tx-node').dataset.id);
   });
-  function addComment(id,input){
-    const t=input.value.trim(); if(!t)return;
-    (state.comments[id]=state.comments[id]||[]).push({id:uid(),d:today(),t:t});
-    input.value='';
-    save();render(id);
+  function addComment(id,node){
+    const input=node.querySelector('.tx-ci'), src=node.querySelector('.tx-cu2');
+    const t=input.value.trim(); if(!t){input.focus();return}
+    const raw=src?src.value:'', u=urls(raw), toks=srcToks(raw);
+    // 填了来源却一条都没解析出来，得说一声：无声吞掉最坑
+    if(toks.length>u.length&&!confirm(
+      (u.length?'有 '+(toks.length-u.length)+' 条来源不是有效网址':'来源没识别出有效网址')+
+      '（只认 http / https），会被丢掉。仍然提交这条评论吗？'))return;
+    const c={id:uid(),d:today(),t:t};
+    if(u.length)c.u=u;
+    (state.comments[id]=state.comments[id]||[]).push(c);
+    input.value=''; if(src)src.value='';
+    save();render({id:id,what:'ci'});
+  }
+  function addNode(parent,after){
+    const n={id:uid(),parent:parent,name:'新分支',note:''};
+    const at=after==null?-1:state.nodes.findIndex(x=>x.id===after);
+    if(at<0)state.nodes.push(n); else state.nodes.splice(at+1,0,n);
+    save();render({id:n.id,what:'name'});
   }
   $('ttree').addEventListener('click',e=>{
     if(e.target.closest('.tx-note')){ // 已有备注的那行，点一下就展开面板去编辑
@@ -756,13 +815,14 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       if(open.has(id))open.delete(id); else open.add(id);
       render(); return;
     }
-    if(act==='addc'){
-      addComment(id,node.querySelector('.tx-ci')); return;
+    if(act==='addc'){ addComment(id,node); return }
+    if(act==='add'){ addNode(id,null); return }            // 子分支
+    if(act==='sib'){                                       // 并列分支：插在自己下面
+      const me=state.nodes.find(n=>n.id===id);
+      addNode(me?me.parent:null,id); return;
     }
     if(act==='delc'){
       state.comments[id]=(state.comments[id]||[]).filter(c=>c.id!==b.dataset.cid);
-    }else if(act==='add'){
-      state.nodes.push({id:uid(),parent:id,name:'新分支',note:''});
     }else if(act==='del'){
       if(!confirm('删除这个分支及其所有子分支？'))return;
       const kill=[id]; for(let i=0;i<kill.length;i++)
@@ -796,14 +856,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   },true);
   $('ttree').addEventListener('keydown',e=>{
     const cl=e.target.classList; if(!cl)return;
+    const node=e.target.closest('.tx-node'); if(!node)return;
     if(cl.contains('tx-name')&&e.key==='Enter'){e.preventDefault();e.target.blur()}
-    if(cl.contains('tx-ci')&&e.key==='Enter'){
+    // 评论和来源两个框里回车都提交，省得填完来源还要回去点
+    if((cl.contains('tx-ci')||cl.contains('tx-cu2'))&&e.key==='Enter'){
       e.preventDefault();
-      addComment(e.target.closest('.tx-node').dataset.id,e.target);
+      addComment(node.dataset.id,node);
     }
   });
 
-  $('tadd').onclick=()=>{state.nodes.push({id:uid(),parent:null,name:'新分支',note:''});save();render()};
+  $('tadd').onclick=()=>addNode(null,null);
   $('texp').onclick=()=>{
     const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
     const a=document.createElement('a');
@@ -7661,7 +7723,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-13 15:20 UTC</span>
+  <span>生成于 2026-08-13 15:35 UTC</span>
 </footer>
 
 <script>
