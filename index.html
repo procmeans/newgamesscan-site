@@ -152,6 +152,7 @@ td{padding:10px 12px;vertical-align:middle}
 .tx-gr{grid-row:span 2;font-family:var(--mono);font-size:11.5px;color:var(--acc);font-variant-numeric:tabular-nums;padding-top:2px}
 .tx-gt{font-size:12.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .tx-gm{font-size:10.5px;color:var(--dim);font-family:var(--mono)}
+.tx-count{font-size:10.5px;color:var(--dim);font-family:var(--mono);align-self:center;margin-left:auto}
 .tx-hint{padding:12px 14px;font-size:11px;color:var(--dim);font-family:var(--mono)}
 .tx-main{background:var(--sf);display:flex;flex-direction:column;min-width:0}
 .tx-bar{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid var(--ln);flex-wrap:wrap;align-items:center}
@@ -411,6 +412,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
             <button class="f on" data-gf="casual">休闲</button>
             <button class="f" data-gf="new">新进榜</button>
             <button class="f" data-gf="all">全部</button>
+            <span id="tcount" class="tx-count"></span>
           </div>
         </div>
         <div id="tlist" class="tx-list"></div>
@@ -455,20 +457,39 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
   // ── 游戏面板 ──
   let gmode='casual', gq='';
+  // 「knockout」要能搜到「Knock Out」，所以除了逐词匹配，
+  // 再把两边的空格标点全去掉做一次整体包含判断
+  // 注意：整段脚本是嵌在模板字符串里的，反斜杠必须写两遍，
+  // 否则 \s 会在构建时被求值成 s、\u4e00 被求值成「一」
+  const squash=s=>String(s==null?'':s).toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g,'');
+  function hit(g,tokens,sq){
+    const hay=(g.t+' '+(g.d||'')+' '+(g.g||'')).toLowerCase();
+    if(tokens.every(t=>hay.includes(t)))return true;
+    return sq&&squash(g.t+(g.d||'')).includes(sq);
+  }
   function renderList(){
-    const q=gq.toLowerCase();
-    const rows=GAMES.filter(g=>{
+    const raw=gq.trim();
+    const tokens=raw?raw.toLowerCase().split(/\s+/).filter(Boolean):[];
+    const sq=squash(raw);
+    const matched=raw?GAMES.filter(g=>hit(g,tokens,sq)):GAMES;
+    const rows=matched.filter(g=>{
       if(gmode==='casual'&&!g.c)return false;
       if(gmode==='new'&&!g.n)return false;
-      if(q&&!(g.t.toLowerCase().includes(q)||(g.d||'').toLowerCase().includes(q)))return false;
       return true;
-    }).slice(0,300);
-    $('tlist').innerHTML=rows.map(g=>
+    });
+    const hidden=matched.length-rows.length;
+    $('tcount').textContent=raw
+      ? (rows.length+' 个结果'+(hidden?'（另有 '+hidden+' 个被当前筛选挡住）':''))
+      : (rows.length+' 款');
+    $('tlist').innerHTML=rows.slice(0,300).map(g=>
       '<div class="tx-g" draggable="true" data-k="'+esc(g.k)+'">'+
       '<span class="tx-gr">'+(g.f?'#'+g.f:'#'+g.rank)+'</span>'+
       '<span class="tx-gt">'+esc(g.t)+'</span>'+
       '<span class="tx-gm">'+g.s+(g.g?' · '+esc(g.g):'')+'</span></div>').join('')
-      ||'<p class="tx-hint">没有匹配的游戏</p>';
+      || '<p class="tx-hint">'+(hidden
+          ? '这个词只匹配到非休闲品类的游戏，点上面「全部」查看'
+          : '没有匹配的游戏')+'</p>';
+    if(rows.length>300)$('tlist').insertAdjacentHTML('beforeend','<p class="tx-hint">只显示前 300 条，继续输入以缩小范围</p>');
   }
   $('tq').addEventListener('input',e=>{gq=e.target.value;renderList()});
   document.querySelectorAll('[data-gf]').forEach(b=>b.onclick=()=>{
@@ -7455,7 +7476,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-13 14:08 UTC</span>
+  <span>生成于 2026-08-13 14:21 UTC</span>
 </footer>
 
 <script>
