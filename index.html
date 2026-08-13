@@ -96,11 +96,11 @@ h1 em{font-style:italic;color:var(--acc)}
 
 /* ── 标签页 ── */
 .tabs{display:flex;flex-wrap:wrap;border:1px solid var(--ln);border-bottom:0;margin-top:4px;background:var(--sf)}
-.tab,.ptab{flex:1;min-width:150px;background:transparent;border:0;border-right:1px solid var(--ln);color:var(--dim);
+.tab{flex:1;min-width:150px;background:transparent;border:0;border-right:1px solid var(--ln);color:var(--dim);
   font:inherit;font-size:12.5px;padding:14px 10px;cursor:pointer;transition:.15s;display:flex;justify-content:center;gap:8px;align-items:center}
-.tab:last-child,.ptab:last-child{border-right:0}
-.tab:hover,.ptab:hover{color:var(--tx);background:var(--sf2)}
-.tab.on,.ptab.on{color:var(--bg);background:var(--tx)}
+.tab:last-child{border-right:0}
+.tab:hover{color:var(--tx);background:var(--sf2)}
+.tab.on{color:var(--bg);background:var(--tx)}
 .tab em{font-style:normal;font-size:10px;padding:1px 6px;background:var(--new);color:#fff;border-radius:3px;font-family:var(--mono)}
 .filters{display:flex;gap:8px;padding:14px 0 16px;flex-wrap:wrap}
 .f{background:var(--sf);border:1px solid var(--ln);color:var(--dim);font:inherit;font-size:11.5px;
@@ -128,8 +128,14 @@ td{padding:10px 12px;vertical-align:middle}
 .xr{width:136px;font-size:11.5px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--mono)}
 .xr i{font-style:normal;opacity:.55;margin-right:3px}
 .dt{width:98px;font-size:11.5px;color:var(--dim);font-variant-numeric:tabular-nums;font-family:var(--mono)}
-.pn{width:78px;font-size:13px;font-variant-numeric:tabular-nums;font-family:var(--mono);text-align:left}
-.ptab em{font-style:normal;font-size:10px;padding:1px 6px;background:var(--new);color:#fff;border-radius:3px;font-family:var(--mono)}
+.mixc{width:150px;white-space:nowrap}
+.mix{display:flex;width:78px;height:6px;border-radius:3px;overflow:hidden;background:var(--ln);margin-bottom:4px}
+.mix i{display:block;height:100%}
+.mix .c{background:var(--cas)} .mix .h{background:var(--dim);opacity:.5}
+.mixt{font-size:10.5px;color:var(--dim);font-family:var(--mono);font-variant-numeric:tabular-nums}
+.mixt em{font-style:normal;opacity:.6;margin:0 4px 0 1px}
+.rate{display:block;font-size:10px;color:var(--dim);margin-top:1px}
+.pn{width:88px;font-size:13px;font-variant-numeric:tabular-nums;font-family:var(--mono);text-align:left}
 .bg{width:auto}
 
 footer{margin-top:84px;border-top:1px solid var(--ln);padding:30px 0 64px;color:var(--dim);font-size:11.5px;
@@ -346,375 +352,404 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
   <section class="sec">
     <div class="sh"><h2>发行商榜</h2><span>Publishers</span></div>
-    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">休闲盘</strong>和<strong>重度盘</strong>分开统计——同一家两边都做的会各上一次榜，只计对应品类的作品。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。</p>
-    <div class="tabs">
-      <button class="ptab on" data-pt="0">休闲发行商<em>20</em></button>
-      <button class="ptab" data-pt="1">重度发行商<em>20</em></button>
+    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">绿色</strong>是休闲/超休闲作品占比，灰色是重度——一条比例条就能看出这家是休闲盘还是重度盘。「进畅销榜」后面的百分比是变现率：<strong>铺得多但都不在畅销榜，就是纯买量广告变现</strong>。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。</p>
+    <div class="filters">
+      <button class="pf on" data-pf="all">全部</button>
+      <button class="pf" data-pf="casual">休闲盘</button>
+      <button class="pf" data-pf="mixed">混合</button>
+      <button class="pf" data-pf="heavy">重度盘</button>
     </div>
-    <div class="panel ppanel on" data-pp="0">
-      <table><thead><tr><th>#</th><th>发行商 / 在榜作品</th><th>作品数</th><th>进畅销榜</th><th>今日新进</th><th>最好名次</th><th>标记</th></tr></thead>
-      <tbody><tr style="--i:0">
+    <div class="panel ppanel on">
+      <table><thead><tr><th>#</th><th>发行商 / 在榜作品</th><th>休闲 · 重度</th><th>作品数</th><th>进畅销榜</th><th>今日新进</th><th>最好名次</th><th>标记</th></tr></thead>
+      <tbody><tr data-tag="casual" style="--i:0">
 <td class="rk">1</td>
 <td class="nm"><span class="t">Voodoo</span><span class="dev">Paper.io 2 · Hole.io · Castle Busters</span></td>
-<td class="pn">13</td>
-<td class="pn">8</td>
-<td class="pn">2</td>
+<td class="mixc">
+  <div class="mix" title="休闲 13 / 重度 4"><i class="c" style="flex:13"></i><i class="h" style="flex:4"></i></div>
+  <span class="mixt">13<em>休</em> 4<em>重</em></span>
+</td>
+<td class="pn">17</td>
+<td class="pn">8<span class="rate">47%</span></td>
+<td class="pn">4</td>
 <td class="dt">#15</td>
-<td class="bg"><b class="bd bd-first">2 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">4 款新进</b></td>
 </tr>
-<tr style="--i:1">
+<tr data-tag="heavy" style="--i:1">
 <td class="rk">2</td>
-<td class="nm"><span class="t">Oakever Games</span><span class="dev">Meowdoku: Brain Puzzle Games · Meowdoku! · Amaze GO!</span></td>
-<td class="pn">9</td>
-<td class="pn">—</td>
-<td class="pn">—</td>
-<td class="dt">#2</td>
-<td class="bg"><b class="bd bd-fresh">2 款新游</b></td>
-</tr>
-<tr style="--i:2">
-<td class="rk">3</td>
-<td class="nm"><span class="t">Moon Active</span><span class="dev">Coin Master · Jelly Busters: Puzzle Game · Travel Town - Merge Adventure</span></td>
-<td class="pn">7</td>
-<td class="pn">7</td>
-<td class="pn">—</td>
-<td class="dt">#10</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:3">
-<td class="rk">4</td>
-<td class="nm"><span class="t">Scopely</span><span class="dev">MONOPOLY GO! · Yahtzee® With Buddies Dice Fun · Yahtzee® with Buddies Dice</span></td>
-<td class="pn">6</td>
-<td class="pn">5</td>
-<td class="pn">1</td>
-<td class="dt">#1</td>
-<td class="bg"><b class="bd bd-first">1 款新进</b></td>
-</tr>
-<tr style="--i:4">
-<td class="rk">5</td>
-<td class="nm"><span class="t">Microfun Limited</span><span class="dev">Gossip Harbor®: Merge &amp; Story · Gossip Harbor: Merge &amp; Story · Flambé®: Merge &amp; Cook</span></td>
-<td class="pn">6</td>
-<td class="pn">6</td>
-<td class="pn">—</td>
-<td class="dt">#3</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:5">
-<td class="rk">6</td>
-<td class="nm"><span class="t">Easybrain</span><span class="dev">Arrow Puzzle: Tap Puzzle Games · Number Match - Numbers Game · Number Match - Number Games</span></td>
-<td class="pn">6</td>
-<td class="pn">—</td>
-<td class="pn">3</td>
-<td class="dt">#12</td>
-<td class="bg"><b class="bd bd-first">3 款新进</b></td>
-</tr>
-<tr style="--i:6">
-<td class="rk">7</td>
-<td class="nm"><span class="t">GOODROID,Inc.</span><span class="dev">Bus Traffic Fever! · CubeAway - 3DPuzzle · Hexa Away</span></td>
-<td class="pn">5</td>
-<td class="pn">3</td>
-<td class="pn">1</td>
-<td class="dt">#5</td>
-<td class="bg"><b class="bd bd-first">1 款新进</b></td>
-</tr>
-<tr style="--i:7">
-<td class="rk">8</td>
-<td class="nm"><span class="t">Rollic Games</span><span class="dev">Color Block Jam · Car Sort: Color Puzzle · Gecko Out</span></td>
-<td class="pn">5</td>
-<td class="pn">5</td>
-<td class="pn">—</td>
-<td class="dt">#49</td>
-<td class="bg"><b class="bd bd-fresh">1 款新游</b></td>
-</tr>
-<tr style="--i:8">
-<td class="rk">9</td>
-<td class="nm"><span class="t">JindoBlu</span><span class="dev">Offline Games - No Wifi Games · Antistress - relaxation toys · 2 Player games : the Challenge</span></td>
-<td class="pn">5</td>
-<td class="pn">—</td>
-<td class="pn">—</td>
-<td class="dt">#66</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:9">
-<td class="rk">10</td>
-<td class="nm"><span class="t">PlaySimple Games</span><span class="dev">Crossword Go! · Word Search Explorer · Word Search Explorer®</span></td>
-<td class="pn">5</td>
-<td class="pn">—</td>
-<td class="pn">—</td>
-<td class="dt">#77</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:10">
-<td class="rk">11</td>
-<td class="nm"><span class="t">Wildlife Studios</span><span class="dev">Block Craft 3D：Building Game · Color by Number：Coloring Games · Sniper 3D: Gun Shooting Games</span></td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="pn">—</td>
-<td class="dt">#5</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:11">
-<td class="rk">12</td>
-<td class="nm"><span class="t">Playrix</span><span class="dev">Township · Gardenscapes · Fishdom</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#8</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:12">
-<td class="rk">13</td>
-<td class="nm"><span class="t">Supercell</span><span class="dev">Clash of Clans · Brawl Stars · Hay Day</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#15</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:13">
-<td class="rk">14</td>
-<td class="nm"><span class="t">SuperPlay.</span><span class="dev">Dice Dreams™️ · Dice Dreams™ · Domino Dreams™</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#38</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:14">
-<td class="rk">15</td>
-<td class="nm"><span class="t">VERTEX GAMES PTE. LTD.</span><span class="dev">Bingo Voyage - Live Bingo Game · Matching Story - Puzzle Games · Bingo Frenzy™-Live Bingo Games</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#47</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:15">
-<td class="rk">16</td>
-<td class="nm"><span class="t">Guru Puzzle Game</span><span class="dev">Ball Sort Puzzle - Color Game · Water Sort Puzzle - Sort Color · Goods Puzzle: 3D Sorting Games</span></td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="pn">1</td>
-<td class="dt">#74</td>
-<td class="bg"><b class="bd bd-first">1 款新进</b></td>
-</tr>
-<tr style="--i:16">
-<td class="rk">17</td>
-<td class="nm"><span class="t">GRAND GAMES OYUN VE YAZILIM ANONIM SIRKETI</span><span class="dev">Block Out! - Color Sort Puzzle · Magic Sort! · Car Match - Traffic Puzzle</span></td>
-<td class="pn">3</td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="dt">#2</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:17">
-<td class="rk">18</td>
-<td class="nm"><span class="t">King</span><span class="dev">Candy Crush Saga · Candy Crush Soda Saga · Farm Heroes Saga</span></td>
-<td class="pn">3</td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="dt">#3</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:18">
-<td class="rk">19</td>
-<td class="nm"><span class="t">Peak Games</span><span class="dev">Toon Blast · Match Factory! · Toy Blast</span></td>
-<td class="pn">3</td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="dt">#11</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:19">
-<td class="rk">20</td>
-<td class="nm"><span class="t">Century Games Pte. Ltd.</span><span class="dev">Tasty Travels: Merge Game · Truck Star</span></td>
-<td class="pn">3</td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="dt">#12</td>
-<td class="bg"></td>
-</tr></tbody></table>
-    </div>
-    <div class="panel ppanel" data-pp="1">
-      <table><thead><tr><th>#</th><th>发行商 / 在榜作品</th><th>作品数</th><th>进畅销榜</th><th>今日新进</th><th>最好名次</th><th>标记</th></tr></thead>
-      <tbody><tr style="--i:0">
-<td class="rk">1</td>
 <td class="nm"><span class="t">Product Madness</span><span class="dev">Lightning Link Casino Slots · Cashman Casino Slots Games · Slots: Heart of Vegas Casino</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 12"><i class="c" style="flex:0"></i><i class="h" style="flex:12"></i></div>
+  <span class="mixt">0<em>休</em> 12<em>重</em></span>
+</td>
 <td class="pn">12</td>
-<td class="pn">12</td>
+<td class="pn">12<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#22</td>
-<td class="bg"></td>
+<td class="bg"><b class="bd bd-return">重度盘</b></td>
 </tr>
-<tr style="--i:1">
-<td class="rk">2</td>
+<tr data-tag="mixed" style="--i:2">
+<td class="rk">3</td>
+<td class="nm"><span class="t">Scopely</span><span class="dev">MONOPOLY GO! · MARVEL Strike Force: Squad RPG · Tiki Solitaire TriPeaks</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 6 / 重度 4"><i class="c" style="flex:6"></i><i class="h" style="flex:4"></i></div>
+  <span class="mixt">6<em>休</em> 4<em>重</em></span>
+</td>
+<td class="pn">10</td>
+<td class="pn">9<span class="rate">90%</span></td>
+<td class="pn">1</td>
+<td class="dt">#1</td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr data-tag="casual" style="--i:3">
+<td class="rk">4</td>
+<td class="nm"><span class="t">Oakever Games</span><span class="dev">Meowdoku: Brain Puzzle Games · Meowdoku! · Amaze GO!</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 9 / 重度 1"><i class="c" style="flex:9"></i><i class="h" style="flex:1"></i></div>
+  <span class="mixt">9<em>休</em> 1<em>重</em></span>
+</td>
+<td class="pn">10</td>
+<td class="pn">—<span class="rate"></span></td>
+<td class="pn">—</td>
+<td class="dt">#2</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-fresh">2 款新游</b></td>
+</tr>
+<tr data-tag="heavy" style="--i:4">
+<td class="rk">5</td>
 <td class="nm"><span class="t">SpinX Games Limited</span><span class="dev">Lotsa Slots - Casino Games · Cash Frenzy™ - Casino Slots · Jackpot World™ - Slots Casino</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 9"><i class="c" style="flex:0"></i><i class="h" style="flex:9"></i></div>
+  <span class="mixt">0<em>休</em> 9<em>重</em></span>
+</td>
 <td class="pn">9</td>
-<td class="pn">9</td>
+<td class="pn">9<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#33</td>
-<td class="bg"></td>
+<td class="bg"><b class="bd bd-return">重度盘</b></td>
 </tr>
-<tr style="--i:2">
-<td class="rk">3</td>
+<tr data-tag="heavy" style="--i:5">
+<td class="rk">6</td>
 <td class="nm"><span class="t">FunPlus International AG</span><span class="dev">Tiles Survive! · Foundation: Galactic Frontier · Guns of Glory: Lost Island</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 9"><i class="c" style="flex:0"></i><i class="h" style="flex:9"></i></div>
+  <span class="mixt">0<em>休</em> 9<em>重</em></span>
+</td>
 <td class="pn">9</td>
-<td class="pn">9</td>
+<td class="pn">9<span class="rate">100%</span></td>
 <td class="pn">4</td>
 <td class="dt">#82</td>
-<td class="bg"><b class="bd bd-first">4 款新进</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-first">4 款新进</b></td>
 </tr>
-<tr style="--i:3">
-<td class="rk">4</td>
-<td class="nm"><span class="t">Zynga</span><span class="dev">Golf Rival - Multiplayer Game · Wizard of Oz Slots Games · CSR 2 - Realistic Drag Racing</span></td>
-<td class="pn">7</td>
-<td class="pn">7</td>
-<td class="pn">1</td>
-<td class="dt">#133</td>
-<td class="bg"><b class="bd bd-first">1 款新进</b></td>
-</tr>
-<tr style="--i:4">
-<td class="rk">5</td>
-<td class="nm"><span class="t">Playtika</span><span class="dev">Slotomania™ Slots Casino Games · WSOP Poker: Texas Holdem Game · Slotomania™ Slots Machine Game</span></td>
-<td class="pn">6</td>
-<td class="pn">6</td>
-<td class="pn">—</td>
-<td class="dt">#72</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:5">
-<td class="rk">6</td>
-<td class="nm"><span class="t">Century Games Pte. Ltd.</span><span class="dev">Kingshot · Whiteout Survival · Truck Star</span></td>
-<td class="pn">5</td>
-<td class="pn">5</td>
+<tr data-tag="mixed" style="--i:6">
+<td class="rk">7</td>
+<td class="nm"><span class="t">Century Games Pte. Ltd.</span><span class="dev">Kingshot · Whiteout Survival · Tasty Travels: Merge Game</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 3 / 重度 5"><i class="c" style="flex:3"></i><i class="h" style="flex:5"></i></div>
+  <span class="mixt">3<em>休</em> 5<em>重</em></span>
+</td>
+<td class="pn">8</td>
+<td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#4</td>
-<td class="bg"></td>
+<td class="bg"><b class="bd bd-cross">混合</b></td>
 </tr>
-<tr style="--i:6">
-<td class="rk">7</td>
+<tr data-tag="casual" style="--i:7">
+<td class="rk">8</td>
+<td class="nm"><span class="t">Moon Active</span><span class="dev">Coin Master · Jelly Busters: Puzzle Game · Travel Town - Merge Adventure</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 7 / 重度 1"><i class="c" style="flex:7"></i><i class="h" style="flex:1"></i></div>
+  <span class="mixt">7<em>休</em> 1<em>重</em></span>
+</td>
+<td class="pn">8</td>
+<td class="pn">8<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#10</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+</tr>
+<tr data-tag="mixed" style="--i:8">
+<td class="rk">9</td>
+<td class="nm"><span class="t">Supercell</span><span class="dev">Clash of Clans · Clash Royale · Brawl Stars</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 4 / 重度 4"><i class="c" style="flex:4"></i><i class="h" style="flex:4"></i></div>
+  <span class="mixt">4<em>休</em> 4<em>重</em></span>
+</td>
+<td class="pn">8</td>
+<td class="pn">8<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#15</td>
+<td class="bg"><b class="bd bd-cross">混合</b></td>
+</tr>
+<tr data-tag="casual" style="--i:9">
+<td class="rk">10</td>
+<td class="nm"><span class="t">Easybrain</span><span class="dev">Arrow Puzzle: Tap Puzzle Games · Sudoku.com - Number Games · Number Match - Numbers Game</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 6 / 重度 1"><i class="c" style="flex:6"></i><i class="h" style="flex:1"></i></div>
+  <span class="mixt">6<em>休</em> 1<em>重</em></span>
+</td>
+<td class="pn">7</td>
+<td class="pn">—<span class="rate"></span></td>
+<td class="pn">3</td>
+<td class="dt">#12</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">3 款新进</b></td>
+</tr>
+<tr data-tag="heavy" style="--i:10">
+<td class="rk">11</td>
+<td class="nm"><span class="t">Zynga</span><span class="dev">Golf Rival - Multiplayer Game · Wizard of Oz Slots Games · CSR 2 - Realistic Drag Racing</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 7"><i class="c" style="flex:0"></i><i class="h" style="flex:7"></i></div>
+  <span class="mixt">0<em>休</em> 7<em>重</em></span>
+</td>
+<td class="pn">7</td>
+<td class="pn">7<span class="rate">100%</span></td>
+<td class="pn">1</td>
+<td class="dt">#133</td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr data-tag="casual" style="--i:11">
+<td class="rk">12</td>
+<td class="nm"><span class="t">Microfun Limited</span><span class="dev">Gossip Harbor®: Merge &amp; Story · Gossip Harbor: Merge &amp; Story · Flambé®: Merge &amp; Cook</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
+  <span class="mixt">6<em>休</em> 0<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">6<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#3</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+</tr>
+<tr data-tag="heavy" style="--i:12">
+<td class="rk">13</td>
 <td class="nm"><span class="t">EA Swiss Sarl</span><span class="dev">EA SPORTS FC Soccer Mobile 26 · Star Wars™: Galaxy of Heroes · Golf Clash - Golfing Simulator</span></td>
-<td class="pn">5</td>
-<td class="pn">4</td>
+<td class="mixc">
+  <div class="mix" title="休闲 1 / 重度 5"><i class="c" style="flex:1"></i><i class="h" style="flex:5"></i></div>
+  <span class="mixt">1<em>休</em> 5<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">4<span class="rate">67%</span></td>
 <td class="pn">—</td>
 <td class="dt">#13</td>
-<td class="bg"><b class="bd bd-fresh">1 款新游</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-fresh">1 款新游</b></td>
 </tr>
-<tr style="--i:7">
-<td class="rk">8</td>
-<td class="nm"><span class="t">SciPlay</span><span class="dev">Jackpot Party Casino Slots · Quick Hit Casino Slots Games · Gold Fish Casino Slot Games</span></td>
-<td class="pn">5</td>
-<td class="pn">5</td>
+<tr data-tag="heavy" style="--i:13">
+<td class="rk">14</td>
+<td class="nm"><span class="t">Supercent Inc.</span><span class="dev">Snake Clash! · Pizza Ready! · XP Hero</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 1 / 重度 5"><i class="c" style="flex:1"></i><i class="h" style="flex:5"></i></div>
+  <span class="mixt">1<em>休</em> 5<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">1<span class="rate">17%</span></td>
 <td class="pn">—</td>
-<td class="dt">#18</td>
-<td class="bg"></td>
+<td class="dt">#24</td>
+<td class="bg"><b class="bd bd-return">重度盘</b></td>
 </tr>
-<tr style="--i:8">
-<td class="rk">9</td>
+<tr data-tag="heavy" style="--i:14">
+<td class="rk">15</td>
 <td class="nm"><span class="t">COGNOSPHERE PTE. LTD.</span><span class="dev">Genshin Impact · Zenless Zone Zero - Anniv. · Honkai: Star Rail</span></td>
-<td class="pn">5</td>
-<td class="pn">5</td>
+<td class="mixc">
+  <div class="mix" title="休闲 1 / 重度 5"><i class="c" style="flex:1"></i><i class="h" style="flex:5"></i></div>
+  <span class="mixt">1<em>休</em> 5<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">1</td>
 <td class="dt">#28</td>
-<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-first">1 款新进</b></td>
 </tr>
-<tr style="--i:9">
-<td class="rk">10</td>
-<td class="nm"><span class="t">ELECTRONIC ARTS</span><span class="dev">EA SPORTS FC Soccer Mobile 26 · Golf Clash - Golfing Simulator · Star Wars™: Galaxy of Heroes</span></td>
+<tr data-tag="mixed" style="--i:15">
+<td class="rk">16</td>
+<td class="nm"><span class="t">SuperPlay.</span><span class="dev">Disney Solitaire · Dice Dreams™️ · Dice Dreams™</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 4 / 重度 2"><i class="c" style="flex:4"></i><i class="h" style="flex:2"></i></div>
+  <span class="mixt">4<em>休</em> 2<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">6<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#31</td>
+<td class="bg"><b class="bd bd-cross">混合</b></td>
+</tr>
+<tr data-tag="mixed" style="--i:16">
+<td class="rk">17</td>
+<td class="nm"><span class="t">SayGames LTD</span><span class="dev">Pocket Sort: Coin Merge Puzzle · My Perfect Hotel · Grass Master – Cutting Game</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 3 / 重度 3"><i class="c" style="flex:3"></i><i class="h" style="flex:3"></i></div>
+  <span class="mixt">3<em>休</em> 3<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">—<span class="rate"></span></td>
+<td class="pn">2</td>
+<td class="dt">#34</td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-first">2 款新进</b></td>
+</tr>
+<tr data-tag="mixed" style="--i:17">
+<td class="rk">18</td>
+<td class="nm"><span class="t">VERTEX GAMES PTE. LTD.</span><span class="dev">Bingo Voyage - Live Bingo Game · Matching Story - Puzzle Games · Bingo Voyage: Live Bingo Games</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 4 / 重度 2"><i class="c" style="flex:4"></i><i class="h" style="flex:2"></i></div>
+  <span class="mixt">4<em>休</em> 2<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">6<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#47</td>
+<td class="bg"><b class="bd bd-cross">混合</b></td>
+</tr>
+<tr data-tag="heavy" style="--i:18">
+<td class="rk">19</td>
+<td class="nm"><span class="t">Playtika</span><span class="dev">Slotomania™ Slots Casino Games · WSOP Poker: Texas Holdem Game · Slotomania™ Slots Machine Game</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 6"><i class="c" style="flex:0"></i><i class="h" style="flex:6"></i></div>
+  <span class="mixt">0<em>休</em> 6<em>重</em></span>
+</td>
+<td class="pn">6</td>
+<td class="pn">6<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#72</td>
+<td class="bg"><b class="bd bd-return">重度盘</b></td>
+</tr>
+<tr data-tag="casual" style="--i:19">
+<td class="rk">20</td>
+<td class="nm"><span class="t">GOODROID,Inc.</span><span class="dev">Bus Traffic Fever! · CubeAway - 3DPuzzle · Hexa Away</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
+  <span class="mixt">5<em>休</em> 0<em>重</em></span>
+</td>
 <td class="pn">5</td>
-<td class="pn">5</td>
+<td class="pn">3<span class="rate">60%</span></td>
 <td class="pn">1</td>
-<td class="dt">#60</td>
-<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+<td class="dt">#5</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">1 款新进</b></td>
 </tr>
-<tr style="--i:10">
-<td class="rk">11</td>
-<td class="nm"><span class="t">Supercent Inc.</span><span class="dev">Pizza Ready! · XP Hero · Snake Clash!</span></td>
+<tr data-tag="casual" style="--i:20">
+<td class="rk">21</td>
+<td class="nm"><span class="t">Wildlife Studios</span><span class="dev">Block Craft 3D：Building Game · Color by Number：Coloring Games · Sniper 3D: Gun Shooting Games</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 4 / 重度 1"><i class="c" style="flex:4"></i><i class="h" style="flex:1"></i></div>
+  <span class="mixt">4<em>休</em> 1<em>重</em></span>
+</td>
 <td class="pn">5</td>
-<td class="pn">1</td>
+<td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
-<td class="dt">#81</td>
-<td class="bg"></td>
+<td class="dt">#5</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
 </tr>
-<tr style="--i:11">
-<td class="rk">12</td>
-<td class="nm"><span class="t">Omnilojo Pte Ltd</span><span class="dev">Last Z: Survival Shooter · Dark War Survival · Dark War:Survival</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
+<tr data-tag="heavy" style="--i:21">
+<td class="rk">22</td>
+<td class="nm"><span class="t">SciPlay</span><span class="dev">Jackpot Party Casino Slots · Quick Hit Casino Slots Games · Gold Fish Casino Slot Games</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
+  <span class="mixt">0<em>休</em> 5<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
-<td class="dt">#10</td>
-<td class="bg"></td>
+<td class="dt">#18</td>
+<td class="bg"><b class="bd bd-return">重度盘</b></td>
 </tr>
-<tr style="--i:12">
-<td class="rk">13</td>
-<td class="nm"><span class="t">Phantom EFX, Inc.</span><span class="dev">Jackpot Party - Casino Slots · MONOPOLY Slots Casino: Go Spin · Gold Fish Casino Slots Games</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#27</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:13">
-<td class="rk">14</td>
-<td class="nm"><span class="t">Supercell</span><span class="dev">Clash of Clans · Clash Royale · Hay Day</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
+<tr data-tag="mixed" style="--i:22">
+<td class="rk">23</td>
+<td class="nm"><span class="t">Tripledot Studios Limited</span><span class="dev">Woodoku Blast · Stack Smash - Block 3D Puzzle · Stack Smash - 3D Puzzle Game</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 3 / 重度 2"><i class="c" style="flex:3"></i><i class="h" style="flex:2"></i></div>
+  <span class="mixt">3<em>休</em> 2<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#35</td>
-<td class="bg"></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-fresh">2 款新游</b></td>
 </tr>
-<tr style="--i:14">
-<td class="rk">15</td>
-<td class="nm"><span class="t">Scopely</span><span class="dev">MARVEL Strike Force: Squad RPG · Tiki Solitaire TriPeaks · Star Trek Fleet Command</span></td>
+<tr data-tag="casual" style="--i:23">
+<td class="rk">24</td>
+<td class="nm"><span class="t">Guru Puzzle Game</span><span class="dev">Solitaire - Classic Card Games · Ball Sort Puzzle - Color Game · Water Sort Puzzle - Sort Color</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 4 / 重度 1"><i class="c" style="flex:4"></i><i class="h" style="flex:1"></i></div>
+  <span class="mixt">4<em>休</em> 1<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">—<span class="rate"></span></td>
+<td class="pn">1</td>
+<td class="dt">#37</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr data-tag="casual" style="--i:24">
+<td class="rk">25</td>
+<td class="nm"><span class="t">Rollic Games</span><span class="dev">Color Block Jam · Car Sort: Color Puzzle · Gecko Out</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
+  <span class="mixt">5<em>休</em> 0<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">5<span class="rate">100%</span></td>
+<td class="pn">—</td>
+<td class="dt">#49</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-fresh">1 款新游</b></td>
+</tr>
+<tr data-tag="heavy" style="--i:25">
+<td class="rk">26</td>
+<td class="nm"><span class="t">ELECTRONIC ARTS</span><span class="dev">EA SPORTS FC Soccer Mobile 26 · Golf Clash - Golfing Simulator · Star Wars™: Galaxy of Heroes</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
+  <span class="mixt">0<em>休</em> 5<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">5<span class="rate">100%</span></td>
+<td class="pn">1</td>
+<td class="dt">#60</td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr data-tag="casual" style="--i:26">
+<td class="rk">27</td>
+<td class="nm"><span class="t">JindoBlu</span><span class="dev">Offline Games - No Wifi Games · Antistress - relaxation toys · 2 Player games : the Challenge</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
+  <span class="mixt">5<em>休</em> 0<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">—<span class="rate"></span></td>
+<td class="pn">—</td>
+<td class="dt">#66</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+</tr>
+<tr data-tag="mixed" style="--i:27">
+<td class="rk">28</td>
+<td class="nm"><span class="t">Century Games Innovation Pte. Ltd.</span><span class="dev">Hotel Legacy: Merge Game · Family Farm Merge · Top Force: Commander</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 2 / 重度 3"><i class="c" style="flex:2"></i><i class="h" style="flex:3"></i></div>
+  <span class="mixt">2<em>休</em> 3<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">1<span class="rate">20%</span></td>
+<td class="pn">—</td>
+<td class="dt">#75</td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-fresh">4 款新游</b></td>
+</tr>
+<tr data-tag="casual" style="--i:28">
+<td class="rk">29</td>
+<td class="nm"><span class="t">PlaySimple Games</span><span class="dev">Crossword Go! · Word Search Explorer · Word Search Explorer®</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
+  <span class="mixt">5<em>休</em> 0<em>重</em></span>
+</td>
+<td class="pn">5</td>
+<td class="pn">—<span class="rate"></span></td>
+<td class="pn">—</td>
+<td class="dt">#77</td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+</tr>
+<tr data-tag="mixed" style="--i:29">
+<td class="rk">30</td>
+<td class="nm"><span class="t">Lessmore GmbH</span><span class="dev">Arrows – Puzzle Escape · Forge Master – Idle RPG · Forge Master</span></td>
+<td class="mixc">
+  <div class="mix" title="休闲 2 / 重度 2"><i class="c" style="flex:2"></i><i class="h" style="flex:2"></i></div>
+  <span class="mixt">2<em>休</em> 2<em>重</em></span>
+</td>
 <td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#70</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:15">
-<td class="rk">16</td>
-<td class="nm"><span class="t">Zeroo Gravity Games</span><span class="dev">Jackpot Master™ Slots - Casino · Cash Tornado™ Slots - Casino · Jackpot Master™ Slots-Casino</span></td>
-<td class="pn">4</td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="dt">#83</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:16">
-<td class="rk">17</td>
-<td class="nm"><span class="t">Voodoo</span><span class="dev">Epic Plane Evolution · Draft Showdown</span></td>
-<td class="pn">4</td>
-<td class="pn">—</td>
-<td class="pn">2</td>
-<td class="dt">#114</td>
-<td class="bg"><b class="bd bd-first">2 款新进</b></td>
-</tr>
-<tr style="--i:17">
-<td class="rk">18</td>
-<td class="nm"><span class="t">PLR Worldwide Sales Limited</span><span class="dev">Township · Gardenscapes · Homescapes: Match 3 Games</span></td>
-<td class="pn">3</td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="dt">#10</td>
-<td class="bg"></td>
-</tr>
-<tr style="--i:18">
-<td class="rk">19</td>
-<td class="nm"><span class="t">BUILDING-BLOCKS NETWORK TECHNOLOGY CO.,LIMITED</span><span class="dev">Puzzles &amp; Survival · Z Route: Redemption · Puzzles &amp; Chaos: Frozen Castle</span></td>
-<td class="pn">3</td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="dt">#82</td>
-<td class="bg"><b class="bd bd-fresh">1 款新游</b></td>
-</tr>
-<tr style="--i:19">
-<td class="rk">20</td>
-<td class="nm"><span class="t">Century Games Innovation Pte. Ltd.</span><span class="dev">Top Force: Commander · Top Force · Lordrush</span></td>
-<td class="pn">3</td>
-<td class="pn">—</td>
-<td class="pn">—</td>
-<td class="dt">#94</td>
-<td class="bg"><b class="bd bd-fresh">3 款新游</b></td>
+<td class="pn">2<span class="rate">50%</span></td>
+<td class="pn">1</td>
+<td class="dt">#8</td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-first">1 款新进</b></td>
 </tr></tbody></table>
     </div>
   </section>
@@ -7142,7 +7177,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-13 13:45 UTC</span>
+  <span>生成于 2026-08-13 13:53 UTC</span>
 </footer>
 
 <script>
@@ -7156,9 +7191,10 @@ const setTheme=t=>{
 };
 $$('.tg button').forEach(b=>b.onclick=()=>setTheme(b.dataset.th));
 setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
-$$('.ptab').forEach(t=>t.onclick=()=>{
-  $$('.ptab').forEach(x=>x.classList.toggle('on',x===t));
-  $$('.ppanel').forEach(p=>p.classList.toggle('on',p.dataset.pp===t.dataset.pt));
+let pmode='all';
+$$('.pf').forEach(b=>b.onclick=()=>{
+  pmode=b.dataset.pf; $$('.pf').forEach(x=>x.classList.toggle('on',x===b));
+  $$('.ppanel tbody tr').forEach(r=>{r.style.display=(pmode==='all'||r.dataset.tag===pmode)?'':'none'});
 });
 $$('.tab').forEach(t=>t.onclick=()=>{
   $$('.tab').forEach(x=>x.classList.toggle('on',x===t));
