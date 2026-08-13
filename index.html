@@ -5,124 +5,157 @@
 <title>美区手游榜单 · 2026-08-13</title>
 <meta name="description" content="美区 App Store / Google Play 游戏 Top 200 每日榜单，重点标注新上榜与休闲品类。">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
+/* ── 浅色为默认，深色可切换 ── */
 :root{
-  --bg:#0c0b09; --sf:#131210; --ln:#26241f; --tx:#e9e4d8; --dim:#7a7469;
-  --new:#ff4d2e; --cas:#a3e635; --amb:#ffb000;
+  --bg:#fbfaf7; --sf:#fff; --sf2:#f6f4ef; --ln:#e6e2d8; --ln2:#f0ede6;
+  --tx:#1c1a16; --dim:#8b8578; --hd:#faf8f4;
+  --new:#c9431c; --cas:#3f8a43; --acc:#9a6f14;
+  --newbg:rgba(201,67,28,.07); --newbd:rgba(201,67,28,.28);
+  --casbg:rgba(63,138,67,.08); --casbd:rgba(63,138,67,.3);
+  --accbg:rgba(154,111,20,.08); --accbd:rgba(154,111,20,.28);
+  --freshfg:#fff; --glow:rgba(201,67,28,.06); --scan:0;
   --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  --sans:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,sans-serif;
   --cjk:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",sans-serif;
   --disp:"Instrument Serif",Georgia,serif;
 }
+[data-theme="dark"]{
+  --bg:#0c0b09; --sf:#131210; --sf2:#191713; --ln:#26241f; --ln2:#1e1c18;
+  --tx:#e9e4d8; --dim:#7a7469; --hd:#100f0d;
+  --new:#ff5f3d; --cas:#a3e635; --acc:#ffb000;
+  --newbg:rgba(255,95,61,.1); --newbd:rgba(255,95,61,.45);
+  --casbg:rgba(163,230,53,.09); --casbd:rgba(163,230,53,.4);
+  --accbg:rgba(255,176,0,.08); --accbd:rgba(255,176,0,.4);
+  --freshfg:#0c0b09; --glow:rgba(255,176,0,.09); --scan:.03;
+}
 *{box-sizing:border-box;margin:0;padding:0}
 html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--tx);font-family:var(--mono),var(--cjk);font-size:14px;line-height:1.5;
-  background-image:radial-gradient(ellipse 80% 50% at 50% -10%,rgba(255,176,0,.07),transparent 60%);
-  background-attachment:fixed}
-body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:.035;
+body{background:var(--bg);color:var(--tx);font-family:var(--sans),var(--cjk);font-size:14px;line-height:1.55;
+  background-image:radial-gradient(ellipse 80% 46% at 50% -8%,var(--glow),transparent 62%);
+  background-attachment:fixed;transition:background-color .25s,color .25s}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:99;opacity:var(--scan);
   background-image:repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)}
 a{color:inherit;text-decoration:none}
-.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px}
+
+/* ── 主题开关 ── */
+.tg{position:fixed;top:20px;right:22px;z-index:50;display:flex;border:1px solid var(--ln);
+  background:var(--sf);border-radius:999px;overflow:hidden;box-shadow:0 1px 3px rgba(20,15,5,.06)}
+.tg button{background:transparent;border:0;color:var(--dim);font:inherit;font-size:11px;
+  padding:6px 13px;cursor:pointer;transition:.16s;font-family:var(--mono)}
+.tg button.on{background:var(--tx);color:var(--bg)}
+.tg button:hover:not(.on){color:var(--tx)}
 
 /* ── 页头 ── */
-header{border-bottom:1px solid var(--ln);padding:56px 0 0;position:relative;overflow:hidden}
-header::before{content:"";position:absolute;top:-40%;right:-10%;width:520px;height:520px;
-  background:radial-gradient(circle,rgba(255,77,46,.13),transparent 65%);pointer-events:none}
-.kick{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--amb)}
-h1{font-family:var(--disp);font-weight:400;font-size:clamp(46px,8vw,92px);line-height:.92;margin:14px 0 6px;letter-spacing:-.02em}
-h1 em{font-style:italic;color:var(--amb)}
-.sub{color:var(--dim);font-size:13px;margin-bottom:36px}
+header{border-bottom:1px solid var(--ln);padding:76px 0 0;position:relative;overflow:hidden}
+.kick{font-size:10.5px;letter-spacing:.32em;text-transform:uppercase;color:var(--acc);font-family:var(--mono)}
+h1{font-family:var(--disp);font-weight:400;font-size:clamp(44px,7.6vw,88px);line-height:.95;margin:16px 0 8px;letter-spacing:-.015em}
+h1 em{font-style:italic;color:var(--acc)}
+.sub{color:var(--dim);font-size:13px;margin-bottom:44px;font-family:var(--mono)}
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));border-top:1px solid var(--ln)}
-.st{padding:20px 20px 22px;border-right:1px solid var(--ln)}
+.st{padding:22px 22px 24px;border-right:1px solid var(--ln)}
 .st:last-child{border-right:0}
-.st b{display:block;font-family:var(--disp);font-size:40px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
-.st span{display:block;margin-top:7px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.st b{display:block;font-family:var(--disp);font-size:42px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
+.st span{display:block;margin-top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-family:var(--mono)}
 .st.hl b{color:var(--new)} .st.cs b{color:var(--cas)}
 
 /* ── 区块标题 ── */
-.sec{padding:64px 0 0}
-.sh{display:flex;align-items:baseline;gap:16px;margin-bottom:8px}
-.sh h2{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.01em}
-.sh span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-.sd{color:var(--dim);font-size:12.5px;margin-bottom:26px;max-width:62ch}
+.sec{padding:72px 0 0}
+.sh{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
+.sh h2{font-family:var(--disp);font-weight:400;font-size:36px;letter-spacing:-.01em}
+.sh span{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim);font-family:var(--mono)}
+.sd{color:var(--dim);font-size:13px;margin-bottom:30px;max-width:64ch}
 
 /* ── 首屏卡片 ── */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:1px;background:var(--ln);border:1px solid var(--ln)}
-.card{background:var(--sf);padding:18px 18px 16px;position:relative;
-  animation:up .5s cubic-bezier(.22,.8,.3,1) backwards;animation-delay:calc(var(--i)*28ms);transition:background .18s}
-.card:hover{background:#191713}
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(272px,1fr));gap:1px;background:var(--ln);border:1px solid var(--ln)}
+.card{background:var(--sf);padding:19px 19px 17px;position:relative;
+  animation:up .5s cubic-bezier(.22,.8,.3,1) backwards;animation-delay:calc(var(--i)*26ms);transition:background .18s}
+.card:hover{background:var(--sf2)}
 .card.casual{box-shadow:inset 3px 0 0 var(--cas)}
-.chd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:9px}
-.cr{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--amb)}
-.cc{font-size:10px;letter-spacing:.1em;color:var(--dim)}
-.card h3{font-size:15px;font-weight:500;font-family:var(--cjk),var(--mono);line-height:1.3}
-.card h3 a:hover{color:var(--amb)}
-.cdev{font-size:11px;color:var(--dim);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cmeta{display:flex;gap:12px;margin:11px 0 10px;font-size:11px;color:var(--dim);border-top:1px dashed var(--ln);padding-top:9px}
+.chd{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+.cr{font-size:19px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--acc);font-family:var(--mono)}
+.cc{font-size:10px;letter-spacing:.09em;color:var(--dim);font-family:var(--mono)}
+.card h3{font-size:15.5px;font-weight:500;font-family:var(--sans),var(--cjk);line-height:1.32;letter-spacing:-.01em}
+.card h3 a:hover{color:var(--new)}
+.cdev{font-size:11.5px;color:var(--dim);margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmeta{display:flex;gap:14px;margin:12px 0 11px;font-size:11px;color:var(--dim);border-top:1px solid var(--ln2);padding-top:10px;font-family:var(--mono)}
 
 /* ── 徽标 ── */
 .bg{display:flex;flex-wrap:wrap;gap:4px}
-.bd{font-size:9.5px;font-weight:500;letter-spacing:.06em;padding:2.5px 6px;border:1px solid;font-style:normal;white-space:nowrap}
-.bd-first{color:var(--new);border-color:rgba(255,77,46,.5);background:rgba(255,77,46,.09)}
-.bd-cross{color:var(--amb);border-color:rgba(255,176,0,.4);background:rgba(255,176,0,.07)}
-.bd-return{color:var(--dim);border-color:var(--ln)}
-.bd-fresh{color:#0c0b09;background:var(--amb);border-color:var(--amb)}
-.bd-cas{color:var(--cas);border-color:rgba(163,230,53,.45);background:rgba(163,230,53,.08)}
+.bd{font-size:10px;font-weight:500;letter-spacing:.03em;padding:2.5px 7px;border:1px solid;font-style:normal;
+  white-space:nowrap;border-radius:3px;font-family:var(--mono)}
+.bd-first{color:var(--new);border-color:var(--newbd);background:var(--newbg)}
+.bd-cross{color:var(--acc);border-color:var(--accbd);background:var(--accbg)}
+.bd-return{color:var(--dim);border-color:var(--ln);background:transparent}
+.bd-fresh{color:var(--freshfg);background:var(--acc);border-color:var(--acc)}
+.bd-cas{color:var(--cas);border-color:var(--casbd);background:var(--casbg)}
 .bd-ad{color:var(--dim);border-color:var(--ln);background:transparent}
-.bd-rise{color:var(--cas);border-color:transparent;background:rgba(163,230,53,.12)}
+.bd-rise{color:var(--cas);border-color:transparent;background:var(--casbg)}
 
 /* ── 标签页 ── */
-.tabs{display:flex;flex-wrap:wrap;gap:0;border:1px solid var(--ln);border-bottom:0;margin-top:4px}
-.tab{flex:1;min-width:150px;background:transparent;border:0;border-right:1px solid var(--ln);color:var(--dim);
-  font:inherit;font-size:12px;padding:13px 10px;cursor:pointer;transition:.15s;display:flex;justify-content:center;gap:7px;align-items:center}
-.tab:last-child{border-right:0}
-.tab:hover{color:var(--tx);background:#141310}
-.tab.on{color:var(--bg);background:var(--tx)}
-.tab em{font-style:normal;font-size:10px;padding:1px 5px;background:var(--new);color:#fff}
-.tab.on em{background:var(--new)}
-.filters{display:flex;gap:8px;padding:12px 0 14px;flex-wrap:wrap}
-.f{background:transparent;border:1px solid var(--ln);color:var(--dim);font:inherit;font-size:11px;padding:5px 11px;cursor:pointer;transition:.15s}
+.tabs{display:flex;flex-wrap:wrap;border:1px solid var(--ln);border-bottom:0;margin-top:4px;background:var(--sf)}
+.tab,.ptab{flex:1;min-width:150px;background:transparent;border:0;border-right:1px solid var(--ln);color:var(--dim);
+  font:inherit;font-size:12.5px;padding:14px 10px;cursor:pointer;transition:.15s;display:flex;justify-content:center;gap:8px;align-items:center}
+.tab:last-child,.ptab:last-child{border-right:0}
+.tab:hover,.ptab:hover{color:var(--tx);background:var(--sf2)}
+.tab.on,.ptab.on{color:var(--bg);background:var(--tx)}
+.tab em{font-style:normal;font-size:10px;padding:1px 6px;background:var(--new);color:#fff;border-radius:3px;font-family:var(--mono)}
+.filters{display:flex;gap:8px;padding:14px 0 16px;flex-wrap:wrap}
+.f{background:var(--sf);border:1px solid var(--ln);color:var(--dim);font:inherit;font-size:11.5px;
+  padding:6px 13px;cursor:pointer;transition:.15s;border-radius:999px;font-family:var(--mono)}
 .f:hover{color:var(--tx);border-color:var(--dim)}
 .f.on{background:var(--tx);color:var(--bg);border-color:var(--tx)}
 
 /* ── 表格 ── */
-.panel{display:none;border:1px solid var(--ln);border-top:0}
+.panel{display:none;border:1px solid var(--ln);border-top:0;background:var(--sf)}
 .panel.on{display:block}
 table{width:100%;border-collapse:collapse}
-thead th{position:sticky;top:0;background:#100f0d;text-align:left;font-size:10px;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--dim);font-weight:500;padding:11px 12px;border-bottom:1px solid var(--ln);z-index:2}
-tbody tr{border-bottom:1px solid rgba(38,36,31,.55);transition:background .12s}
-tbody tr:hover{background:#161410}
+thead th{position:sticky;top:0;background:var(--hd);text-align:left;font-size:10px;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--dim);font-weight:500;padding:12px;border-bottom:1px solid var(--ln);z-index:2;font-family:var(--mono)}
+tbody tr{border-bottom:1px solid var(--ln2);transition:background .12s}
+tbody tr:hover{background:var(--sf2)}
 tbody tr.casual{box-shadow:inset 3px 0 0 var(--cas)}
 tbody tr.isnew td.rk{color:var(--new)}
-td{padding:9px 12px;vertical-align:middle}
-.rk{width:52px;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--dim)}
+td{padding:10px 12px;vertical-align:middle}
+.rk{width:54px;font-size:15px;font-weight:600;font-variant-numeric:tabular-nums;color:var(--dim);font-family:var(--mono)}
 .nm{min-width:230px}
-.nm .t{display:block;font-family:var(--cjk),var(--mono);font-size:13.5px}
-.nm a:hover{color:var(--amb)}
-.nm .dev{display:block;font-size:10.5px;color:var(--dim);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:34ch}
-.gn{width:96px;font-size:11px;color:var(--dim)}
-.xr{width:132px;font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap}
-.xr i{font-style:normal;color:#4d4941;margin-right:3px}
-.dt{width:96px;font-size:11px;color:var(--dim);font-variant-numeric:tabular-nums}
+.nm .t{display:block;font-size:14px;letter-spacing:-.005em}
+.nm a:hover{color:var(--new)}
+.nm .dev{display:block;font-size:11px;color:var(--dim);margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:34ch}
+.gn{width:96px;font-size:11.5px;color:var(--dim);font-family:var(--mono)}
+.xr{width:136px;font-size:11.5px;color:var(--dim);font-variant-numeric:tabular-nums;white-space:nowrap;font-family:var(--mono)}
+.xr i{font-style:normal;opacity:.55;margin-right:3px}
+.dt{width:98px;font-size:11.5px;color:var(--dim);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.pn{width:78px;font-size:13px;font-variant-numeric:tabular-nums;font-family:var(--mono);text-align:left}
+.ptab em{font-style:normal;font-size:10px;padding:1px 6px;background:var(--new);color:#fff;border-radius:3px;font-family:var(--mono)}
 .bg{width:auto}
 
-footer{margin-top:76px;border-top:1px solid var(--ln);padding:28px 0 60px;color:var(--dim);font-size:11.5px;
-  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
-footer a{color:var(--amb)}
+footer{margin-top:84px;border-top:1px solid var(--ln);padding:30px 0 64px;color:var(--dim);font-size:11.5px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono)}
+footer a{color:var(--new)}
 footer a:hover{text-decoration:underline}
 
 @keyframes up{from{opacity:0;transform:translateY(9px)}to{opacity:1;transform:none}}
 @media (max-width:760px){
   .wrap{padding:0 16px}
+  header{padding-top:64px}
   .gn,.dt{display:none}
-  .xr{width:96px;font-size:10px}
+  .xr{width:98px;font-size:10.5px}
   .stats{grid-template-columns:repeat(2,1fr)}
   .st{border-bottom:1px solid var(--ln)}
+  .tg{top:12px;right:12px}
 }
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<script>
+// 尽早读取，避免深色用户看到白屏闪烁
+try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement.dataset.theme='dark'}catch(e){}
+</script>
 </head><body>
+
+<div class="tg"><button data-th="light">浅色</button><button data-th="dark">深色</button></div>
 
 <header><div class="wrap">
   <p class="kick">US · App Store &amp; Google Play · Games Top 200</p>
@@ -309,6 +342,381 @@ footer a:hover{text-decoration:underline}
 <div class="cmeta"><span>Puzzle</span><span>2026-03-03</span></div>
 <div class="bg"><b class="bd bd-first">首次</b><b class="bd bd-cas">休闲</b><b class="bd bd-ad">畅销榜缺席</b></div>
 </article></div>
+  </section>
+
+  <section class="sec">
+    <div class="sh"><h2>发行商榜</h2><span>Publishers</span></div>
+    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">休闲盘</strong>和<strong>重度盘</strong>分开统计——同一家两边都做的会各上一次榜，只计对应品类的作品。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。</p>
+    <div class="tabs">
+      <button class="ptab on" data-pt="0">休闲发行商<em>20</em></button>
+      <button class="ptab" data-pt="1">重度发行商<em>20</em></button>
+    </div>
+    <div class="panel ppanel on" data-pp="0">
+      <table><thead><tr><th>#</th><th>发行商 / 在榜作品</th><th>作品数</th><th>进畅销榜</th><th>今日新进</th><th>最好名次</th><th>标记</th></tr></thead>
+      <tbody><tr style="--i:0">
+<td class="rk">1</td>
+<td class="nm"><span class="t">Voodoo</span><span class="dev">Paper.io 2 · Hole.io · Castle Busters</span></td>
+<td class="pn">13</td>
+<td class="pn">8</td>
+<td class="pn">2</td>
+<td class="dt">#15</td>
+<td class="bg"><b class="bd bd-first">2 款新进</b></td>
+</tr>
+<tr style="--i:1">
+<td class="rk">2</td>
+<td class="nm"><span class="t">Oakever Games</span><span class="dev">Meowdoku: Brain Puzzle Games · Meowdoku! · Amaze GO!</span></td>
+<td class="pn">9</td>
+<td class="pn">—</td>
+<td class="pn">—</td>
+<td class="dt">#2</td>
+<td class="bg"><b class="bd bd-fresh">2 款新游</b></td>
+</tr>
+<tr style="--i:2">
+<td class="rk">3</td>
+<td class="nm"><span class="t">Moon Active</span><span class="dev">Coin Master · Jelly Busters: Puzzle Game · Travel Town - Merge Adventure</span></td>
+<td class="pn">7</td>
+<td class="pn">7</td>
+<td class="pn">—</td>
+<td class="dt">#10</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:3">
+<td class="rk">4</td>
+<td class="nm"><span class="t">Scopely</span><span class="dev">MONOPOLY GO! · Yahtzee® With Buddies Dice Fun · Yahtzee® with Buddies Dice</span></td>
+<td class="pn">6</td>
+<td class="pn">5</td>
+<td class="pn">1</td>
+<td class="dt">#1</td>
+<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr style="--i:4">
+<td class="rk">5</td>
+<td class="nm"><span class="t">Microfun Limited</span><span class="dev">Gossip Harbor®: Merge &amp; Story · Gossip Harbor: Merge &amp; Story · Flambé®: Merge &amp; Cook</span></td>
+<td class="pn">6</td>
+<td class="pn">6</td>
+<td class="pn">—</td>
+<td class="dt">#3</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:5">
+<td class="rk">6</td>
+<td class="nm"><span class="t">Easybrain</span><span class="dev">Arrow Puzzle: Tap Puzzle Games · Number Match - Numbers Game · Number Match - Number Games</span></td>
+<td class="pn">6</td>
+<td class="pn">—</td>
+<td class="pn">3</td>
+<td class="dt">#12</td>
+<td class="bg"><b class="bd bd-first">3 款新进</b></td>
+</tr>
+<tr style="--i:6">
+<td class="rk">7</td>
+<td class="nm"><span class="t">GOODROID,Inc.</span><span class="dev">Bus Traffic Fever! · CubeAway - 3DPuzzle · Hexa Away</span></td>
+<td class="pn">5</td>
+<td class="pn">3</td>
+<td class="pn">1</td>
+<td class="dt">#5</td>
+<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr style="--i:7">
+<td class="rk">8</td>
+<td class="nm"><span class="t">Rollic Games</span><span class="dev">Color Block Jam · Car Sort: Color Puzzle · Gecko Out</span></td>
+<td class="pn">5</td>
+<td class="pn">5</td>
+<td class="pn">—</td>
+<td class="dt">#49</td>
+<td class="bg"><b class="bd bd-fresh">1 款新游</b></td>
+</tr>
+<tr style="--i:8">
+<td class="rk">9</td>
+<td class="nm"><span class="t">JindoBlu</span><span class="dev">Offline Games - No Wifi Games · Antistress - relaxation toys · 2 Player games : the Challenge</span></td>
+<td class="pn">5</td>
+<td class="pn">—</td>
+<td class="pn">—</td>
+<td class="dt">#66</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:9">
+<td class="rk">10</td>
+<td class="nm"><span class="t">PlaySimple Games</span><span class="dev">Crossword Go! · Word Search Explorer · Word Search Explorer®</span></td>
+<td class="pn">5</td>
+<td class="pn">—</td>
+<td class="pn">—</td>
+<td class="dt">#77</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:10">
+<td class="rk">11</td>
+<td class="nm"><span class="t">Wildlife Studios</span><span class="dev">Block Craft 3D：Building Game · Color by Number：Coloring Games · Sniper 3D: Gun Shooting Games</span></td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="pn">—</td>
+<td class="dt">#5</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:11">
+<td class="rk">12</td>
+<td class="nm"><span class="t">Playrix</span><span class="dev">Township · Gardenscapes · Fishdom</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#8</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:12">
+<td class="rk">13</td>
+<td class="nm"><span class="t">Supercell</span><span class="dev">Clash of Clans · Brawl Stars · Hay Day</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#15</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:13">
+<td class="rk">14</td>
+<td class="nm"><span class="t">SuperPlay.</span><span class="dev">Dice Dreams™️ · Dice Dreams™ · Domino Dreams™</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#38</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:14">
+<td class="rk">15</td>
+<td class="nm"><span class="t">VERTEX GAMES PTE. LTD.</span><span class="dev">Bingo Voyage - Live Bingo Game · Matching Story - Puzzle Games · Bingo Frenzy™-Live Bingo Games</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#47</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:15">
+<td class="rk">16</td>
+<td class="nm"><span class="t">Guru Puzzle Game</span><span class="dev">Ball Sort Puzzle - Color Game · Water Sort Puzzle - Sort Color · Goods Puzzle: 3D Sorting Games</span></td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="pn">1</td>
+<td class="dt">#74</td>
+<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr style="--i:16">
+<td class="rk">17</td>
+<td class="nm"><span class="t">GRAND GAMES OYUN VE YAZILIM ANONIM SIRKETI</span><span class="dev">Block Out! - Color Sort Puzzle · Magic Sort! · Car Match - Traffic Puzzle</span></td>
+<td class="pn">3</td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="dt">#2</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:17">
+<td class="rk">18</td>
+<td class="nm"><span class="t">King</span><span class="dev">Candy Crush Saga · Candy Crush Soda Saga · Farm Heroes Saga</span></td>
+<td class="pn">3</td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="dt">#3</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:18">
+<td class="rk">19</td>
+<td class="nm"><span class="t">Peak Games</span><span class="dev">Toon Blast · Match Factory! · Toy Blast</span></td>
+<td class="pn">3</td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="dt">#11</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:19">
+<td class="rk">20</td>
+<td class="nm"><span class="t">Century Games Pte. Ltd.</span><span class="dev">Tasty Travels: Merge Game · Truck Star</span></td>
+<td class="pn">3</td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="dt">#12</td>
+<td class="bg"></td>
+</tr></tbody></table>
+    </div>
+    <div class="panel ppanel" data-pp="1">
+      <table><thead><tr><th>#</th><th>发行商 / 在榜作品</th><th>作品数</th><th>进畅销榜</th><th>今日新进</th><th>最好名次</th><th>标记</th></tr></thead>
+      <tbody><tr style="--i:0">
+<td class="rk">1</td>
+<td class="nm"><span class="t">Product Madness</span><span class="dev">Lightning Link Casino Slots · Cashman Casino Slots Games · Slots: Heart of Vegas Casino</span></td>
+<td class="pn">12</td>
+<td class="pn">12</td>
+<td class="pn">—</td>
+<td class="dt">#22</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:1">
+<td class="rk">2</td>
+<td class="nm"><span class="t">SpinX Games Limited</span><span class="dev">Lotsa Slots - Casino Games · Cash Frenzy™ - Casino Slots · Jackpot World™ - Slots Casino</span></td>
+<td class="pn">9</td>
+<td class="pn">9</td>
+<td class="pn">—</td>
+<td class="dt">#33</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:2">
+<td class="rk">3</td>
+<td class="nm"><span class="t">FunPlus International AG</span><span class="dev">Tiles Survive! · Foundation: Galactic Frontier · Guns of Glory: Lost Island</span></td>
+<td class="pn">9</td>
+<td class="pn">9</td>
+<td class="pn">4</td>
+<td class="dt">#82</td>
+<td class="bg"><b class="bd bd-first">4 款新进</b></td>
+</tr>
+<tr style="--i:3">
+<td class="rk">4</td>
+<td class="nm"><span class="t">Zynga</span><span class="dev">Golf Rival - Multiplayer Game · Wizard of Oz Slots Games · CSR 2 - Realistic Drag Racing</span></td>
+<td class="pn">7</td>
+<td class="pn">7</td>
+<td class="pn">1</td>
+<td class="dt">#133</td>
+<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr style="--i:4">
+<td class="rk">5</td>
+<td class="nm"><span class="t">Playtika</span><span class="dev">Slotomania™ Slots Casino Games · WSOP Poker: Texas Holdem Game · Slotomania™ Slots Machine Game</span></td>
+<td class="pn">6</td>
+<td class="pn">6</td>
+<td class="pn">—</td>
+<td class="dt">#72</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:5">
+<td class="rk">6</td>
+<td class="nm"><span class="t">Century Games Pte. Ltd.</span><span class="dev">Kingshot · Whiteout Survival · Truck Star</span></td>
+<td class="pn">5</td>
+<td class="pn">5</td>
+<td class="pn">—</td>
+<td class="dt">#4</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:6">
+<td class="rk">7</td>
+<td class="nm"><span class="t">EA Swiss Sarl</span><span class="dev">EA SPORTS FC Soccer Mobile 26 · Star Wars™: Galaxy of Heroes · Golf Clash - Golfing Simulator</span></td>
+<td class="pn">5</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#13</td>
+<td class="bg"><b class="bd bd-fresh">1 款新游</b></td>
+</tr>
+<tr style="--i:7">
+<td class="rk">8</td>
+<td class="nm"><span class="t">SciPlay</span><span class="dev">Jackpot Party Casino Slots · Quick Hit Casino Slots Games · Gold Fish Casino Slot Games</span></td>
+<td class="pn">5</td>
+<td class="pn">5</td>
+<td class="pn">—</td>
+<td class="dt">#18</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:8">
+<td class="rk">9</td>
+<td class="nm"><span class="t">COGNOSPHERE PTE. LTD.</span><span class="dev">Genshin Impact · Zenless Zone Zero - Anniv. · Honkai: Star Rail</span></td>
+<td class="pn">5</td>
+<td class="pn">5</td>
+<td class="pn">1</td>
+<td class="dt">#28</td>
+<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr style="--i:9">
+<td class="rk">10</td>
+<td class="nm"><span class="t">ELECTRONIC ARTS</span><span class="dev">EA SPORTS FC Soccer Mobile 26 · Golf Clash - Golfing Simulator · Star Wars™: Galaxy of Heroes</span></td>
+<td class="pn">5</td>
+<td class="pn">5</td>
+<td class="pn">1</td>
+<td class="dt">#60</td>
+<td class="bg"><b class="bd bd-first">1 款新进</b></td>
+</tr>
+<tr style="--i:10">
+<td class="rk">11</td>
+<td class="nm"><span class="t">Supercent Inc.</span><span class="dev">Pizza Ready! · XP Hero · Snake Clash!</span></td>
+<td class="pn">5</td>
+<td class="pn">1</td>
+<td class="pn">—</td>
+<td class="dt">#81</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:11">
+<td class="rk">12</td>
+<td class="nm"><span class="t">Omnilojo Pte Ltd</span><span class="dev">Last Z: Survival Shooter · Dark War Survival · Dark War:Survival</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#10</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:12">
+<td class="rk">13</td>
+<td class="nm"><span class="t">Phantom EFX, Inc.</span><span class="dev">Jackpot Party - Casino Slots · MONOPOLY Slots Casino: Go Spin · Gold Fish Casino Slots Games</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#27</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:13">
+<td class="rk">14</td>
+<td class="nm"><span class="t">Supercell</span><span class="dev">Clash of Clans · Clash Royale · Hay Day</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#35</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:14">
+<td class="rk">15</td>
+<td class="nm"><span class="t">Scopely</span><span class="dev">MARVEL Strike Force: Squad RPG · Tiki Solitaire TriPeaks · Star Trek Fleet Command</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#70</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:15">
+<td class="rk">16</td>
+<td class="nm"><span class="t">Zeroo Gravity Games</span><span class="dev">Jackpot Master™ Slots - Casino · Cash Tornado™ Slots - Casino · Jackpot Master™ Slots-Casino</span></td>
+<td class="pn">4</td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="dt">#83</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:16">
+<td class="rk">17</td>
+<td class="nm"><span class="t">Voodoo</span><span class="dev">Epic Plane Evolution · Draft Showdown</span></td>
+<td class="pn">4</td>
+<td class="pn">—</td>
+<td class="pn">2</td>
+<td class="dt">#114</td>
+<td class="bg"><b class="bd bd-first">2 款新进</b></td>
+</tr>
+<tr style="--i:17">
+<td class="rk">18</td>
+<td class="nm"><span class="t">PLR Worldwide Sales Limited</span><span class="dev">Township · Gardenscapes · Homescapes: Match 3 Games</span></td>
+<td class="pn">3</td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="dt">#10</td>
+<td class="bg"></td>
+</tr>
+<tr style="--i:18">
+<td class="rk">19</td>
+<td class="nm"><span class="t">BUILDING-BLOCKS NETWORK TECHNOLOGY CO.,LIMITED</span><span class="dev">Puzzles &amp; Survival · Z Route: Redemption · Puzzles &amp; Chaos: Frozen Castle</span></td>
+<td class="pn">3</td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="dt">#82</td>
+<td class="bg"><b class="bd bd-fresh">1 款新游</b></td>
+</tr>
+<tr style="--i:19">
+<td class="rk">20</td>
+<td class="nm"><span class="t">Century Games Innovation Pte. Ltd.</span><span class="dev">Top Force: Commander · Top Force · Lordrush</span></td>
+<td class="pn">3</td>
+<td class="pn">—</td>
+<td class="pn">—</td>
+<td class="dt">#94</td>
+<td class="bg"><b class="bd bd-fresh">3 款新游</b></td>
+</tr></tbody></table>
+    </div>
   </section>
 
   <section class="sec">
@@ -6734,17 +7142,30 @@ footer a:hover{text-decoration:underline}
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-13 13:44 UTC</span>
+  <span>生成于 2026-08-13 13:45 UTC</span>
 </footer>
 
 <script>
 const $$=(q,r=document)=>[...r.querySelectorAll(q)];
+// 主题
+const setTheme=t=>{
+  if(t==='dark')document.documentElement.dataset.theme='dark';
+  else delete document.documentElement.dataset.theme;
+  try{localStorage.setItem('theme',t)}catch(e){}
+  $$('.tg button').forEach(b=>b.classList.toggle('on',b.dataset.th===t));
+};
+$$('.tg button').forEach(b=>b.onclick=()=>setTheme(b.dataset.th));
+setTheme(document.documentElement.dataset.theme==='dark'?'dark':'light');
+$$('.ptab').forEach(t=>t.onclick=()=>{
+  $$('.ptab').forEach(x=>x.classList.toggle('on',x===t));
+  $$('.ppanel').forEach(p=>p.classList.toggle('on',p.dataset.pp===t.dataset.pt));
+});
 $$('.tab').forEach(t=>t.onclick=()=>{
   $$('.tab').forEach(x=>x.classList.toggle('on',x===t));
   $$('.panel').forEach(p=>p.classList.toggle('on',p.dataset.p===t.dataset.t));
 });
 let mode='all';
-const apply=()=>$$('.panel tbody tr').forEach(r=>{
+const apply=()=>$$('.panel:not(.ppanel) tbody tr').forEach(r=>{
   const c=r.dataset.casual==='1', n=r.dataset.new==='1';
   const ok = mode==='all' || (mode==='new'&&n) || (mode==='casual'&&c) || (mode==='both'&&c&&n);
   r.style.display = ok ? '' : 'none';
