@@ -177,6 +177,7 @@ td{padding:10px 12px;vertical-align:middle}
 .tx-bar{display:flex;gap:8px;padding:12px 14px;border-bottom:1px solid var(--ln);flex-wrap:wrap;align-items:center}
 .tx-dirty{font-size:10.5px;color:var(--new);font-family:var(--mono);margin-left:auto}
 .tx-tree{padding:14px 16px 20px;overflow:auto;max-height:640px}
+.tx-tree.tv{max-height:none} /* 时间树是一张完整的图，砍半棵树太难看 */
 .tx-node{position:relative}
 .tx-kids{margin-left:20px;padding-left:16px;border-left:1px solid var(--ln)}
 .tx-hd{display:flex;align-items:center;gap:9px;padding:7px 10px;border-radius:5px;
@@ -292,6 +293,16 @@ td{padding:10px 12px;vertical-align:middle}
 .tv-dot.cu{fill:var(--accbg);stroke:var(--acc);stroke-width:1.5}
 .tv-dot.off{fill:var(--dim);opacity:.45}
 .tv-lb{fill:var(--dim);font-size:9.5px;font-family:var(--mono)}
+/* 纵向树形 */
+.tv-roots{padding:10px 2px 2px}
+.tv2-trunk{stroke:var(--dim);stroke-width:5;stroke-linecap:round;fill:none;opacity:.75}
+.tv2-branch{stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;fill:none;opacity:.6}
+.tv2-chip rect{fill:var(--casbg);stroke:var(--casbd)}
+.tv2-chip text{fill:var(--tx);font-size:10.5px;font-family:var(--sans)}
+.tv2-chip.gr rect{fill:var(--accbg);stroke:var(--accbd)}
+.tv2-chip.cu rect{fill:var(--sf2);stroke:var(--dim);stroke-dasharray:3 2}
+.tv2-chip.off rect{fill:var(--sf2);stroke:var(--ln)}
+.tv2-chip.off text{fill:var(--dim)}
 
 footer{margin-top:84px;border-top:1px solid var(--ln);padding:30px 0 64px;color:var(--dim);font-size:11.5px;
   display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono)}
@@ -972,44 +983,85 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       if(v===Infinity)v=(r.n.parent&&startById[r.n.parent]!=null)?startById[r.n.parent]:minY;
       startById[r.n.id]=v;
     });
-    const ML=40,MR=90,TOP=40,RH=54,W=980;
-    const H=TOP+rows.length*RH+16;
+    /* 纵向的树：树干在下、往上生长。纵轴是时间（越早越靠根），
+       子分支在自己最早作品的年份处从父枝上岔出去，作品像便签一样挂在枝上 */
+    const W=980, MT=56, MB=46, ML=64, MR=40;
     const span=Math.max(maxY-minY,1);
-    const X=y=>ML+(y-minY)/span*(W-ML-MR);
-    const Y=i=>TOP+i*RH+RH/2;
-    const clampX=x=>Math.max(34,Math.min(W-40,x));
+    const H=Math.max(440,Math.min(860,span*46+MT+MB));
+    const Y=yr=>H-MB-(yr-minY)/span*(H-MT-MB);
+    // 横向车道：每根枝占一条，父枝夹在子枝中间（前一半子枝在左、后一半在右），
+    // 这样树干居中、枝往两边岔，单个子枝也不会和父枝叠在一条线上
+    const kidsOf=id=>state.nodes.filter(x=>x.parent===id&&rows.some(r=>r.n.id===x.id));
+    const orderSlots=[];
+    (function order(id){
+      const ks=kidsOf(id);
+      const half=Math.ceil(ks.length/2);
+      ks.slice(0,half).forEach(k=>order(k.id));
+      orderSlots.push(id);
+      ks.slice(half).forEach(k=>order(k.id));
+    })(tvRoot);
+    const slotW=(W-ML-MR)/orderSlots.length;
+    const xById={};
+    orderSlots.forEach((id,i)=>{xById[id]=ML+slotW*(i+0.5)});
+    // 树干尽量挪到画布中线（子枝少时不居中会歪），会撞别的车道就算了
+    const mid=(ML+(W-MR))/2;
+    if(orderSlots.length>1&&orderSlots.every(id=>id===tvRoot||Math.abs(xById[id]-mid)>=slotW*0.6))
+      xById[tvRoot]=mid;
+    // 每根枝的顶端：自己最晚的作品年份，且至少要撑到最晚岔出去的子枝
+    const endById={};
+    rows.forEach(r=>{
+      const d=data.find(x=>x.n.id===r.n.id);
+      let e=d&&d.dated.length?d.dated[d.dated.length-1].y:startById[r.n.id];
+      kidsOf(r.n.id).forEach(k=>{e=Math.max(e,startById[k.id])});
+      endById[r.n.id]=e;
+    });
     let s='';
-    const step=Math.max(1,Math.ceil(span/12));
+    // 年份横线
+    const step=Math.max(1,Math.ceil(span/10));
     for(let y=minY;y<=maxY;y+=step){
-      s+='<line class="tv-grid" x1="'+X(y)+'" y1="'+(TOP-10)+'" x2="'+X(y)+'" y2="'+(H-8)+'"/>'+
-         '<text class="tv-yr" x="'+X(y)+'" y="'+(TOP-17)+'" text-anchor="middle">'+y+'</text>';
+      s+='<line class="tv-grid" x1="'+(ML-26)+'" y1="'+Y(y)+'" x2="'+(W-10)+'" y2="'+Y(y)+'"/>'+
+         '<text class="tv-yr" x="'+(ML-30)+'" y="'+(Y(y)+3)+'" text-anchor="end">'+y+'</text>';
     }
-    const iById={}; rows.forEach((r,i)=>{iById[r.n.id]=i});
-    data.forEach((d,i)=>{
-      const y0=Y(i), x0=X(startById[d.n.id]);
-      const lastX=d.dated.length?X(d.dated[d.dated.length-1].y):x0;
-      const x1=Math.min(Math.max(lastX+16,x0+26),W-8);
-      if(d.n.parent!=null&&iById[d.n.parent]!=null){
-        const py=Y(iById[d.n.parent]);
-        s+='<path class="tv-link" d="M '+(x0-14)+' '+py+' C '+(x0-14)+' '+(py+(y0-py)*0.6)+' '+(x0-14)+' '+y0+' '+x0+' '+y0+'"/>';
+    const chw=t=>{let w=14;for(const ch of t)w+=ch.charCodeAt(0)>255?11:6.4;return w};
+    // 先画枝（父在前子在后，DFS 顺序天然如此），再画便签，免得线压住字
+    let chipsSvg='';
+    data.forEach(d=>{
+      const id=d.n.id, x=xById[id], isRoot=id===tvRoot;
+      const yTop=Y(endById[id])-16;
+      if(isRoot){
+        // 树干：从图底长上来，根部略粗
+        s+='<path class="tv2-trunk" d="M '+x+' '+(H-8)+' L '+x+' '+yTop+'"/>';
+      }else{
+        const px=xById[d.n.parent], y1=Y(startById[id]);
+        // 从父枝的岔点先向上再拐到自己的车道（S 形），然后直着往上长。
+        // 拐弯要贴着岔口（y1-34）；只有分支特别短、顶端比这还低时才收到顶端
+        const yTurn=Math.max(y1-34,yTop);
+        s+='<path class="tv2-branch" d="M '+px+' '+y1+' C '+px+' '+(y1-24)+' '+x+' '+(y1+2)+' '+x+' '+yTurn+' L '+x+' '+yTop+'"/>';
       }
-      s+='<line class="tv-line" x1="'+x0+'" y1="'+y0+'" x2="'+x1+'" y2="'+y0+'"/>';
-      // 分支名放在线起点上方；太靠右会被裁，往回收
-      s+='<text class="tv-name" x="'+Math.min(x0,W-220)+'" y="'+(y0-16)+'">'+esc(d.n.name)+
-         (d.undated?'<tspan class="tv-du">　+'+d.undated+' 无年份</tspan>':'')+'</text>';
-      // 游戏名统一放在点下方（奇偶两层错开），贴边的往里收
-      d.dated.forEach((x,j)=>{
-        const cx=X(x.y);
-        const cls=x.live?(x.live.gr?' gr':''):(isCustom(x.g.k)?' cu':' off');
-        const tip=x.g.t+'（'+x.y+(x.g.d?'，'+x.g.d:'')+'）'+(x.live?(x.live.gr?' · 畅销 #'+x.live.gr:' · 在榜'):'');
-        s+='<circle class="tv-dot'+cls+'" cx="'+cx+'" cy="'+y0+'" r="4.5"><title>'+esc(tip)+'</title></circle>';
-        const lt=x.g.t.length>14?x.g.t.slice(0,13)+'…':x.g.t;
-        s+='<text class="tv-lb" x="'+clampX(cx)+'" y="'+(j%2?y0+31:y0+18)+'" text-anchor="middle">'+esc(lt)+'<title>'+esc(tip)+'</title></text>';
+      // 枝名挂在枝顶
+      s+='<text class="tv-name" x="'+x+'" y="'+(yTop-8)+'" text-anchor="middle">'+esc(d.n.name)+
+         (d.undated?'<tspan class="tv-du"> +'+d.undated+'无年份</tspan>':'')+'</text>';
+      // 作品便签：挂在枝两侧，同枝奇偶交替，避免叠
+      d.dated.forEach((g,j)=>{
+        const cy=Y(g.y);
+        const cls=g.live?(g.live.gr?' gr':''):(isCustom(g.g.k)?' cu':' off');
+        const tip=g.g.t+'（'+g.y+(g.g.d?'，'+g.g.d:'')+'）'+(g.live?(g.live.gr?' · 畅销 #'+g.live.gr:' · 在榜'):'');
+        const lt=g.g.t.length>12?g.g.t.slice(0,11)+'…':g.g.t;
+        const w=chw(lt), h=22;
+        const right=(j%2===0)!==(x>W-170); // 贴右边界的枝往左挂
+        let rx=right?x+9:x-9-w;
+        rx=Math.max(4,Math.min(W-w-4,rx));
+        const rot=((j%3)-1)*2; // 便签手贴感：±2° 轻微歪斜
+        chipsSvg+='<g class="tv2-chip'+cls+'" transform="rotate('+rot+' '+(rx+w/2)+' '+cy+')">'+
+          '<rect x="'+rx+'" y="'+(cy-h/2)+'" width="'+w+'" height="'+h+'" rx="4"/>'+
+          '<text x="'+(rx+w/2)+'" y="'+(cy+3.5)+'" text-anchor="middle">'+esc(lt)+'</text>'+
+          '<title>'+esc(tip)+'</title></g>';
+        s+='<circle class="tv-dot'+cls+'" cx="'+x+'" cy="'+cy+'" r="4"><title>'+esc(tip)+'</title></circle>';
       });
     });
     box.innerHTML=chips+'<div class="tv-wrap">'+
-      '<p class="tv-lg">按上线年份排布 · <i class="a"></i>在榜 <i class="g"></i>畅销榜 <i class="c"></i>手动 <i class="o"></i>已掉榜 · 分叉点＝该分支最早作品 · 切回「列表」可编辑</p>'+
-      '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'+s+'</svg></div>';
+      '<p class="tv-lg">树干自下而上＝时间 · 便签：<i class="a"></i>在榜 <i class="g"></i>畅销榜 <i class="c"></i>手动 <i class="o"></i>已掉榜 · 岔口＝该分支最早作品 · 切回「列表」可编辑</p>'+
+      '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'+s+chipsSvg+'</svg></div>';
     wireRoots(box);
   }
   function wireRoots(box){
@@ -1019,6 +1071,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   // focus: {id, what:'ci'|'name'} —— 整棵树是重绘的，新加的分支要自己把光标送回去
   function render(focus){
     const box=$('ttree'), top=box.scrollTop;
+    box.classList.toggle('tv',tvw==='time');
     if(tvw==='time'){
       renderTimeTree(box); box.scrollTop=top;
       if(!API)$('tdirty').textContent=dirty()?'已本地修改':'';
@@ -8127,7 +8180,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 08:22 UTC</span>
+  <span>生成于 2026-08-14 08:37 UTC</span>
 </footer>
 
 <script>
