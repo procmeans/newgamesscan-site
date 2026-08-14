@@ -695,7 +695,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       '<div class="tx-g tx-cu" draggable="true" data-k="'+esc(g.k)+'">'+
       '<span class="tx-gr">手动</span>'+
       '<span class="tx-gt">'+esc(g.t)+'</span>'+
-      '<span class="tx-gm">'+esc(g.d||'自录')+(g.y?' · '+esc(g.y):'')+'</span>'+
+      '<span class="tx-gm" data-ce="'+esc(g.k)+'" title="点击编辑（补年份就在这里）">'+esc(g.d||'自录')+(g.y?' · '+esc(g.y):' · 无年份')+'</span>'+
       '<button class="tx-gx" data-cx="'+esc(g.k)+'" title="删除这个手动条目">×</button></div>').join('');
     const listHtml=rows.slice(0,300).map(g=>
       '<div class="tx-g" draggable="true" data-k="'+esc(g.k)+'">'+
@@ -718,18 +718,41 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     renderList();
   });
 
-  // ── 手动添加 ──
+  // ── 手动添加 / 编辑 ──
+  let editingK=null; // 非空 = 正在编辑这条手动条目
   function toggleForm(on){
     $('tcform').hidden=!on;
     $('tcadd').classList.toggle('on',on);
+    if(!on){editingK=null;$('tcok').textContent='添加'}
     if(on)$('tcn').focus();
   }
-  $('tcadd').onclick=()=>toggleForm($('tcform').hidden);
+  $('tcadd').onclick=()=>{
+    if(!$('tcform').hidden){toggleForm(false);return}
+    editingK=null;$('tcok').textContent='添加';
+    ['tcn','tcd','tcy'].forEach(i=>$(i).value='');
+    toggleForm(true);
+  };
   $('tcx').onclick=()=>{['tcn','tcd','tcy'].forEach(i=>$(i).value='');toggleForm(false)};
   function addCustom(){
     const t=$('tcn').value.trim();
     if(!t){$('tcn').focus();return}
-    state.custom.unshift({k:'x:'+uid(),t:t,d:$('tcd').value.trim(),y:$('tcy').value.trim()});
+    const d=$('tcd').value.trim(), y=$('tcy').value.trim();
+    if(editingK){
+      const c=state.custom.find(x=>x.k===editingK);
+      if(c){
+        c.t=t;c.d=d;c.y=y;
+        // 已经挂到分支上的快照跟着更新，时间树的年份立刻生效
+        const yr=yearFrom(y);
+        Object.values(state.games||{}).forEach(l=>l.forEach(x=>{
+          if(x.k===editingK){x.t=t;x.d=d;x.yr=yr}
+        }));
+      }
+      toggleForm(false);
+      ['tcn','tcd','tcy'].forEach(i=>$(i).value='');
+      save();renderList();render();
+      return;
+    }
+    state.custom.unshift({k:'x:'+uid(),t:t,d:d,y:y});
     ['tcn','tcd','tcy'].forEach(i=>$(i).value='');
     cusOpen=true; // 刚录的条目得马上看得见
     save();renderList();$('tcn').focus();
@@ -740,6 +763,15 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     if(e.key==='Escape')$('tcx').click();
   }));
   $('tlist').addEventListener('click',e=>{
+    const em=e.target.closest('[data-ce]');
+    if(em&&canEdit()){ // 点手动条目的灰字进入编辑
+      const c=state.custom.find(x=>x.k===em.dataset.ce); if(!c)return;
+      editingK=c.k;
+      $('tcn').value=c.t;$('tcd').value=c.d||'';$('tcy').value=c.y||'';
+      $('tcok').textContent='保存';
+      $('tcform').hidden=false;$('tcadd').classList.add('on');$('tcy').focus();
+      return;
+    }
     const b=e.target.closest('[data-cx]'); if(!b)return;
     const k=b.dataset.cx;
     const used=Object.values(state.games).filter(l=>l.some(x=>x.k===k)).length;
@@ -8069,7 +8101,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 07:53 UTC</span>
+  <span>生成于 2026-08-14 07:58 UTC</span>
 </footer>
 
 <script>
