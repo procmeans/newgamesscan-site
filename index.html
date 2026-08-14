@@ -228,7 +228,7 @@ td{padding:10px 12px;vertical-align:middle}
   text-overflow:ellipsis;white-space:nowrap}
 .tx-srcs a:hover{border-color:var(--acc);text-decoration:underline}
 .tx-add{display:grid;grid-template-columns:1fr auto;gap:6px;margin-top:6px}
-.tx-add .tx-cu2{grid-column:1/-1;font-size:11.5px}
+.tx-add .tx-cu2,.tx-add .tx-cg{grid-column:1/-1;font-size:11.5px}
 .tx-add input{min-width:0;background:var(--bg);border:1px solid var(--ln);color:var(--tx);font:inherit;
   font-size:12px;padding:6px 9px;border-radius:4px;outline:none}
 .tx-add input:focus{border-color:var(--dim)}
@@ -246,6 +246,27 @@ td{padding:10px 12px;vertical-align:middle}
   line-height:1;padding:0 2px}
 .tx-chip button:hover{opacity:1;color:var(--new)}
 @media (max-width:860px){.tx{grid-template-columns:1fr}.tx-pal{max-height:320px}}
+/* 账号区与云端状态 */
+.tx-acct{display:flex;gap:8px;align-items:center;font-size:11.5px;color:var(--dim);font-family:var(--mono)}
+.tx-acct b{color:var(--tx);font-weight:600}
+.tx-rotip{opacity:.8}
+.tx-au{color:var(--acc);font-weight:600;margin-right:6px}
+.tx-dlg{background:var(--sf);color:var(--tx);border:1px solid var(--ln);border-radius:8px;
+  padding:20px;width:min(320px,90vw);margin:auto}
+.tx-dlg::backdrop{background:rgba(0,0,0,.55)}
+.tx-dlg h3{font-size:14px;margin-bottom:12px}
+.tx-dlg input{width:100%;background:var(--bg);border:1px solid var(--ln);color:var(--tx);font:inherit;
+  font-size:12.5px;padding:8px 10px;border-radius:4px;outline:none;margin-bottom:8px}
+.tx-dlg input:focus{border-color:var(--dim)}
+.tx-dlg .row{display:flex;gap:6px}
+.tx-dlg .row .f{flex:1;text-align:center}
+.tx-err{color:var(--new);font-size:11.5px;min-height:16px;margin-bottom:6px;font-family:var(--mono)}
+/* 只读态（API 模式下未登录 / 在看别人的树）：收起编辑入口 */
+.tx-ro{grid-template-columns:1fr}
+.tx-ro .tx-pal{display:none}
+.tx-ro .tx-acts,.tx-ro .tx-gx,.tx-ro .tx-grip,.tx-ro .tx-chip button{display:none}
+.tx-ro .tx-chip{cursor:default}
+.tx-ro .tx-ed{border-color:transparent;pointer-events:none}
 
 footer{margin-top:84px;border-top:1px solid var(--ln);padding:30px 0 64px;color:var(--dim);font-size:11.5px;
   display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono)}
@@ -462,7 +483,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
   <section class="sec" id="tree">
     <div class="sh"><h2>玩法树</h2><span>Taxonomy</span></div>
-    <p class="sd">把榜上的游戏拖到玩法分支上，用来追踪一个玩法怎么长出新变体。每个分支会实时汇总挂在它下面的作品数、进畅销榜数和最好名次。点分支右边的 <b>💬</b> 可以写<strong>分支备注</strong>、给单款作品写<strong>看点</strong>、按日期记<strong>评论</strong>（评论可以附信息来源网址，多个用空格隔开）；分支右边的 <b>+</b> 加并列分支、<b>↳</b> 加子分支；榜单里没有的老游戏（比如 Can Knockdown）用左栏「+ 手动添加」自己录进来，一样能拖。<strong>你的改动只存在本机浏览器里</strong>，不会影响别人；用「导出」把成果存成 JSON，导入即可恢复或分享。</p>
+    <p class="sd" id="tsd">把榜上的游戏拖到玩法分支上，用来追踪一个玩法怎么长出新变体。每个分支会实时汇总挂在它下面的作品数、进畅销榜数和最好名次。点分支右边的 <b>💬</b> 可以写<strong>分支备注</strong>、给单款作品写<strong>看点</strong>、按日期记<strong>评论</strong>（评论可以附信息来源网址，多个用空格隔开）；分支右边的 <b>+</b> 加并列分支、<b>↳</b> 加子分支；榜单里没有的老游戏（比如 Can Knockdown）用左栏「+ 手动添加」自己录进来，一样能拖。<strong>你的改动只存在本机浏览器里</strong>，不会影响别人；用「导出」把成果存成 JSON，导入即可恢复或分享。</p>
 
     <div class="tx">
       <aside class="tx-pal">
@@ -492,12 +513,25 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
           <button class="f" id="texp">导出 JSON</button>
           <button class="f" id="timp">导入 JSON</button>
           <button class="f" id="trst">恢复官方版本</button>
+          <button class="f" id="tshare" hidden>分享链接</button>
           <span id="tdirty" class="tx-dirty"></span>
+          <span id="tacct" class="tx-acct"></span>
         </div>
         <div id="ttree" class="tx-tree"></div>
       </div>
     </div>
     <input type="file" id="tfile" accept="application/json" hidden>
+    <dialog id="tauth" class="tx-dlg">
+      <h3>登录 / 注册</h3>
+      <input id="tau" placeholder="用户名（3–20 位字母、数字、_ 或 -）" autocomplete="username">
+      <input id="tap" type="password" placeholder="密码（至少 8 位）" autocomplete="current-password">
+      <p id="taerr" class="tx-err"></p>
+      <div class="row">
+        <button class="f" id="talogin">登录</button>
+        <button class="f" id="tareg">注册新账号</button>
+        <button class="f" id="tax2">取消</button>
+      </div>
+    </dialog>
   </section>
 
 <script id="tx-seed" type="application/json">{"version":2,"updated":"2026-08-13","nodes":[{"id":"sort","parent":null,"name":"排序归位 Sort","note":"把混杂的物件按某种规则归位，反馈来自「变整齐」本身"},{"id":"sort-liquid","parent":"sort","name":"液体 / 颜色排序","note":"试管倒水，同色归并"},{"id":"sort-goods","parent":"sort","name":"物件收纳","note":"货架、螺丝、抽屉收纳"},{"id":"sort-traffic","parent":"sort","name":"交通疏导","note":"停车场、公交、路口调度"},{"id":"merge","parent":null,"name":"合成 Merge","note":"同物件相叠升级，核心是资源循环"},{"id":"merge-2","parent":"merge","name":"纯合成","note":"二合一升级，无外壳"},{"id":"merge-story","parent":"merge","name":"合成 + 剧情装修","note":"合成产出用于推进叙事和装修，超休闲转中度的主路径"},{"id":"match","parent":null,"name":"消除 Match","note":""},{"id":"match-3","parent":"match","name":"三消","note":""},{"id":"match-block","parent":"match","name":"方块填充消除","note":"俄罗斯方块变体，无时间压力"},{"id":"match-number","parent":"match","name":"数字消除","note":"配对相同或相加为定值的数字"},{"id":"logic","parent":null,"name":"逻辑填充 Logic","note":"数独、连线、涂格"},{"id":"logic-sudoku","parent":"logic","name":"数独变体","note":""},{"id":"asmr","parent":null,"name":"解压 / 感官 ASMR","note":"弱目标弱失败，卖的是触感和声音"},{"id":"asmr-toy","parent":"asmr","name":"减压玩具","note":"捏、戳、弹"},{"id":"asmr-process","parent":"asmr","name":"过程模拟","note":"切割、涂抹、清洁、开箱"},{"id":"idle","parent":null,"name":"放置 / 挂机 Idle","note":"离线收益驱动"},{"id":"sim","parent":null,"name":"模拟经营 Simulation","note":"农场、餐厅、小镇"},{"id":"hidden","parent":null,"name":"找物 Hidden Object","note":""},{"id":"io","parent":null,"name":".io 竞技休闲","note":"同屏吞噬 / 生长 / 淘汰"}],"games":{},"comments":{},"custom":[]}</script>
@@ -512,6 +546,31 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   const uid=()=>'n'+Math.random().toString(36).slice(2,9);
   const today=()=>new Date().toISOString().slice(0,10);
   const isCustom=k=>String(k).slice(0,2)==='x:';
+
+  /* ── 云端模式 ──
+     页面同时发布在两处：GitHub Pages 镜像（纯静态，没有 /api）和自建域名
+     （Caddy 反代 src/server.js）。启动时探测 /api/me：
+       探测失败 → legacy 模式，行为和从前一模一样（localStorage 自娱自乐）
+       探测成功 → API 模式：评论全站共享；未登录只读；登录后编辑自己的云端树 */
+  let API=false, USER=null, VIEWING=null, COMMENTS={};
+  const canEdit=()=>API?(!!USER&&!VIEWING):true;
+  function jfetch(p,o){
+    o=o||{};
+    return fetch('/api'+p,{method:o.method||'GET',body:o.body,credentials:'same-origin',
+      headers:{'Content-Type':'application/json'}})
+      .then(function(r){return r.json().catch(function(){return{}}).then(function(j){
+        if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j})});
+  }
+  // 服务端评论 → 本地评论的字段形状（d/t/u），面板代码就不用改两套
+  const mapC=c=>({id:c.id,d:c.day,t:c.body,u:c.sources||[],user:c.user,guest:c.guest});
+  function fetchComments(){
+    return jfetch('/comments').then(function(r){
+      COMMENTS={};
+      r.comments.forEach(function(c){(COMMENTS[c.node]=COMMENTS[c.node]||[]).push(mapC(c))});
+    });
+  }
+  const cmtsOf=id=>API?(COMMENTS[id]||[]):(state.comments[id]||[]);
+  const seedCopy=()=>norm(JSON.parse(JSON.stringify(SEED)));
 
   // 评论的信息来源：一行里可以贴多条，空格 / 逗号 / 顿号都当分隔符。
   // 只认 http(s)，裸域名补上 https://；其它一律丢掉 —— 存进来的东西最后会变成
@@ -555,7 +614,19 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     return norm(JSON.parse(JSON.stringify(SEED)));
   }
   function dirty(){try{return !!localStorage.getItem(KEY)}catch(e){return false}}
+  let saveTimer=null;
   function save(){
+    if(API){
+      if(!canEdit())return;
+      $('tdirty').textContent='保存中…';
+      clearTimeout(saveTimer);
+      saveTimer=setTimeout(function(){
+        jfetch('/tree',{method:'PUT',body:JSON.stringify(state)})
+          .then(function(){$('tdirty').textContent='已存云端 '+new Date().toTimeString().slice(0,5)})
+          .catch(function(e){$('tdirty').textContent='⚠ 保存失败：'+e.message});
+      },900);
+      return;
+    }
     try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){}
     $('tdirty').textContent='已本地修改';
   }
@@ -648,6 +719,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   // ── 拖放 ──
   let drag=null;
   document.addEventListener('dragstart',e=>{
+    if(!canEdit())return;
     const g=e.target.closest('.tx-g');
     if(g){drag={type:'game',k:g.dataset.k};e.dataTransfer.effectAllowed='copy';return}
     const chip=e.target.closest('.tx-chip');
@@ -671,7 +743,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     return false;
   }
   function drop(targetId){
-    if(!drag)return;
+    if(!drag||!canEdit())return;
     if(drag.type==='game'||drag.type==='chip'){
       let g=gameOf(drag.k);
       if(drag.type==='chip'&&drag.from){
@@ -705,37 +777,52 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     return out;
   }
   function panelHtml(n){
-    const cs=state.comments[n.id]||[];
+    const cs=cmtsOf(n.id);
     const gs=state.games[n.id]||[];
-    return '<div class="tx-panel">'+
-      '<label class="tx-lb">分支备注</label>'+
-      '<div class="tx-ed tx-nnote" contenteditable="true" spellcheck="false" data-ph="这个玩法的定义、边界、判断依据…">'+esc(n.note||'')+'</div>'+
-      (gs.length?'<label class="tx-lb">作品看点</label>'+gs.map(g=>
-        '<div class="tx-gnr"><span class="tx-gnt" title="'+esc(g.t)+'">'+esc(g.t)+'</span>'+
-        '<div class="tx-ed tx-gnote" contenteditable="true" spellcheck="false" data-k="'+esc(g.k)+'" data-ph="它在这条分支里做对了什么…">'+esc(g.note||'')+'</div></div>').join(''):'')+
-      '<label class="tx-lb">评论'+(cs.length?' · '+cs.length:'')+'</label>'+
-      (cs.length?'<ul class="tx-cs">'+cs.map(c=>{
-        const us=(c.u||[]).filter(okUrl);
-        return '<li><time>'+esc(c.d)+'</time><div class="tx-cb"><span>'+esc(c.t)+'</span>'+
-          (us.length?'<span class="tx-srcs">'+us.map(u=>
-            '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer" title="'+esc(u)+'">'+esc(urlLabel(u))+'</a>').join('')+'</span>':'')+
-          '</div><button data-act="delc" data-cid="'+esc(c.id)+'" title="删除">×</button></li>';
-      }).join('')+'</ul>':'')+
-      '<div class="tx-add"><input class="tx-ci" placeholder="写点观察，回车提交…" autocomplete="off">'+
-      '<button data-act="addc">提交</button>'+
-      '<input class="tx-cu2" placeholder="信息来源网址，多个用空格或逗号隔开（可选）" autocomplete="off"></div>'+
-    '</div>';
+    const ed=canEdit();
+    const CE=ed?' contenteditable="true"':'';
+    let h='<div class="tx-panel">';
+    // 只读时空备注和空看点没意义，直接不画
+    if(ed||n.note)h+='<label class="tx-lb">分支备注</label>'+
+      '<div class="tx-ed tx-nnote"'+CE+' spellcheck="false" data-ph="这个玩法的定义、边界、判断依据…">'+esc(n.note||'')+'</div>';
+    const gn=ed?gs:gs.filter(g=>g.note);
+    if(gn.length)h+='<label class="tx-lb">作品看点</label>'+gn.map(g=>
+      '<div class="tx-gnr"><span class="tx-gnt" title="'+esc(g.t)+'">'+esc(g.t)+'</span>'+
+      '<div class="tx-ed tx-gnote"'+CE+' spellcheck="false" data-k="'+esc(g.k)+'" data-ph="它在这条分支里做对了什么…">'+esc(g.note||'')+'</div></div>').join('');
+    h+='<label class="tx-lb">评论'+(cs.length?' · '+cs.length:'')+(API?' · 全站共享':'')+'</label>';
+    if(cs.length)h+='<ul class="tx-cs">'+cs.map(c=>{
+      const us=(c.u||[]).filter(okUrl);
+      // 云端评论只能删自己的（管理员例外）；本地模式全归自己，随便删
+      const canDel=API?!!(USER&&(USER.admin||(c.user&&c.user===USER.name))):true;
+      return '<li><time>'+esc(c.d)+'</time><div class="tx-cb">'+
+        (API?'<span class="tx-au">'+esc(c.user||c.guest||'游客')+'</span>':'')+
+        '<span>'+esc(c.t)+'</span>'+
+        (us.length?'<span class="tx-srcs">'+us.map(u=>
+          '<a href="'+esc(u)+'" target="_blank" rel="noopener noreferrer" title="'+esc(u)+'">'+esc(urlLabel(u))+'</a>').join('')+'</span>':'')+
+        '</div>'+(canDel?'<button data-act="delc" data-cid="'+esc(c.id)+'" title="删除">×</button>':'<span></span>')+'</li>';
+    }).join('')+'</ul>';
+    let gnick='';
+    if(API&&!USER){
+      let saved='';try{saved=localStorage.getItem('guestname')||''}catch(e){}
+      gnick='<input class="tx-cg" placeholder="昵称（可选，评论会显示）" autocomplete="off" value="'+esc(saved)+'">';
+    }
+    h+='<div class="tx-add"><input class="tx-ci" placeholder="写点观察，回车提交…" autocomplete="off">'+
+      '<button data-act="addc">提交</button>'+gnick+
+      '<input class="tx-cu2" placeholder="信息来源网址，多个用空格或逗号隔开（可选）" autocomplete="off"></div>';
+    return h+'</div>';
   }
   function nodeHtml(n,depth){
     const kids=state.nodes.filter(x=>x.parent===n.id);
     const gs=state.games[n.id]||[];
     const s=stats(n.id);
-    const cs=state.comments[n.id]||[];
+    const cs=cmtsOf(n.id);
     const noted=!!(n.note||cs.length||gs.some(g=>g.note));
     const isOpen=open.has(n.id);
+    const CE=canEdit()?' contenteditable="true"':'';
+    const DR=canEdit()?' draggable="true"':'';
     return '<div class="tx-node" data-id="'+n.id+'" style="--d:'+depth+'">'+
-      '<div class="tx-hd"><span class="tx-grip" draggable="true" title="拖动以改变层级">⠿</span>'+
-        '<span class="tx-name" contenteditable="true" spellcheck="false">'+esc(n.name)+'</span>'+
+      '<div class="tx-hd"><span class="tx-grip"'+DR+' title="拖动以改变层级">⠿</span>'+
+        '<span class="tx-name"'+CE+' spellcheck="false">'+esc(n.name)+'</span>'+
         (s.n?'<span class="tx-st">'+s.n+' 款'+(s.live?' · 在榜 '+s.live:'')+(s.gr?' · 畅销 '+s.gr:'')+(s.best?' · 最好 #'+s.best:'')+'</span>':'<span class="tx-st tx-empty">拖游戏到这里</span>')+
         '<button class="tx-cmt'+(noted?' has':'')+(isOpen?' on':'')+'" data-act="cmt" title="备注与评论">💬'+(cs.length?'<em>'+cs.length+'</em>':'')+'</button>'+
         '<span class="tx-acts"><button data-act="sib" title="在下面加一个并列分支（同一层）">+</button>'+
@@ -746,7 +833,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       (gs.length?'<div class="tx-chips">'+gs.map(g=>{
         const live=GAMES.find(x=>x.k===g.k);
         const cu=isCustom(g.k);
-        return '<span class="tx-chip'+(live?'':(cu?' cu':' off'))+(g.note?' noted':'')+'" draggable="true" data-k="'+esc(g.k)+'" title="'+esc([g.d,g.note].filter(Boolean).join(' — ')||'')+'">'+
+        return '<span class="tx-chip'+(live?'':(cu?' cu':' off'))+(g.note?' noted':'')+'"'+DR+' data-k="'+esc(g.k)+'" title="'+esc([g.d,g.note].filter(Boolean).join(' — ')||'')+'">'+
           esc(g.t)+(live&&live.f?'<i>#'+live.f+'</i>':(live?'':(cu?'<i>手动</i>':'<i>已掉榜</i>')))+
           '<button data-act="unpin">×</button></span>';
       }).join('')+'</div>':'')+
@@ -760,7 +847,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     const roots=state.nodes.filter(n=>!n.parent);
     box.innerHTML=roots.map(n=>nodeHtml(n,0)).join('')||'<p class="tx-hint">还没有分支，点「+ 新建根分支」开始</p>';
     box.scrollTop=top;
-    $('tdirty').textContent=dirty()?'已本地修改':'';
+    if(!API)$('tdirty').textContent=dirty()?'已本地修改':'';
     if(!focus)return;
     const el=box.querySelector('.tx-node[data-id="'+focus.id+'"] .'+(focus.what==='name'?'tx-name':'tx-ci'));
     if(!el)return;
@@ -792,6 +879,18 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     if(toks.length>u.length&&!confirm(
       (u.length?'有 '+(toks.length-u.length)+' 条来源不是有效网址':'来源没识别出有效网址')+
       '（只认 http / https），会被丢掉。仍然提交这条评论吗？'))return;
+    if(API){
+      const gn=node.querySelector('.tx-cg');
+      const guest=gn?gn.value.trim().slice(0,20):'';
+      if(gn)try{localStorage.setItem('guestname',guest)}catch(e){}
+      jfetch('/comments',{method:'POST',body:JSON.stringify({node:id,body:t,sources:u,guest:guest})})
+        .then(function(r){
+          (COMMENTS[id]=COMMENTS[id]||[]).push(mapC(r.comment));
+          render({id:id,what:'ci'});
+        })
+        .catch(function(e){alert('评论没发出去：'+e.message)});
+      return;
+    }
     const c={id:uid(),d:today(),t:t};
     if(u.length)c.u=u;
     (state.comments[id]=state.comments[id]||[]).push(c);
@@ -816,6 +915,14 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       render(); return;
     }
     if(act==='addc'){ addComment(id,node); return }
+    if(act==='delc'&&API){                                 // 云端评论：走接口删
+      const cid=+b.dataset.cid;
+      jfetch('/comments/'+cid,{method:'DELETE'})
+        .then(function(){COMMENTS[id]=(COMMENTS[id]||[]).filter(c=>c.id!==cid);render()})
+        .catch(function(e){alert('删不掉：'+e.message)});
+      return;
+    }
+    if(!canEdit())return;                                  // 其余动作都要编辑权
     if(act==='add'){ addNode(id,null); return }            // 子分支
     if(act==='sib'){                                       // 并列分支：插在自己下面
       const me=state.nodes.find(n=>n.id===id);
@@ -837,6 +944,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   });
   // 备注类输入统一在失焦时落盘：不重绘，否则光标会被拽走
   $('ttree').addEventListener('blur',e=>{
+    if(!canEdit())return;
     const el=e.target, cl=el.classList;
     if(!cl)return;
     const node=el.closest('.tx-node'); if(!node)return;
@@ -865,14 +973,14 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     }
   });
 
-  $('tadd').onclick=()=>addNode(null,null);
+  $('tadd').onclick=()=>{if(canEdit())addNode(null,null)};
   $('texp').onclick=()=>{
     const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
     const a=document.createElement('a');
     a.href=URL.createObjectURL(blob); a.download='taxonomy.json'; a.click();
     URL.revokeObjectURL(a.href);
   };
-  $('timp').onclick=()=>$('tfile').click();
+  $('timp').onclick=()=>{if(canEdit())$('tfile').click()};
   $('tfile').onchange=e=>{
     const f=e.target.files[0]; if(!f)return;
     const r=new FileReader();
@@ -887,12 +995,104 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     e.target.value=''; // 同一个文件连选两次也要能触发
   };
   $('trst').onclick=()=>{
+    if(API){
+      if(!canEdit())return;
+      if(!confirm('把你的云端树重置为官方版本？（备注、看点和手动条目都会没，共享评论不受影响）'))return;
+      state=seedCopy(); open.clear(); save(); renderList(); render();
+      return;
+    }
     if(!confirm('放弃本地改动（包括备注、评论和手动添加的条目），恢复到仓库里的官方版本？'))return;
     try{localStorage.removeItem(KEY)}catch(e){}
     state=norm(JSON.parse(JSON.stringify(SEED))); open.clear(); renderList(); render();
   };
 
-  renderList(); render();
+  /* ── 账号 ── */
+  function updateChrome(){
+    const ro=!canEdit();
+    document.querySelector('.tx').classList.toggle('tx-ro',API&&ro);
+    ['tadd','timp','trst'].forEach(function(i){$(i).hidden=API&&ro});
+    $('tshare').hidden=!(API&&USER&&!VIEWING);
+    const a=$('tacct');
+    if(!API){a.innerHTML='';return}
+    if(VIEWING){
+      a.innerHTML='正在看 <b>'+esc(VIEWING)+'</b> 的树（只读）· <button class="f" id="tback">返回</button>';
+      $('tback').onclick=function(){location.href=location.pathname};
+    }else if(USER){
+      a.innerHTML='<b>'+esc(USER.name)+'</b><button class="f" id="tout">退出</button>';
+      $('tout').onclick=logout;
+    }else{
+      a.innerHTML='<span class="tx-rotip">只读 · 登录后可编辑自己的树</span><button class="f" id="tin">登录 / 注册</button>';
+      $('tin').onclick=openAuth;
+    }
+    $('tsd').textContent=VIEWING
+      ? '这是 '+VIEWING+' 的玩法树，只读。评论是全站共享的，你的发言大家都能看到。'
+      : (USER
+        ? '这是你自己的玩法树（从官方版本复制而来），拖游戏、建分支、写备注，改动会自动保存到云端；「分享链接」可以把你的树给别人看。评论是全站共享的。'
+        : '玩法树按分支追踪玩法的演变。现在是只读模式：评论无需注册（全站共享），注册登录后你会得到一棵可以自由编辑的树，改动保存在云端。');
+  }
+  function openAuth(){$('taerr').textContent='';$('tauth').showModal();$('tau').focus()}
+  function doAuth(pathn){
+    const un=$('tau').value.trim(), pw=$('tap').value;
+    if(!un||!pw){$('taerr').textContent='用户名和密码都要填';return}
+    $('taerr').textContent='…';
+    jfetch('/'+pathn,{method:'POST',body:JSON.stringify({username:un,password:pw})})
+      .then(function(r){USER=r.user;$('tap').value='';$('tauth').close();afterLogin()})
+      .catch(function(e){$('taerr').textContent=e.message});
+  }
+  $('talogin').onclick=()=>doAuth('login');
+  $('tareg').onclick=()=>doAuth('register');
+  $('tax2').onclick=()=>$('tauth').close();
+  ['tau','tap'].forEach(i=>$(i).addEventListener('keydown',e=>{
+    if(e.key==='Enter'){e.preventDefault();doAuth('login')}
+  }));
+  function afterLogin(){
+    jfetch('/tree')
+      .then(function(r){state=norm(r.tree);postLoad()})
+      .catch(function(){ // 云端还没存过树：本地有旧改动就问一声，没有就从官方版本起步
+        let localTree=null;
+        try{const s=localStorage.getItem(KEY);if(s)localTree=norm(JSON.parse(s))}catch(e){}
+        state=(localTree&&confirm('这台浏览器里有你之前本地编辑的玩法树，把它上传为你的云端树吗？\n（取消则从官方版本开始）'))?localTree:seedCopy();
+        jfetch('/tree',{method:'PUT',body:JSON.stringify(state)})
+          .then(function(){$('tdirty').textContent='已存云端'})
+          .catch(function(e){$('tdirty').textContent='⚠ 保存失败：'+e.message});
+        postLoad();
+      });
+  }
+  function logout(){
+    jfetch('/logout',{method:'POST'}).catch(function(){}).then(function(){
+      USER=null;state=seedCopy();$('tdirty').textContent='';postLoad();
+    });
+  }
+  function postLoad(){open.clear();updateChrome();renderList();render()}
+  $('tshare').onclick=()=>{
+    const url=location.origin+location.pathname+'?tree='+USER.name;
+    const done=()=>{$('tshare').textContent='已复制';setTimeout(()=>{$('tshare').textContent='分享链接'},1500)};
+    if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(url).then(done,()=>prompt('复制这个链接：',url));
+    else prompt('复制这个链接：',url);
+  };
+
+  /* ── 启动 ── */
+  renderList(); render(); // 先按本地模式画出来（静态镜像上就停在这一步）
+  fetch('/api/me',{credentials:'same-origin'})
+    .then(function(r){if(!r.ok)throw 0;return r.json()})
+    .then(function(me){
+      API=true; USER=me.user;
+      const q=new URLSearchParams(location.search).get('tree');
+      let pTree;
+      if(q){
+        VIEWING=q;
+        pTree=jfetch('/trees/'+encodeURIComponent(q))
+          .then(function(r){state=norm(r.tree)})
+          .catch(function(){VIEWING=null;alert('没找到用户 '+q+' 的树');state=seedCopy()});
+      }else if(USER){
+        pTree=jfetch('/tree').then(function(r){state=norm(r.tree)}).catch(function(){state=seedCopy()});
+      }else{
+        state=seedCopy(); pTree=Promise.resolve();
+      }
+      return Promise.all([pTree,fetchComments()]);
+    })
+    .then(postLoad)
+    .catch(function(){}); // 没有 /api：保持 legacy localStorage 模式
 })();
 </script>
 
@@ -7723,7 +7923,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 01:00 UTC</span>
+  <span>生成于 2026-08-14 07:12 UTC</span>
 </footer>
 
 <script>
