@@ -1092,7 +1092,12 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       return Promise.all([pTree,fetchComments()]);
     })
     .then(postLoad)
-    .catch(function(){}); // 没有 /api：保持 legacy localStorage 模式
+    .catch(function(){ // 没有 /api（GitHub Pages 镜像等）：保持 legacy localStorage 模式
+      if(API)return; // API 探测成功但后续出错的场合，别误挂引导
+      $('tsd').insertAdjacentHTML('beforeend',
+        ' <b>完整版在 <a href="https://tree.rainwe.com/#tree">tree.rainwe.com</a></b>'+
+        '：注册后云端保存自己的树，评论全站共享；这里的改动只存在你自己的浏览器里。');
+    });
 })();
 </script>
 
@@ -7923,7 +7928,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 07:12 UTC</span>
+  <span>生成于 2026-08-14 07:38 UTC</span>
 </footer>
 
 <script>
