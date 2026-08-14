@@ -581,11 +581,15 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   const canEdit=()=>API?(!!USER&&!VIEWING):true;
   function jfetch(p,o){
     o=o||{};
-    return fetch('/api'+p,{method:o.method||'GET',body:o.body,credentials:'same-origin',
-      headers:{'Content-Type':'application/json'}})
+    const h={'Content-Type':'application/json'};
+    if(o.headers)for(const k in o.headers)h[k]=o.headers[k];
+    return fetch('/api'+p,{method:o.method||'GET',body:o.body,credentials:'same-origin',headers:h})
       .then(function(r){return r.json().catch(function(){return{}}).then(function(j){
-        if(!r.ok)throw new Error(j.error||('HTTP '+r.status));return j})});
+        if(!r.ok){const e=new Error(j.error||('HTTP '+r.status));e.status=r.status;throw e}
+        return j})});
   }
+  // 树的乐观锁版本号：保存时带给服务端，对不上说明有别的标签页在写
+  let TREEVER='new', CONFLICT=false;
   // 服务端评论 → 本地评论的字段形状（d/t/u），面板代码就不用改两套
   const mapC=c=>({id:c.id,d:c.day,t:c.body,u:c.sources||[],user:c.user,guest:c.guest});
   function fetchComments(){
@@ -643,12 +647,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   function save(){
     if(API){
       if(!canEdit())return;
+      if(CONFLICT){$('tdirty').textContent='⚠ 云端有更新版本，这里的改动不会保存——请刷新页面';return}
       $('tdirty').textContent='保存中…';
       clearTimeout(saveTimer);
       saveTimer=setTimeout(function(){
-        jfetch('/tree',{method:'PUT',body:JSON.stringify(state)})
-          .then(function(){$('tdirty').textContent='已存云端 '+new Date().toTimeString().slice(0,5)})
-          .catch(function(e){$('tdirty').textContent='⚠ 保存失败：'+e.message});
+        jfetch('/tree',{method:'PUT',body:JSON.stringify(state),headers:{'x-base-updated':TREEVER}})
+          .then(function(r){TREEVER=r.updated;$('tdirty').textContent='已存云端 '+new Date().toTimeString().slice(0,5)})
+          .catch(function(e){
+            if(e.status===409||e.status===428)CONFLICT=true;
+            $('tdirty').textContent='⚠ '+e.message;
+          });
       },900);
       return;
     }
@@ -1212,7 +1220,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   }));
   function afterLogin(){
     jfetch('/tree')
-      .then(function(r){state=norm(r.tree);postLoad()})
+      .then(function(r){TREEVER=r.updated;state=norm(r.tree);postLoad()})
       .catch(function(){ // 云端还没存过树：本地有旧改动就问一声，没有就从默认树复制起步
         let localTree=null;
         try{const s=localStorage.getItem(KEY);if(s)localTree=norm(JSON.parse(s))}catch(e){}
@@ -1221,8 +1229,8 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
           :jfetch('/trees/@default').then(function(r){return norm(r.tree)}).catch(seedCopy);
         pick.then(function(t){
           state=t;
-          jfetch('/tree',{method:'PUT',body:JSON.stringify(state)})
-            .then(function(){$('tdirty').textContent='已存云端'})
+          jfetch('/tree',{method:'PUT',body:JSON.stringify(state),headers:{'x-base-updated':'new'}})
+            .then(function(r){TREEVER=r.updated;$('tdirty').textContent='已存云端'})
             .catch(function(e){$('tdirty').textContent='⚠ 保存失败：'+e.message});
           postLoad();
         });
@@ -1255,7 +1263,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
           .then(function(r){state=norm(r.tree)})
           .catch(function(){VIEWING=null;alert('没找到用户 '+q+' 的树');state=seedCopy()});
       }else if(USER){
-        pTree=jfetch('/tree').then(function(r){state=norm(r.tree)}).catch(function(){state=seedCopy()});
+        pTree=jfetch('/tree')
+          .then(function(r){TREEVER=r.updated;state=norm(r.tree)})
+          .catch(function(){TREEVER='new';state=seedCopy()});
       }else{
         // 未登录默认展示站长的树；站长还没存过就退回构建时的种子
         pTree=jfetch('/trees/@default')
@@ -8101,7 +8111,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 07:58 UTC</span>
+  <span>生成于 2026-08-14 08:04 UTC</span>
 </footer>
 
 <script>
