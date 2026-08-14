@@ -993,7 +993,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       const cnt={};
       d.dated.forEach(g=>{cnt[g.y]=(cnt[g.y]||0)+1;if(cnt[g.y]>maxClu)maxClu=cnt[g.y]});
     });
-    const MT=56+Math.max(0,Math.ceil(maxClu/2)-1)*28;
+    const MT=56+Math.max(0,Math.ceil(maxClu/2)-1)*44; // 名字可能折两行，按高的算
     const span=Math.max(maxY-minY,1);
     const H=Math.max(440,Math.min(980,span*46+MT+MB));
     const Y=yr=>H-MB-(yr-minY)/span*(H-MT-MB);
@@ -1031,6 +1031,14 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
          '<text class="tv-yr" x="'+(ML-30)+'" y="'+(Y(y)+3)+'" text-anchor="end">'+y+'</text>';
     }
     const chw=t=>{let w=14;for(const ch of t)w+=ch.charCodeAt(0)>255?11:6.4;return w};
+    // 名字要显示全：太长就在靠中间的空格处折成两行（中文没空格就对半掰）
+    function wrapName(t){
+      if(chw(t)<=150)return[t];
+      let i=-1,best=-1;const mid=t.length/2;
+      while((i=t.indexOf(' ',i+1))>-1)if(best<0||Math.abs(i-mid)<Math.abs(best-mid))best=i;
+      const p=best>0?best:Math.ceil(mid);
+      return[t.slice(0,p).trim(),t.slice(p).trim()];
+    }
     // 先画枝（父在前子在后，DFS 顺序天然如此），再画便签，免得线压住字
     let chipsSvg='';
     data.forEach(d=>{
@@ -1055,15 +1063,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
         const dotY=Y(g.y);
         const cls=g.live?(g.live.gr?' gr':''):(isCustom(g.g.k)?' cu':' off');
         const tip=g.g.t+'（'+g.y+(g.g.d?'，'+g.g.d:'')+'）'+(g.live?(g.live.gr?' · 畅销 #'+g.live.gr:' · 在榜'):'');
-        const lt=g.g.t.length>12?g.g.t.slice(0,11)+'…':g.g.t;
-        const w=chw(lt), h=22;
+        const lines=wrapName(g.g.t);
+        const w=Math.max.apply(null,lines.map(chw)), h=lines.length>1?36:22;
         const right=(j%2===0)!==(x>W-170); // 贴右边界的枝往左挂
         const sk=right?'R':'L';
         let cy=dotY;
-        if(lastYSide[sk]-cy<h+6)cy=lastYSide[sk]-h-6; // 同侧挤了就往上摞
-        cy=Math.max(16,cy); // 顶部空间已按堆叠深度预留过，这里只是兜底
-        lastYSide[sk]=cy;
-        if(cy<minCy)minCy=cy;
+        // 同侧挤了就往上摞（lastYSide 记的是上一张便签的上边缘，高度不一也不会叠）
+        if(lastYSide[sk]-(cy+h/2)<6)cy=lastYSide[sk]-6-h/2;
+        cy=Math.max(16+h/2,cy); // 顶部空间已按堆叠深度预留过，这里只是兜底
+        lastYSide[sk]=cy-h/2;
+        if(cy-h/2<minCy)minCy=cy-h/2;
         const moved=Math.abs(cy-dotY)>2;
         const off=moved?26:9; // 被挪过的便签离枝远些，给指引线留弯的空间
         let rx=right?x+off:x-off-w;
@@ -1074,9 +1083,12 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
              (ax-(right?12:-12))+' '+cy+' '+ax+' '+cy+'"/>';
         }
         const rot=((j%3)-1)*2; // 便签手贴感：±2° 轻微歪斜
+        const txt=lines.length>1
+          ?'<text x="'+(rx+w/2)+'" y="'+(cy-3.5)+'" text-anchor="middle">'+esc(lines[0])+'</text>'+
+           '<text x="'+(rx+w/2)+'" y="'+(cy+9.5)+'" text-anchor="middle">'+esc(lines[1])+'</text>'
+          :'<text x="'+(rx+w/2)+'" y="'+(cy+3.5)+'" text-anchor="middle">'+esc(lines[0])+'</text>';
         chipsSvg+='<g class="tv2-chip'+cls+'" transform="rotate('+rot+' '+(rx+w/2)+' '+cy+')">'+
-          '<rect x="'+rx+'" y="'+(cy-h/2)+'" width="'+w+'" height="'+h+'" rx="4"/>'+
-          '<text x="'+(rx+w/2)+'" y="'+(cy+3.5)+'" text-anchor="middle">'+esc(lt)+'</text>'+
+          '<rect x="'+rx+'" y="'+(cy-h/2)+'" width="'+w+'" height="'+h+'" rx="4"/>'+txt+
           '<title>'+esc(tip)+'</title></g>';
         s+='<circle class="tv-dot'+cls+'" cx="'+x+'" cy="'+dotY+'" r="4"><title>'+esc(tip)+'</title></circle>';
       });
@@ -8205,7 +8217,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 08:49 UTC</span>
+  <span>生成于 2026-08-14 09:16 UTC</span>
 </footer>
 
 <script>
