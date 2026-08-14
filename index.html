@@ -297,6 +297,7 @@ td{padding:10px 12px;vertical-align:middle}
 .tv-roots{padding:10px 2px 2px}
 .tv2-trunk{stroke:var(--dim);stroke-width:5;stroke-linecap:round;fill:none;opacity:.75}
 .tv2-branch{stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;fill:none;opacity:.6}
+.tv2-lead{stroke:var(--dim);stroke-width:1;fill:none;opacity:.4}
 .tv2-chip rect{fill:var(--casbg);stroke:var(--casbd)}
 .tv2-chip text{fill:var(--tx);font-size:10.5px;font-family:var(--sans)}
 .tv2-chip.gr rect{fill:var(--accbg);stroke:var(--accbd)}
@@ -985,9 +986,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     });
     /* 纵向的树：树干在下、往上生长。纵轴是时间（越早越靠根），
        子分支在自己最早作品的年份处从父枝上岔出去，作品像便签一样挂在枝上 */
-    const W=980, MT=56, MB=46, ML=64, MR=40;
+    const W=980, MB=46, ML=64, MR=40;
+    // 顶部留白按「同一年扎堆最多的那批」动态预留：这批便签会沿枝往上摞
+    let maxClu=1;
+    data.forEach(d=>{
+      const cnt={};
+      d.dated.forEach(g=>{cnt[g.y]=(cnt[g.y]||0)+1;if(cnt[g.y]>maxClu)maxClu=cnt[g.y]});
+    });
+    const MT=56+Math.max(0,Math.ceil(maxClu/2)-1)*28;
     const span=Math.max(maxY-minY,1);
-    const H=Math.max(440,Math.min(860,span*46+MT+MB));
+    const H=Math.max(440,Math.min(980,span*46+MT+MB));
     const Y=yr=>H-MB-(yr-minY)/span*(H-MT-MB);
     // 横向车道：每根枝占一条，父枝夹在子枝中间（前一半子枝在左、后一半在右），
     // 这样树干居中、枝往两边岔，单个子枝也不会和父枝叠在一条线上
@@ -1038,26 +1046,43 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
         const yTurn=Math.max(y1-34,yTop);
         s+='<path class="tv2-branch" d="M '+px+' '+y1+' C '+px+' '+(y1-24)+' '+x+' '+(y1+2)+' '+x+' '+yTurn+' L '+x+' '+yTop+'"/>';
       }
-      // 枝名挂在枝顶
-      s+='<text class="tv-name" x="'+x+'" y="'+(yTop-8)+'" text-anchor="middle">'+esc(d.n.name)+
-         (d.undated?'<tspan class="tv-du"> +'+d.undated+'无年份</tspan>':'')+'</text>';
-      // 作品便签：挂在枝两侧，同枝奇偶交替，避免叠
+      let minCy=yTop; // 枝名要压在整摞便签的上面，先记便签摞到多高
+      // 作品便签：挂在枝两侧，同枝奇偶交替。开发商扎堆时同一年会有好几款——
+      // 便签沿枝往上错开摞（不死抠年份等价），再用弯曲的指引线连回它在枝上的
+      // 年份点，保证每一款都看得见
+      const lastYSide={L:1e9,R:1e9};
       d.dated.forEach((g,j)=>{
-        const cy=Y(g.y);
+        const dotY=Y(g.y);
         const cls=g.live?(g.live.gr?' gr':''):(isCustom(g.g.k)?' cu':' off');
         const tip=g.g.t+'（'+g.y+(g.g.d?'，'+g.g.d:'')+'）'+(g.live?(g.live.gr?' · 畅销 #'+g.live.gr:' · 在榜'):'');
         const lt=g.g.t.length>12?g.g.t.slice(0,11)+'…':g.g.t;
         const w=chw(lt), h=22;
         const right=(j%2===0)!==(x>W-170); // 贴右边界的枝往左挂
-        let rx=right?x+9:x-9-w;
+        const sk=right?'R':'L';
+        let cy=dotY;
+        if(lastYSide[sk]-cy<h+6)cy=lastYSide[sk]-h-6; // 同侧挤了就往上摞
+        cy=Math.max(16,cy); // 顶部空间已按堆叠深度预留过，这里只是兜底
+        lastYSide[sk]=cy;
+        if(cy<minCy)minCy=cy;
+        const moved=Math.abs(cy-dotY)>2;
+        const off=moved?26:9; // 被挪过的便签离枝远些，给指引线留弯的空间
+        let rx=right?x+off:x-off-w;
         rx=Math.max(4,Math.min(W-w-4,rx));
+        if(moved){
+          const ax=right?rx:rx+w; // 便签朝枝的那条边
+          s+='<path class="tv2-lead" d="M '+x+' '+dotY+' C '+(x+(right?14:-14))+' '+dotY+' '+
+             (ax-(right?12:-12))+' '+cy+' '+ax+' '+cy+'"/>';
+        }
         const rot=((j%3)-1)*2; // 便签手贴感：±2° 轻微歪斜
         chipsSvg+='<g class="tv2-chip'+cls+'" transform="rotate('+rot+' '+(rx+w/2)+' '+cy+')">'+
           '<rect x="'+rx+'" y="'+(cy-h/2)+'" width="'+w+'" height="'+h+'" rx="4"/>'+
           '<text x="'+(rx+w/2)+'" y="'+(cy+3.5)+'" text-anchor="middle">'+esc(lt)+'</text>'+
           '<title>'+esc(tip)+'</title></g>';
-        s+='<circle class="tv-dot'+cls+'" cx="'+x+'" cy="'+cy+'" r="4"><title>'+esc(tip)+'</title></circle>';
+        s+='<circle class="tv-dot'+cls+'" cx="'+x+'" cy="'+dotY+'" r="4"><title>'+esc(tip)+'</title></circle>';
       });
+      // 枝名：挂在枝顶和整摞便签之上（画在最后一层，不被便签盖住）
+      chipsSvg+='<text class="tv-name" x="'+x+'" y="'+Math.max(12,Math.min(yTop-8,minCy-18))+'" text-anchor="middle">'+esc(d.n.name)+
+        (d.undated?'<tspan class="tv-du"> +'+d.undated+'无年份</tspan>':'')+'</text>';
     });
     box.innerHTML=chips+'<div class="tv-wrap">'+
       '<p class="tv-lg">树干自下而上＝时间 · 便签：<i class="a"></i>在榜 <i class="g"></i>畅销榜 <i class="c"></i>手动 <i class="o"></i>已掉榜 · 岔口＝该分支最早作品 · 切回「列表」可编辑</p>'+
@@ -8180,7 +8205,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 08:37 UTC</span>
+  <span>生成于 2026-08-14 08:49 UTC</span>
 </footer>
 
 <script>
