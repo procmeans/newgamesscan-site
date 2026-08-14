@@ -275,7 +275,7 @@ td{padding:10px 12px;vertical-align:middle}
 .tx-cufold:hover{background:var(--sf2);color:var(--tx)}
 /* 时间树视图 */
 .tv-wrap{overflow-x:auto}
-.tv-wrap svg{display:block}
+.tv-wrap svg{display:block;margin:0 auto}
 .tv-lg{font-size:10.5px;color:var(--dim);font-family:var(--mono);padding:2px 2px 8px}
 .tv-lg i{display:inline-block;width:8px;height:8px;border-radius:50%;margin:0 3px 0 8px;vertical-align:-1px}
 .tv-lg i.a{background:var(--acc)}
@@ -295,7 +295,7 @@ td{padding:10px 12px;vertical-align:middle}
 .tv-lb{fill:var(--dim);font-size:9.5px;font-family:var(--mono)}
 /* 纵向树形 */
 .tv-roots{padding:10px 2px 2px}
-.tv2-trunk{stroke:var(--dim);stroke-width:5;stroke-linecap:round;fill:none;opacity:.75}
+.tv2-trunk{fill:var(--dim);stroke:none;opacity:.7}
 .tv2-branch{stroke:var(--dim);stroke-width:2.2;stroke-linecap:round;fill:none;opacity:.6}
 .tv2-lead{stroke:var(--dim);stroke-width:1;fill:none;opacity:.4}
 .tv2-chip rect{fill:var(--casbg);stroke:var(--casbd)}
@@ -1045,8 +1045,12 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       const id=d.n.id, x=xById[id], isRoot=id===tvRoot;
       const yTop=Y(endById[id])-16;
       if(isRoot){
-        // 树干：从图底长上来，根部略粗
-        s+='<path class="tv2-trunk" d="M '+x+' '+(H-8)+' L '+x+' '+yTop+'"/>';
+        // 树干：从图底长上来，底部粗、顶部细（描边没法渐变粗细，用填充形画锥形）
+        const mid2=(H+yTop)/2;
+        s+='<path class="tv2-trunk" d="M '+(x-4.5)+' '+(H-6)+
+           ' C '+(x-3.4)+' '+mid2+' '+(x-1.6)+' '+(yTop+24)+' '+(x-1.6)+' '+yTop+
+           ' L '+(x+1.6)+' '+yTop+
+           ' C '+(x+1.6)+' '+(yTop+24)+' '+(x+3.4)+' '+mid2+' '+(x+4.5)+' '+(H-6)+' Z"/>';
       }else{
         const px=xById[d.n.parent], y1=Y(startById[id]);
         // 从父枝的岔点先向上再拐到自己的车道（S 形），然后直着往上长。
@@ -8217,7 +8221,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 09:16 UTC</span>
+  <span>生成于 2026-08-14 09:25 UTC</span>
 </footer>
 
 <script>
