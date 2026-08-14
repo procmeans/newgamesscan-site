@@ -156,6 +156,7 @@ td{padding:10px 12px;vertical-align:middle}
 .tx-hint{padding:12px 14px;font-size:11px;color:var(--dim);font-family:var(--mono)}
 /* 手动录入表单 */
 .tx-form{display:grid;gap:6px;padding:2px 0 8px}
+.tx-form[hidden]{display:none} /* display:grid 会压过 hidden 属性的浏览器默认样式，必须显式补一条 */
 .tx-form input{width:100%;background:var(--bg);border:1px solid var(--ln);color:var(--tx);font:inherit;
   font-size:12px;padding:6px 9px;border-radius:4px;outline:none}
 .tx-form input:focus{border-color:var(--dim)}
@@ -930,12 +931,19 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   let tvw='list';
   try{if(localStorage.getItem('txview')==='time')tvw='time'}catch(e){}
   try{const vq=new URLSearchParams(location.search).get('view');if(vq==='time'||vq==='list')tvw=vq}catch(e){}
+  let tvRoot=null; // 时间树一次只看一个根分支，这里记当前选的是哪个
   function renderTimeTree(box){
+    const roots=state.nodes.filter(n=>!n.parent);
+    if(!roots.length){box.innerHTML='<p class="tx-hint">还没有分支</p>';return}
+    if(!tvRoot||!roots.some(r=>r.id===tvRoot))tvRoot=roots[0].id;
+    const chips='<div class="filters tv-roots">'+roots.map(r=>
+      '<button class="f'+(r.id===tvRoot?' on':'')+'" data-tvr="'+esc(r.id)+'">'+esc(r.name)+'</button>').join('')+'</div>';
     const rows=[];
-    (function walk(parent,depth){
-      state.nodes.filter(x=>x.parent===parent).forEach(n=>{rows.push({n:n,depth:depth});walk(n.id,depth+1)});
-    })(null,0);
-    if(!rows.length){box.innerHTML='<p class="tx-hint">还没有分支</p>';return}
+    (function walk(id,depth){
+      const n=state.nodes.find(x=>x.id===id); if(!n)return;
+      rows.push({n:n,depth:depth});
+      state.nodes.filter(x=>x.parent===id).forEach(k=>walk(k.id,depth+1));
+    })(tvRoot,0);
     let minY=Infinity;
     const data=rows.map(r=>{
       const gs=(state.games[r.n.id]||[]).map(g=>({g:g,y:yearOf(g),live:GAMES.find(x=>x.k===g.k)||null}));
@@ -944,7 +952,8 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       return{n:r.n,dated:dated,undated:gs.length-dated.length};
     });
     if(minY===Infinity){
-      box.innerHTML='<p class="tx-hint">树上还没有带上线年份的作品。榜单游戏拖上来会自动带年份；手动条目在「年份 / 平台」一栏写上 4 位年份即可。</p>';
+      box.innerHTML=chips+'<p class="tx-hint">这个分支下还没有带上线年份的作品。榜单游戏拖上来会自动带年份；手动条目点它的灰字行补一个 4 位年份即可。</p>';
+      wireRoots(box);
       return;
     }
     const maxY=new Date().getFullYear();
@@ -963,41 +972,48 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       if(v===Infinity)v=(r.n.parent&&startById[r.n.parent]!=null)?startById[r.n.parent]:minY;
       startById[r.n.id]=v;
     });
-    const ML=34,MR=170,TOP=34,RH=36,W=980;
-    const H=TOP+rows.length*RH+14;
+    const ML=40,MR=90,TOP=40,RH=54,W=980;
+    const H=TOP+rows.length*RH+16;
     const span=Math.max(maxY-minY,1);
     const X=y=>ML+(y-minY)/span*(W-ML-MR);
     const Y=i=>TOP+i*RH+RH/2;
+    const clampX=x=>Math.max(34,Math.min(W-40,x));
     let s='';
     const step=Math.max(1,Math.ceil(span/12));
     for(let y=minY;y<=maxY;y+=step){
-      s+='<line class="tv-grid" x1="'+X(y)+'" y1="'+(TOP-8)+'" x2="'+X(y)+'" y2="'+(H-6)+'"/>'+
-         '<text class="tv-yr" x="'+X(y)+'" y="'+(TOP-15)+'" text-anchor="middle">'+y+'</text>';
+      s+='<line class="tv-grid" x1="'+X(y)+'" y1="'+(TOP-10)+'" x2="'+X(y)+'" y2="'+(H-8)+'"/>'+
+         '<text class="tv-yr" x="'+X(y)+'" y="'+(TOP-17)+'" text-anchor="middle">'+y+'</text>';
     }
     const iById={}; rows.forEach((r,i)=>{iById[r.n.id]=i});
     data.forEach((d,i)=>{
       const y0=Y(i), x0=X(startById[d.n.id]);
       const lastX=d.dated.length?X(d.dated[d.dated.length-1].y):x0;
-      const x1=Math.max(lastX+16,x0+26);
+      const x1=Math.min(Math.max(lastX+16,x0+26),W-8);
       if(d.n.parent!=null&&iById[d.n.parent]!=null){
         const py=Y(iById[d.n.parent]);
         s+='<path class="tv-link" d="M '+(x0-14)+' '+py+' C '+(x0-14)+' '+(py+(y0-py)*0.6)+' '+(x0-14)+' '+y0+' '+x0+' '+y0+'"/>';
       }
       s+='<line class="tv-line" x1="'+x0+'" y1="'+y0+'" x2="'+x1+'" y2="'+y0+'"/>';
-      s+='<text class="tv-name" x="'+(x1+7)+'" y="'+(y0+3.5)+'">'+esc(d.n.name)+
+      // 分支名放在线起点上方；太靠右会被裁，往回收
+      s+='<text class="tv-name" x="'+Math.min(x0,W-220)+'" y="'+(y0-16)+'">'+esc(d.n.name)+
          (d.undated?'<tspan class="tv-du">　+'+d.undated+' 无年份</tspan>':'')+'</text>';
+      // 游戏名统一放在点下方（奇偶两层错开），贴边的往里收
       d.dated.forEach((x,j)=>{
         const cx=X(x.y);
         const cls=x.live?(x.live.gr?' gr':''):(isCustom(x.g.k)?' cu':' off');
         const tip=x.g.t+'（'+x.y+(x.g.d?'，'+x.g.d:'')+'）'+(x.live?(x.live.gr?' · 畅销 #'+x.live.gr:' · 在榜'):'');
-        s+='<circle class="tv-dot'+cls+'" cx="'+cx+'" cy="'+y0+'" r="4"><title>'+esc(tip)+'</title></circle>';
-        const lt=x.g.t.length>9?x.g.t.slice(0,8)+'…':x.g.t;
-        s+='<text class="tv-lb" x="'+cx+'" y="'+(j%2?y0+16:y0-9)+'" text-anchor="middle">'+esc(lt)+'<title>'+esc(tip)+'</title></text>';
+        s+='<circle class="tv-dot'+cls+'" cx="'+cx+'" cy="'+y0+'" r="4.5"><title>'+esc(tip)+'</title></circle>';
+        const lt=x.g.t.length>14?x.g.t.slice(0,13)+'…':x.g.t;
+        s+='<text class="tv-lb" x="'+clampX(cx)+'" y="'+(j%2?y0+31:y0+18)+'" text-anchor="middle">'+esc(lt)+'<title>'+esc(tip)+'</title></text>';
       });
     });
-    box.innerHTML='<div class="tv-wrap">'+
+    box.innerHTML=chips+'<div class="tv-wrap">'+
       '<p class="tv-lg">按上线年份排布 · <i class="a"></i>在榜 <i class="g"></i>畅销榜 <i class="c"></i>手动 <i class="o"></i>已掉榜 · 分叉点＝该分支最早作品 · 切回「列表」可编辑</p>'+
       '<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'">'+s+'</svg></div>';
+    wireRoots(box);
+  }
+  function wireRoots(box){
+    box.querySelectorAll('[data-tvr]').forEach(b=>b.onclick=()=>{tvRoot=b.dataset.tvr;renderTimeTree(box)});
   }
 
   // focus: {id, what:'ci'|'name'} —— 整棵树是重绘的，新加的分支要自己把光标送回去
@@ -8111,7 +8127,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-14 08:04 UTC</span>
+  <span>生成于 2026-08-14 08:22 UTC</span>
 </footer>
 
 <script>
