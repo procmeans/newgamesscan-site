@@ -528,9 +528,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
         <div class="tx-palhd">
           <input id="tq" type="search" placeholder="搜索游戏 / 开发商（含历史在榜）…" autocomplete="off">
           <div class="filters" style="padding:10px 0 2px">
-            <button class="f on" data-gf="casual">休闲</button>
+            <button class="f" data-gf="casual">休闲</button>
             <button class="f" data-gf="new">新进榜</button>
-            <button class="f" data-gf="all">全部</button>
+            <button class="f on" data-gf="all">全部</button>
             <button class="f" id="tcadd" title="手动添加榜单外的老游戏（如 Can Knockdown）">+</button>
             <span id="tcount" class="tx-count"></span>
           </div>
@@ -679,7 +679,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   }
 
   // ── 游戏面板 ──
-  let gmode='casual', gq='', cusOpen=false;
+  let gmode='all', gq='', cusOpen=false;
   // 「knockout」要能搜到「Knock Out」，所以除了逐词匹配，
   // 再把两边的空格标点全去掉做一次整体包含判断
   // 注意：整段脚本是嵌在模板字符串里的，反斜杠必须写两遍，
@@ -8249,7 +8249,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-15 03:56 UTC</span>
+  <span>生成于 2026-08-15 04:03 UTC</span>
 </footer>
 
 <script>
