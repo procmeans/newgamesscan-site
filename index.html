@@ -166,6 +166,7 @@ td{padding:10px 12px;vertical-align:middle}
   padding:10px 9px 4px;margin-top:4px;border-top:1px solid var(--ln2);opacity:.7}
 .tx-cu{grid-template-columns:44px 1fr 18px}
 .tx-cu .tx-gr{color:var(--dim);font-size:10px;font-family:var(--mono)}
+.tx-ar .tx-gr{color:var(--dim);font-size:10px}
 /* 多出一列删除键，得把标题/副标题钉回第二列，否则副标题会被挤进删除键那一格 */
 .tx-cu .tx-gt{grid-column:2;grid-row:1}
 .tx-cu .tx-gm{grid-column:2;grid-row:2;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -525,7 +526,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     <div class="tx">
       <aside class="tx-pal">
         <div class="tx-palhd">
-          <input id="tq" type="search" placeholder="搜索游戏 / 开发商…" autocomplete="off">
+          <input id="tq" type="search" placeholder="搜索游戏 / 开发商（含历史在榜）…" autocomplete="off">
           <div class="filters" style="padding:10px 0 2px">
             <button class="f on" data-gf="casual">休闲</button>
             <button class="f" data-gf="new">新进榜</button>
@@ -684,6 +685,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   // 注意：整段脚本是嵌在模板字符串里的，反斜杠必须写两遍，
   // 否则 \s 会在构建时被求值成 s、\u4e00 被求值成「一」
   const squash=s=>String(s==null?'':s).toLowerCase().replace(/[^a-z0-9\u4e00-\u9fa5]+/g,'');
+  // 历史档案（曾抓到过、今天不在榜的游戏）：第一次搜索时才拉，之后纯前端过滤
+  let ARCH=null,archState=0; // 0 未加载 1 加载中 2 已加载 3 失败
+  function loadArch(){
+    if(archState)return;
+    archState=1;
+    fetch('archive.json',{cache:'no-cache'})
+      .then(r=>{if(!r.ok)throw new Error(r.status);return r.json()})
+      .then(j=>{ARCH=Array.isArray(j)?j:[];archState=2;renderList()})
+      .catch(()=>{archState=3;renderList()});
+  }
   function hit(g,tokens,sq){
     const hay=(g.t+' '+(g.d||'')+' '+(g.g||'')+' '+(g.y||'')).toLowerCase();
     if(tokens.every(t=>hay.includes(t)))return true;
@@ -702,10 +713,15 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       if(gmode==='new'&&!g.n)return false;
       return true;
     });
-    const hidden=matched.length-rows.length;
+    // 搜索时把历史档案也算上（档案条目没有 n 标记，「新进榜」筛选下不出现）
+    if(raw)loadArch();
+    const am=(raw&&ARCH)?ARCH.filter(g=>hit(g,tokens,sq)):[];
+    const arows=am.filter(g=>gmode==='new'?false:(gmode==='casual'?!!g.c:true));
+    const hidden=matched.length-rows.length+(am.length-arows.length);
     const cn=cus.length?cus.length+' 手动 + ':'';
+    const archNote=!raw?'':(archState===1?' · 历史库加载中…':archState===3?' · 历史库加载失败':archState===2?' + '+arows.length+' 历史':'');
     $('tcount').textContent=raw
-      ? (cn+rows.length+' 个结果'+(hidden?'（另有 '+hidden+' 个被当前筛选挡住）':''))
+      ? (cn+rows.length+' 在榜'+archNote+(hidden?'（另有 '+hidden+' 个被当前筛选挡住）':''))
       : (cn+rows.length+' 款');
     // 手动条目默认收起成一行计数；搜索命中时自动展示，展开状态可手动切换
     const showCus=raw?cus.length>0:(cusOpen&&cus.length>0);
@@ -723,12 +739,20 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
       '<span class="tx-gr">'+(g.f?'#'+g.f:'#'+g.rank)+'</span>'+
       '<span class="tx-gt">'+esc(g.t)+'</span>'+
       '<span class="tx-gm">'+g.s+(g.g?' · '+esc(g.g):'')+'</span></div>').join('');
+    const archHtml=arows.slice(0,200).map(g=>
+      '<div class="tx-g tx-ar" draggable="true" data-k="'+esc(g.k)+'">'+
+      '<span class="tx-gr">掉榜</span>'+
+      '<span class="tx-gt">'+esc(g.t)+'</span>'+
+      '<span class="tx-gm">'+g.s+(g.g?' · '+esc(g.g):'')+(g.ls?' · 至 '+esc(g.ls):'')+'</span></div>').join('');
     $('tlist').innerHTML=foldHtml+cuHtml+
-      (cuHtml&&listHtml?'<div class="tx-sep">榜单</div>':'')+
-      (listHtml||(cuHtml?'':'<p class="tx-hint">'+(hidden
+      (cuHtml&&(listHtml||archHtml)?'<div class="tx-sep">榜单</div>':'')+
+      listHtml+
+      (archHtml?'<div class="tx-sep">历史（已不在榜）</div>'+archHtml:'')+
+      (listHtml||archHtml||cuHtml?'':'<p class="tx-hint">'+(hidden
           ? '这个词只匹配到非休闲品类的游戏，点上面「全部」查看'
-          : '没有匹配的游戏，可以用「+ 手动添加」自己录一条')+'</p>'));
-    if(rows.length>300)$('tlist').insertAdjacentHTML('beforeend','<p class="tx-hint">只显示前 300 条，继续输入以缩小范围</p>');
+          : (raw&&archState===1?'正在加载历史库…':'没有匹配的游戏，可以用「+ 手动添加」自己录一条'))+'</p>');
+    if(rows.length>300)$('tlist').insertAdjacentHTML('beforeend','<p class="tx-hint">榜单只显示前 300 条，继续输入以缩小范围</p>');
+    if(arows.length>200)$('tlist').insertAdjacentHTML('beforeend','<p class="tx-hint">历史只显示前 200 条，继续输入以缩小范围</p>');
     const fold=$('tcufold');
     if(fold)fold.onclick=()=>{cusOpen=!cusOpen;renderList()};
   }
@@ -820,6 +844,8 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   function gameOf(k){
     const g=GAMES.find(x=>x.k===k);
     if(g)return{k:g.k,t:g.t,d:g.d,yr:g.rd||0};
+    const a=ARCH&&ARCH.find(x=>x.k===k);
+    if(a)return{k:a.k,t:a.t,d:a.d,yr:a.rd||0};
     const c=state.custom.find(x=>x.k===k);
     if(c)return{k:c.k,t:c.t,d:c.d,yr:yearFrom(c.y)};
     const rec=Object.values(state.games||{}).flat().find(x=>x.k===k);
@@ -830,6 +856,8 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     if(g.yr)return g.yr;
     const live=GAMES.find(x=>x.k===g.k);
     if(live&&live.rd)return live.rd;
+    const a=ARCH&&ARCH.find(x=>x.k===g.k);
+    if(a&&a.rd)return a.rd;
     const c=state.custom.find(x=>x.k===g.k);
     return c?yearFrom(c.y):0;
   }
@@ -8221,7 +8249,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-15 01:00 UTC</span>
+  <span>生成于 2026-08-15 03:56 UTC</span>
 </footer>
 
 <script>
