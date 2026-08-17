@@ -60,6 +60,9 @@ h1 em{font-style:italic;color:var(--acc)}
 .st b{display:block;font-family:var(--disp);font-size:42px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
 .st span{display:block;margin-top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-family:var(--mono)}
 .st.hl b{color:var(--new)} .st.cs b{color:var(--cas)}
+/* 行首的时段标签格：今日 / 近N日 */
+.st.lb{background:var(--hd)}
+.st.lb b{font-family:var(--mono);font-size:17px;letter-spacing:.14em;color:var(--acc);padding-top:14px}
 
 /* ── 区块标题 ── */
 .sec{padding:72px 0 0}
@@ -338,15 +341,24 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <h1>美区手游<em>榜单</em></h1>
   <p class="sub">数据日期 2026-08-17　·　每日 09:00 (UTC+8) 自动更新　·　新进榜与休闲品类重点标注</p>
 </div>
-<div class="wrap"><div class="stats">
-  <div class="st"><b>800</b><span>在榜条目</span></div>
-  <div class="st hl"><b>50</b><span>今日新进榜</span></div>
+<div class="wrap">
+<div class="stats">
+  <div class="st lb"><b>今日</b><span>vs 上一抓取日</span></div>
+  <div class="st hl"><b>50</b><span>新进榜</span></div>
   <div class="st cs"><b>34</b><span>其中休闲</span></div>
   <div class="st hl"><b>17</b><span>首次上榜</span></div>
-  <div class="st"><b>7</b><span>120天内新游</span></div>
-  <div class="st hl"><b>107</b><span>近5日新上榜</span></div>
-  <div class="st"><b>367</b><span>常青树（两店合计）</span></div>
-</div></div></header>
+  <div class="st"><b>7</b><span>其中120天新游</span></div>
+  <div class="st"><b>800</b><span>在榜条目</span></div>
+</div>
+<div class="stats">
+  <div class="st lb"><b>近5日</b><span>滚动窗口</span></div>
+  <div class="st hl"><b>107</b><span>新上榜</span></div>
+  <div class="st cs"><b>60</b><span>其中休闲</span></div>
+  <div class="st hl"><b>56</b><span>已站住（≥2天且在榜）</span></div>
+  <div class="st"><b>21</b><span>其中120天新游</span></div>
+  <div class="st"><b>367</b><span>常青树（存量）</span></div>
+</div>
+</div></header>
 
 <main class="wrap">
   <section class="sec">
@@ -9838,7 +9850,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-17 05:01 UTC</span>
+  <span>生成于 2026-08-17 05:23 UTC</span>
 </footer>
 
 <script>
