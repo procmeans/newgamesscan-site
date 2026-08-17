@@ -142,6 +142,21 @@ td{padding:10px 12px;vertical-align:middle}
 .pn{width:88px;font-size:13px;font-variant-numeric:tabular-nums;font-family:var(--mono);text-align:left}
 .bg{width:auto}
 
+/* ── 发行商地域块图 ── */
+.bd-rg{color:var(--acc);border-color:var(--accbd);background:transparent}
+.pmapp{padding:14px 14px 8px}
+.pmap{position:relative;width:100%}
+.pm-r{position:absolute;border-radius:5px;overflow:hidden}
+.pm-rh{position:absolute;left:7px;top:3px;right:7px;font-family:var(--mono);font-size:10.5px;font-weight:600;
+  letter-spacing:.05em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none;z-index:1}
+.pm-c{position:absolute;overflow:hidden;border-radius:3px;padding:3px 6px;cursor:default}
+.pm-c:hover{filter:brightness(1.05)}
+[data-theme="dark"] .pm-c:hover{filter:brightness(1.3)}
+.pm-cn{display:block;font-size:11.5px;font-weight:500;line-height:1.25;letter-spacing:-.01em;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pm-cv{font-family:var(--mono);font-size:10px;opacity:.6;font-variant-numeric:tabular-nums}
+.pmap-ft{font-size:11px;color:var(--dim);font-family:var(--mono);padding:10px 2px 4px}
+
 /* ── 玩法树 ── */
 .tx{display:grid;grid-template-columns:290px 1fr;gap:1px;background:var(--ln);border:1px solid var(--ln)}
 .tx-pal{background:var(--sf);display:flex;flex-direction:column;max-height:640px}
@@ -2656,12 +2671,14 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
   <section class="sec">
     <div class="sh"><h2>发行商榜</h2><span>Publishers</span></div>
-    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">绿色</strong>是休闲/超休闲作品占比，灰色是重度——一条比例条就能看出这家是休闲盘还是重度盘。「进畅销榜」后面的百分比是变现率：<strong>铺得多但都不在畅销榜，就是纯买量广告变现</strong>。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。</p>
+    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">绿色</strong>是休闲/超休闲作品占比，灰色是重度——一条比例条就能看出这家是休闲盘还是重度盘。「进畅销榜」后面的百分比是变现率：<strong>铺得多但都不在畅销榜，就是纯买量广告变现</strong>。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。右侧「地域块图」切换成按地域分组的 Treemap，看各地域发行商的势力分布。</p>
     <div class="filters">
       <button class="pf on" data-pf="all">全部</button>
       <button class="pf" data-pf="casual">休闲盘</button>
       <button class="pf" data-pf="mixed">混合</button>
       <button class="pf" data-pf="heavy">重度盘</button>
+      <span style="flex:1"></span>
+      <button class="f" id="pview">地域块图</button>
     </div>
     <div class="panel ppanel on">
       <table><thead><tr><th>#</th><th>发行商 / 在榜作品</th><th>休闲 · 重度</th><th>作品数</th><th>进畅销榜</th><th>今日新进</th><th>最好名次</th><th>标记</th></tr></thead>
@@ -2676,7 +2693,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">7<span class="rate">41%</span></td>
 <td class="pn">2</td>
 <td class="dt">#21</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">2 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">法国</b><b class="bd bd-first">2 款新进</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:1">
 <td class="rk">2</td>
@@ -2689,7 +2706,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">12<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#22</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">英国</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:2">
 <td class="rk">3</td>
@@ -2702,7 +2719,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">9<span class="rate">90%</span></td>
 <td class="pn">—</td>
 <td class="dt">#1</td>
-<td class="bg"><b class="bd bd-cross">混合</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">美国</b></td>
 </tr>
 <tr data-tag="casual" style="--i:3">
 <td class="rk">4</td>
@@ -2715,7 +2732,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">1<span class="rate">10%</span></td>
 <td class="pn">—</td>
 <td class="dt">#3</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-fresh">2 款新游</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh">2 款新游</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:4">
 <td class="rk">5</td>
@@ -2728,7 +2745,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#6</td>
-<td class="bg"><b class="bd bd-cross">混合</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">中国</b></td>
 </tr>
 <tr data-tag="casual" style="--i:5">
 <td class="rk">6</td>
@@ -2741,7 +2758,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#11</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">以色列</b></td>
 </tr>
 <tr data-tag="casual" style="--i:6">
 <td class="rk">7</td>
@@ -2754,7 +2771,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#15</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">塞浦路斯</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:7">
 <td class="rk">8</td>
@@ -2767,7 +2784,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#22</td>
-<td class="bg"><b class="bd bd-cross">混合</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">芬兰</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:8">
 <td class="rk">9</td>
@@ -2780,7 +2797,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#34</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:9">
 <td class="rk">10</td>
@@ -2793,7 +2810,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#53</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:10">
 <td class="rk">11</td>
@@ -2806,7 +2823,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#128</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b></td>
 </tr>
 <tr data-tag="casual" style="--i:11">
 <td class="rk">12</td>
@@ -2819,7 +2836,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#3</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
 <tr data-tag="casual" style="--i:12">
 <td class="rk">13</td>
@@ -2832,7 +2849,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">1<span class="rate">17%</span></td>
 <td class="pn">—</td>
 <td class="dt">#9</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">巴西</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:13">
 <td class="rk">14</td>
@@ -2845,7 +2862,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">1</td>
 <td class="dt">#12</td>
-<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">白俄罗斯</b><b class="bd bd-first">1 款新进</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:14">
 <td class="rk">15</td>
@@ -2858,7 +2875,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">4<span class="rate">67%</span></td>
 <td class="pn">—</td>
 <td class="dt">#17</td>
-<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-fresh">1 款新游</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b><b class="bd bd-fresh">1 款新游</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:15">
 <td class="rk">16</td>
@@ -2871,7 +2888,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#31</td>
-<td class="bg"><b class="bd bd-cross">混合</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">以色列</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:16">
 <td class="rk">17</td>
@@ -2884,7 +2901,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">1<span class="rate">17%</span></td>
 <td class="pn">—</td>
 <td class="dt">#39</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">韩国</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:17">
 <td class="rk">18</td>
@@ -2897,7 +2914,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#53</td>
-<td class="bg"><b class="bd bd-cross">混合</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">中国</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:18">
 <td class="rk">19</td>
@@ -2910,7 +2927,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#67</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">以色列</b></td>
 </tr>
 <tr data-tag="casual" style="--i:19">
 <td class="rk">20</td>
@@ -2923,7 +2940,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">3<span class="rate">60%</span></td>
 <td class="pn">—</td>
 <td class="dt">#6</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">日本</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:20">
 <td class="rk">21</td>
@@ -2936,7 +2953,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#18</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b></td>
 </tr>
 <tr data-tag="casual" style="--i:21">
 <td class="rk">22</td>
@@ -2949,7 +2966,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">1</td>
 <td class="dt">#26</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-fresh">2 款新游</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">英国</b><b class="bd bd-fresh">2 款新游</b><b class="bd bd-first">1 款新进</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:22">
 <td class="rk">23</td>
@@ -2962,7 +2979,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#41</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
 <tr data-tag="casual" style="--i:23">
 <td class="rk">24</td>
@@ -2975,7 +2992,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#52</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">土耳其</b></td>
 </tr>
 <tr data-tag="casual" style="--i:24">
 <td class="rk">25</td>
@@ -2988,7 +3005,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">1</td>
 <td class="dt">#69</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">法国</b><b class="bd bd-first">1 款新进</b></td>
 </tr>
 <tr data-tag="casual" style="--i:25">
 <td class="rk">26</td>
@@ -3001,7 +3018,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">1</td>
 <td class="dt">#78</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">印度</b><b class="bd bd-first">1 款新进</b></td>
 </tr>
 <tr data-tag="mixed" style="--i:26">
 <td class="rk">27</td>
@@ -3014,7 +3031,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">1<span class="rate">20%</span></td>
 <td class="pn">—</td>
 <td class="dt">#96</td>
-<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-fresh">4 款新游</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh">4 款新游</b></td>
 </tr>
 <tr data-tag="casual" style="--i:27">
 <td class="rk">28</td>
@@ -3027,7 +3044,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">4<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#8</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">爱尔兰</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:28">
 <td class="rk">29</td>
@@ -3040,7 +3057,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="pn">4<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#12</td>
-<td class="bg"><b class="bd bd-return">重度盘</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">爱尔兰</b></td>
 </tr>
 <tr data-tag="heavy" style="--i:29">
 <td class="rk">30</td>
@@ -3056,6 +3073,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="bg"><b class="bd bd-return">重度盘</b></td>
 </tr></tbody></table>
     </div>
+    <div class="panel pmapp">
+      <div class="pmap" id="pmap"></div>
+      <p class="pmap-ft">面积 = 当天在榜作品数 · 颜色 = 地域 · 悬停看明细。地域按公司总部 / 核心团队所在地人工标注 + 名称特征推断，未识别的归入「其他 / 未知」。</p>
+    </div>
+    <script type="application/json" id="pubsData">[{"name":"Voodoo","rg":"fr","rgl":"法国","n":17,"c":12,"h":5,"g":7,"tag":"casual","top":"Paper.io 2 · Castle Busters · Loop Sort"},{"name":"Product Madness","rg":"gb","rgl":"英国","n":12,"c":0,"h":12,"g":12,"tag":"heavy","top":"Cashman Casino Slots Games · Lightning Link Casino Slots · Slots: Heart of Vegas Casino"},{"name":"Scopely","rg":"us","rgl":"美国","n":10,"c":6,"h":4,"g":9,"tag":"mixed","top":"MONOPOLY GO! · MARVEL Strike Force: Squad RPG · Tiki Solitaire TriPeaks"},{"name":"Oakever Games","rg":"cn","rgl":"中国","n":10,"c":9,"h":1,"g":1,"tag":"casual","top":"Meowdoku! · Meowdoku: Brain Puzzle Games · Amaze GO!"},{"name":"Century Games Pte. Ltd.","rg":"cn","rgl":"中国","n":8,"c":3,"h":5,"g":8,"tag":"mixed","top":"Kingshot · Whiteout Survival · Tasty Travels: Merge Game"},{"name":"Moon Active","rg":"il","rgl":"以色列","n":8,"c":7,"h":1,"g":8,"tag":"casual","top":"Coin Master · Jelly Busters: Puzzle Game · Travel Town - Merge Adventure"},{"name":"Easybrain","rg":"cy","rgl":"塞浦路斯","n":8,"c":6,"h":2,"g":0,"tag":"casual","top":"Arrow Puzzle: Tap Puzzle Games · Sudoku.com - Number Games · Number Match - Number Games"},{"name":"Supercell","rg":"fi","rgl":"芬兰","n":8,"c":4,"h":4,"g":8,"tag":"mixed","top":"Clash of Clans · Clash Royale · Hay Day"},{"name":"SpinX Games Limited","rg":"cn","rgl":"中国","n":8,"c":0,"h":8,"g":8,"tag":"heavy","top":"Lotsa Slots - Casino Games · Cash Frenzy™ - Casino Slots · Jackpot World™ - Slots Casino"},{"name":"FunPlus International AG","rg":"cn","rgl":"中国","n":8,"c":0,"h":8,"g":8,"tag":"heavy","top":"Tiles Survive! · Foundation: Galactic Frontier · State of Survival: Zombie War"},{"name":"Zynga","rg":"us","rgl":"美国","n":8,"c":0,"h":8,"g":8,"tag":"heavy","top":"Golf Rival - Multiplayer Game · Wizard of Oz Slots Games · CSR 2 - Realistic Drag Racing"},{"name":"Microfun Limited","rg":"cn","rgl":"中国","n":6,"c":6,"h":0,"g":6,"tag":"casual","top":"Gossip Harbor®: Merge & Story · Gossip Harbor: Merge & Story · Flambé®: Merge and Cook"},{"name":"Wildlife Studios","rg":"br","rgl":"巴西","n":6,"c":5,"h":1,"g":1,"tag":"casual","top":"Block Craft 3D：Building Game · Sniper 3D: Gun Shooting Games · Block Craft 3D: Building Games"},{"name":"SayGames LTD","rg":"by","rgl":"白俄罗斯","n":6,"c":3,"h":3,"g":0,"tag":"mixed","top":"Pocket Sort: Coin Merge Puzzle · My Perfect Hotel · RUSH: Xtreme"},{"name":"EA Swiss Sarl","rg":"us","rgl":"美国","n":6,"c":1,"h":5,"g":4,"tag":"heavy","top":"EA SPORTS FC Soccer Mobile 26 · Golf Clash - Golfing Simulator · EA College Football Mobile 27"},{"name":"SuperPlay.","rg":"il","rgl":"以色列","n":6,"c":4,"h":2,"g":6,"tag":"mixed","top":"Disney Solitaire · Dice Dreams™️ · Dice Dreams™"},{"name":"Supercent Inc.","rg":"kr","rgl":"韩国","n":6,"c":1,"h":5,"g":1,"tag":"heavy","top":"Snake Clash! · Pizza Ready! · XP Hero"},{"name":"VERTEX GAMES PTE. LTD.","rg":"cn","rgl":"中国","n":6,"c":4,"h":2,"g":6,"tag":"mixed","top":"Bingo Voyage - Live Bingo Game · Bingo Voyage: Live Bingo Games · Matching Story - Puzzle Games"},{"name":"Playtika","rg":"il","rgl":"以色列","n":6,"c":0,"h":6,"g":6,"tag":"heavy","top":"Slotomania™ Slots Casino Games · WSOP Poker: Texas Holdem Game · Slotomania™ Slots Machine Game"},{"name":"GOODROID,Inc.","rg":"jp","rgl":"日本","n":5,"c":5,"h":0,"g":3,"tag":"casual","top":"Bus Traffic Fever! · CubeAway - 3DPuzzle · Hexa Away"},{"name":"SciPlay","rg":"us","rgl":"美国","n":5,"c":0,"h":5,"g":5,"tag":"heavy","top":"Jackpot Party Casino Slots · Quick Hit Casino Slots Games · Gold Fish Casino Slot Games"},{"name":"Tripledot Studios Limited","rg":"gb","rgl":"英国","n":5,"c":4,"h":1,"g":0,"tag":"casual","top":"Woodoku Blast · Stack Smash - Block 3D Puzzle · Stack Smash - 3D Puzzle Game"},{"name":"COGNOSPHERE PTE. LTD.","rg":"cn","rgl":"中国","n":5,"c":0,"h":5,"g":5,"tag":"heavy","top":"Genshin Impact · Honkai: Star Rail · Zenless Zone Zero - Anniv."},{"name":"Rollic Games","rg":"tr","rgl":"土耳其","n":5,"c":5,"h":0,"g":5,"tag":"casual","top":"Color Block Jam · Car Sort: Color Puzzle · Gecko Out"},{"name":"JindoBlu","rg":"fr","rgl":"法国","n":5,"c":5,"h":0,"g":0,"tag":"casual","top":"Offline Games - No Wifi Games · 2 Player Games : Offline Games · Antistress - relaxation toys"},{"name":"PlaySimple Games","rg":"in","rgl":"印度","n":5,"c":5,"h":0,"g":0,"tag":"casual","top":"Word Search Explorer · Crossword Go! · Word Search Explorer®"},{"name":"Century Games Innovation Pte. Ltd.","rg":"cn","rgl":"中国","n":5,"c":2,"h":3,"g":1,"tag":"mixed","top":"Hotel Legacy: Merge Game · Lordrush · Top Force"},{"name":"Playrix","rg":"ie","rgl":"爱尔兰","n":4,"c":4,"h":0,"g":4,"tag":"casual","top":"Township · Gardenscapes · Fishdom"},{"name":"PLR Worldwide Sales Limited","rg":"ie","rgl":"爱尔兰","n":4,"c":1,"h":3,"g":4,"tag":"heavy","top":"Township · Gardenscapes · Homescapes: Match 3 Games"},{"name":"Omnilojo Pte Ltd","rg":"other","rgl":"其他 / 未知","n":4,"c":0,"h":4,"g":4,"tag":"heavy","top":"Last Z: Survival Shooter · Dark War Survival · Dark War:Survival"}]</script>
   </section>
 
   <section class="sec">
@@ -9850,7 +9872,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-17 06:13 UTC</span>
+  <span>生成于 2026-08-17 09:47 UTC</span>
 </footer>
 
 <script>
@@ -9868,7 +9890,99 @@ let pmode='all';
 $$('.pf').forEach(b=>b.onclick=()=>{
   pmode=b.dataset.pf; $$('.pf').forEach(x=>x.classList.toggle('on',x===b));
   $$('.ppanel tbody tr').forEach(r=>{r.style.display=(pmode==='all'||r.dataset.tag===pmode)?'':'none'});
+  if(pvw==='map')pmRender();
 });
+// ── 发行商地域块图（squarified treemap，纯 div，无依赖） ──
+const PM_HUE={cn:8,tw:26,hk:40,jp:335,kr:275,vn:135,tr:190,il:215,sg:150,in:35,ae:50,us:235,ca:250,br:110,fr:258,gb:300,de:60,ie:120,fi:95,cy:160,by:175,ru:205,ch:70,se:85,pl:315,au:290,other:0};
+const pmBox=document.getElementById('pmap');
+const PUBS=JSON.parse((document.getElementById('pubsData')||{textContent:'[]'}).textContent);
+const eh=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+// items 按面积降序传入（[{a,...}]），矩形塞进 out：{d,x,y,w,h}
+function sq(items,x,y,w,h,out){
+  let i=0;
+  while(i<items.length&&w>0&&h>0){
+    const side=Math.min(w,h)||1;
+    let row=[],sum=0,best=1/0,j=i;
+    for(;j<items.length;j++){
+      const s2=sum+items[j].a;
+      let mx=items[j].a,mn=items[j].a;
+      for(const r of row){mx=Math.max(mx,r.a);mn=Math.min(mn,r.a)}
+      const worst=Math.max(side*side*mx/(s2*s2),s2*s2/(side*side*mn));
+      if(row.length&&worst>best)break;
+      row.push(items[j]);sum=s2;best=worst;
+    }
+    const t=sum/side;let off=0;
+    for(const r of row){
+      const l=r.a/t;
+      out.push(w>=h?{d:r,x:x,y:y+off,w:t,h:l}:{d:r,x:x+off,y:y,w:l,h:t});
+      off+=l;
+    }
+    if(w>=h){x+=t;w-=t}else{y+=t;h-=t}
+    i=j;
+  }
+}
+function pmRender(){
+  if(!pmBox)return;
+  const dark=document.documentElement.dataset.theme==='dark';
+  const list=PUBS.filter(p=>pmode==='all'||p.tag===pmode);
+  const W=pmBox.clientWidth||600,H=W<600?560:480;
+  pmBox.style.height=H+'px';
+  if(!list.length){pmBox.innerHTML='<p class="pmap-ft">该筛选下无数据</p>';return}
+  const g=new Map();
+  for(const p of list){
+    if(!g.has(p.rg))g.set(p.rg,{k:p.rg,label:p.rgl,v:0,pubs:[]});
+    const e=g.get(p.rg);e.v+=p.n;e.pubs.push(p);
+  }
+  const regions=[...g.values()].sort((a,b)=>b.v-a.v);
+  const total=regions.reduce((s,r)=>s+r.v,0)||1;
+  regions.forEach(r=>r.a=r.v/total*W*H);
+  const rects=[];sq(regions,0,0,W,H,rects);
+  const GAP=4,HD=20;let html='';
+  for(const rc of rects){
+    const hue=PM_HUE[rc.d.k]??0,gray=rc.d.k==='other';
+    const S=s=>gray?0:s;
+    const rx=rc.x+GAP/2,ry=rc.y+GAP/2,rw=Math.max(rc.w-GAP,4),rh=Math.max(rc.h-GAP,4);
+    const showHd=rh>46&&rw>60;
+    const bg=dark?'hsl('+hue+' '+S(26)+'% 12%)':'hsl('+hue+' '+S(48)+'% 94%)';
+    const hc=dark?'hsl('+hue+' '+S(48)+'% 72%)':'hsl('+hue+' '+S(62)+'% 31%)';
+    html+='<div class="pm-r" style="left:'+rx+'px;top:'+ry+'px;width:'+rw+'px;height:'+rh+'px;background:'+bg+'">';
+    if(showHd)html+='<span class="pm-rh" style="color:'+hc+'">'+eh(rc.d.label)+' · '+rc.d.v+'</span>';
+    const pad=3,iy=showHd?HD:pad,cw=rw-pad*2,ch=rh-iy-pad;
+    if(cw>10&&ch>10){
+      const pubs=rc.d.pubs.slice().sort((a,b)=>b.n-a.n);
+      const pt=pubs.reduce((s,p)=>s+p.n,0)||1;
+      const cells=[];sq(pubs.map(p=>({p:p,a:p.n/pt*cw*ch})),pad,iy,cw,ch,cells);
+      const cb=dark?'hsl('+hue+' '+S(30)+'% 21%)':'hsl('+hue+' '+S(52)+'% 86%)';
+      for(const c of cells){
+        const x2=c.x+1,y2=c.y+1,w2=Math.max(c.w-2,2),h2=Math.max(c.h-2,2),p=c.d.p;
+        const tt=eh(p.name+' · '+p.rgl+'\n'+p.n+' 款在榜 · 休闲 '+p.c+' / 重度 '+p.h+(p.g?' · '+p.g+' 款进畅销榜':'')+(p.top?'\n'+p.top:''));
+        const nm=w2>54&&h2>28?'<span class="pm-cn">'+eh(p.name)+'</span>':'';
+        const nv=w2>32&&h2>15?'<span class="pm-cv">'+p.n+'</span>':'';
+        html+='<div class="pm-c" style="left:'+x2+'px;top:'+y2+'px;width:'+w2+'px;height:'+h2+'px;background:'+cb+'" title="'+tt+'">'+nm+nv+'</div>';
+      }
+    }
+    html+='</div>';
+  }
+  pmBox.innerHTML=html;
+}
+// 列表 / 地域块图切换（记住上次选择）
+const pview=document.getElementById('pview');
+let pvw='list';
+try{if(localStorage.getItem('pubview')==='map')pvw='map'}catch(e){}
+function pvApply(){
+  const map=pvw==='map';
+  pview.classList.toggle('on',map);
+  $$('.ppanel').forEach(p=>p.classList.toggle('on',!map));
+  $$('.pmapp').forEach(p=>p.classList.toggle('on',map));
+  if(map)pmRender();
+}
+if(pview){
+  pview.onclick=()=>{pvw=pvw==='map'?'list':'map';try{localStorage.setItem('pubview',pvw)}catch(e){}pvApply()};
+  pvApply();
+}
+// 深色/浅色切换和窗口缩放都要重画（颜色和布局都依赖当时状态）
+$$('.tg button').forEach(b=>b.addEventListener('click',()=>{if(pvw==='map')pmRender()}));
+let pmT;addEventListener('resize',()=>{clearTimeout(pmT);pmT=setTimeout(()=>{if(pvw==='map')pmRender()},150)});
 // 只切换带 data-p 的榜单面板 —— 发行商/趋势/常青树面板没有 data-p，别把它们藏了
 $$('.tab').forEach(t=>t.onclick=()=>{
   $$('.tab').forEach(x=>x.classList.toggle('on',x===t));
