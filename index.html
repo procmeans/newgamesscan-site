@@ -9443,7 +9443,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-20 10:48 UTC</span>
+  <span>生成于 2026-08-20 12:20 UTC</span>
 </footer>
 
 <script>
@@ -9476,7 +9476,15 @@ document.addEventListener('click',e=>{
     if(!open)tile.blur();
   }
 });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')$$('.st.has.open').forEach(x=>{x.classList.remove('open');x.blur()})});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){$$('.st.has.open').forEach(x=>{x.classList.remove('open');x.blur()});return}
+  // 去掉 :focus-within 之后，键盘用户 Tab 到格子上没有任何打开方式，得自己接 Enter/空格
+  if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('has')){
+    e.preventDefault();
+    $$('.st.has.open').forEach(x=>{if(x!==e.target)x.classList.remove('open')});
+    e.target.classList.toggle('open');
+  }
+});
 let pmode='all';
 $$('.pf').forEach(b=>b.onclick=()=>{
   pmode=b.dataset.pf; $$('.pf').forEach(x=>x.classList.toggle('on',x===b));
