@@ -82,7 +82,7 @@ h1 em{font-style:normal;color:var(--acc)}
 .st{padding:22px 22px 24px;border-right:1px solid var(--ln)}
 .st:last-child{border-right:0}
 .st b{display:block;font-family:var(--disp);font-size:42px;line-height:1;font-weight:400;font-variant-numeric:tabular-nums}
-.st span{display:block;margin-top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-family:var(--mono)}
+.st span:not(.stp){display:block;margin-top:8px;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--dim);font-family:var(--mono)}
 .st.hl b{color:var(--new)} .st.cs b{color:var(--cas)}
 /* 行首的时段标签格：今日 / 近N日 */
 .st.lb{background:var(--hd)}
@@ -90,14 +90,14 @@ h1 em{font-style:normal;color:var(--acc)}
 /* 统计格的悬浮名单：hover / 键盘聚焦 / 手机点按（tabindex）都能出。
    面板顶部和格子重叠 12px，鼠标滑进面板不会因空隙闪没 */
 .st.has{position:relative;cursor:pointer}
-.st.has span{text-decoration:underline dotted;text-underline-offset:4px;text-decoration-color:var(--dim)}
+.st.has span:not(.stp){text-decoration:underline dotted;text-underline-offset:4px;text-decoration-color:var(--dim)}
 /* 真有指针设备才 hover 即览（触屏的模拟 hover 会粘住，点第二下也关不掉）；
    其余一律由 .open 这个类说了算——:focus-within 不能留，否则点第二下移除了 .open，
    格子还聚焦着，面板照样显示 */
 @media (hover:hover){.st.has:hover .stp{display:block}}
 .st.has.open .stp{display:block}
-.stp{display:none;font-weight:400;position:absolute;left:14px;top:calc(100% - 12px);z-index:55;
-  min-width:264px;max-width:min(340px,88vw);max-height:320px;overflow:auto;
+.stp{display:none;font-weight:400;text-transform:none;letter-spacing:normal;text-decoration:none;position:absolute;left:14px;top:calc(100% - 12px);z-index:55;
+  width:max-content;min-width:264px;max-width:min(340px,88vw);max-height:320px;overflow:auto;
   background:var(--sf);border:1px solid var(--ln);border-radius:10px;
   box-shadow:0 8px 28px rgba(20,15,5,.14);padding:7px 0;text-align:left}
 .stp i{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 16px;
@@ -9313,7 +9313,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-28 06:04 UTC</span>
+  <span>生成于 2026-08-28 06:42 UTC</span>
 </footer>
 
 <script>
