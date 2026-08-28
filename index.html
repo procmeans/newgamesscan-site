@@ -105,6 +105,17 @@ h1 em{font-style:normal;color:var(--acc)}
 .stp i+i{border-top:1px solid var(--ln2)}
 .stp em{font-style:normal;font-size:10px;color:var(--dim);font-family:var(--mono);
   letter-spacing:.03em;white-space:nowrap}
+/* 休闲作品和表格行一个语言：左侧一道绿条 */
+.stp i.cas{box-shadow:inset 3px 0 0 var(--cas)}
+/* 发行商榜「作品数」格子：同一套面板，锚点从统计格换成单元格。
+   面板往右伸（作品数是第 4 列，右边还有 4 列的宽度），窄屏靠表格自己的横向滚动看 */
+td.pnh{position:relative;cursor:pointer}
+td.pnh>b{font-weight:inherit;text-decoration:underline dotted;text-underline-offset:3px;
+  text-decoration-color:var(--dim)}
+td.pnh:focus-visible{outline:1px solid var(--acc);outline-offset:-2px}
+@media (hover:hover){td.pnh:hover .stp{display:block}}
+td.pnh.open .stp{display:block}
+td.pnh .stp{left:-8px;top:calc(100% - 8px)}
 
 /* ── 区块标题 ── */
 .sec{padding:72px 0 0}
@@ -385,6 +396,7 @@ footer a:hover{text-decoration:underline}
   .stats{position:relative}
   .st.has{position:static}
   .stp{left:12px;right:12px;top:auto;min-width:0;max-width:none;margin-top:4px}
+  td.pnh .stp{left:-8px;right:auto;top:calc(100% - 8px);min-width:240px;max-width:min(320px,78vw);margin-top:0}
 }
 @media (max-width:760px){
   .wrap{padding:0 16px}
@@ -2091,7 +2103,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
   <section class="sec" id="pubs">
     <div class="sh"><h2>发行商榜</h2><span>Publishers</span></div>
-    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">绿色</strong>是休闲/超休闲作品占比，灰色是重度——一条比例条就能看出这家是休闲盘还是重度盘。「进畅销榜」后面的百分比是变现率：<strong>铺得多但都不在畅销榜，就是纯买量广告变现</strong>。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。右侧「地域块图」切换成按地域分组的 Treemap，看各地域发行商的势力分布。</p>
+    <p class="sd">按当天在榜作品数排。<strong style="color:var(--cas)">绿色</strong>是休闲/超休闲作品占比，灰色是重度——一条比例条就能看出这家是休闲盘还是重度盘。「进畅销榜」后面的百分比是变现率：<strong>铺得多但都不在畅销榜，就是纯买量广告变现</strong>。「作品数」点开（或悬停）能看这家今天在榜的全部作品和名次，绿条是休闲盘作品。两个商店的公司署名不同（法律实体名 vs 品牌名），已做近似合并，个别可能没并上。右侧「地域块图」切换成按地域分组的 Treemap，看各地域发行商的势力分布。</p>
     <div class="filters">
       <button class="pf on" data-pf="all">全部</button>
       <button class="pf" data-pf="casual">休闲盘</button>
@@ -2109,7 +2121,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 11 / 重度 3"><i class="c" style="flex:11"></i><i class="h" style="flex:3"></i></div>
   <span class="mixt">11<em>休</em> 3<em>重</em></span>
 </td>
-<td class="pn">14</td>
+<td class="pn pnh" tabindex="0"><b>14</b><div class="stp"><i class="cas">Loop Sort<em>App Store 免费 #10</em></i><i class="cas">Loop Sort<em>Google Play 免费 #10</em></i><i class="cas">Mob Control<em>Google Play 免费 #17</em></i><i>Castle Busters<em>App Store 免费 #23</em></i><i class="cas">Paper.io 2<em>Google Play 免费 #40</em></i><i class="cas">Paper.io 2<em>App Store 免费 #54</em></i><i class="cas">Hole.io<em>Google Play 免费 #54</em></i><i>Castle Busters<em>Google Play 免费 #55</em></i><i class="cas">Mob Control<em>App Store 免费 #59</em></i><i class="cas">Hole.io<em>App Store 免费 #68</em></i><i class="cas">Marble Sort!<em>App Store 畅销 #77</em></i><i class="cas">Marble Sort! - Color Puzzle<em>Google Play 畅销 #102</em></i><i>Epic Plane Evolution<em>Google Play 免费 #107</em></i><i class="cas">Draft Showdown<em>App Store 免费 #200</em></i></div></td>
 <td class="pn">8<span class="rate">57%</span></td>
 <td class="pn">1</td>
 <td class="dt">#10</td>
@@ -2122,7 +2134,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 12"><i class="c" style="flex:0"></i><i class="h" style="flex:12"></i></div>
   <span class="mixt">0<em>休</em> 12<em>重</em></span>
 </td>
-<td class="pn">12</td>
+<td class="pn pnh" tabindex="0"><b>12</b><div class="stp"><i>Cashman Casino Slots Games<em>Google Play 畅销 #21</em></i><i>Lightning Link Casino Slots<em>App Store 畅销 #25</em></i><i>Lightning Link Casino Slots<em>Google Play 畅销 #26</em></i><i>Cashman Casino Slots Games<em>App Store 畅销 #36</em></i><i>Slots: Heart of Vegas Casino<em>Google Play 畅销 #47</em></i><i>Big Fish Casino: Slots Games<em>App Store 畅销 #61</em></i><i>Heart of Vegas - Casino Slots<em>App Store 畅销 #79</em></i><i>Big Fish Casino - Slots Games<em>Google Play 畅销 #105</em></i><i>Jackpot Magic Slots &amp; Casino<em>App Store 畅销 #109</em></i><i>Mighty Fu Casino: Slots Game<em>App Store 畅销 #112</em></i><i>Mighty Fu Casino Slots Games<em>Google Play 畅销 #123</em></i><i>Jackpot Magic - Casino Slots<em>Google Play 畅销 #177</em></i></div></td>
 <td class="pn">12<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#21</td>
@@ -2135,7 +2147,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 10 / 重度 2"><i class="c" style="flex:10"></i><i class="h" style="flex:2"></i></div>
   <span class="mixt">10<em>休</em> 2<em>重</em></span>
 </td>
-<td class="pn">12</td>
+<td class="pn pnh" tabindex="0"><b>12</b><div class="stp"><i>You Know: Associations<em>Google Play 免费 #22</em></i><i class="cas">Stack Smash - Block 3D Puzzle<em>Google Play 免费 #34</em></i><i class="cas">Woodoku Blast<em>Google Play 免费 #41</em></i><i class="cas">Get Color Pack: Sort Puzzle<em>Google Play 免费 #91</em></i><i class="cas">Woodoku Blast: Block Puzzle<em>App Store 免费 #101</em></i><i class="cas">Cube Tap Sort<em>Google Play 免费 #132</em></i><i class="cas">Car Out! Traffic Parking Games<em>Google Play 免费 #133</em></i><i>Spades - Classic Cards<em>Google Play 免费 #137</em></i><i class="cas">Stack Smash - 3D Puzzle Game<em>App Store 免费 #141</em></i><i class="cas">Angry Smash<em>Google Play 免费 #153</em></i><i class="cas">Get Color - Water Sort Puzzle<em>Google Play 免费 #170</em></i><i class="cas">You Know: Associations<em>App Store 免费 #174</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#22</td>
@@ -2148,7 +2160,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 11 / 重度 0"><i class="c" style="flex:11"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">11<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">11</td>
+<td class="pn pnh" tabindex="0"><b>11</b><div class="stp"><i class="cas">Meowdoku: Brain Puzzle Games<em>Google Play 免费 #1</em></i><i class="cas">Meowdoku!<em>App Store 免费 #2</em></i><i class="cas">Amaze GO!<em>Google Play 免费 #8</em></i><i class="cas">Amaze GO!<em>App Store 免费 #16</em></i><i class="cas">Zen Word® - Relax Puzzle Game<em>Google Play 免费 #30</em></i><i class="cas">Tile Explorer - Triple Match<em>Google Play 免费 #37</em></i><i class="cas">Tile Explorer: Tiles Clear!<em>App Store 免费 #40</em></i><i class="cas">Zen Word® - Relax Puzzle Game<em>App Store 免费 #60</em></i><i class="cas">Jigsawcard Solitaire Puzzle<em>Google Play 免费 #64</em></i><i class="cas">Jigsawcard Solitaire Puzzle<em>App Store 免费 #67</em></i><i class="cas">Colorever: Gem Art Puzzle<em>App Store 免费 #106</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#1</td>
@@ -2161,7 +2173,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 4"><i class="c" style="flex:6"></i><i class="h" style="flex:4"></i></div>
   <span class="mixt">6<em>休</em> 4<em>重</em></span>
 </td>
-<td class="pn">10</td>
+<td class="pn pnh" tabindex="0"><b>10</b><div class="stp"><i class="cas">MONOPOLY GO!<em>App Store 畅销 #1</em></i><i class="cas">MONOPOLY GO!<em>Google Play 畅销 #1</em></i><i>MARVEL Strike Force: Squad RPG<em>Google Play 畅销 #51</em></i><i>Tiki Solitaire TriPeaks<em>Google Play 畅销 #77</em></i><i class="cas">Yahtzee® With Buddies Dice Fun<em>Google Play 畅销 #81</em></i><i class="cas">Yahtzee® with Buddies Dice<em>App Store 畅销 #106</em></i><i>Star Trek Fleet Command<em>Google Play 畅销 #120</em></i><i class="cas">Tiki Solitaire TriPeaks<em>App Store 畅销 #128</em></i><i class="cas">Bingo Bash: Live Bingo Games<em>Google Play 畅销 #159</em></i><i>MARVEL Strike Force: Squad RPG<em>App Store 畅销 #167</em></i></div></td>
 <td class="pn">10<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#1</td>
@@ -2174,7 +2186,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 9 / 重度 0"><i class="c" style="flex:9"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">9<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">9</td>
+<td class="pn pnh" tabindex="0"><b>9</b><div class="stp"><i class="cas">Arrow Puzzle: Tap Puzzle Games<em>Google Play 免费 #12</em></i><i class="cas">Sudoku.com - Number Games<em>App Store 免费 #75</em></i><i class="cas">Number Match - Numbers Game<em>App Store 免费 #135</em></i><i class="cas">Number Match - Number Games<em>Google Play 免费 #145</em></i><i class="cas">Blockudoku - Block Puzzle Game<em>App Store 免费 #151</em></i><i class="cas">Brick Blast - Brick Breaker<em>Google Play 免费 #158</em></i><i class="cas">Crossword Master - Word Puzzle<em>Google Play 免费 #160</em></i><i class="cas">Jigsaw Puzzles - Puzzle Games<em>Google Play 免费 #184</em></i><i class="cas">Art Puzzle - Jigsaw Games<em>App Store 免费 #192</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">2</td>
 <td class="dt">#12</td>
@@ -2187,7 +2199,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 9"><i class="c" style="flex:0"></i><i class="h" style="flex:9"></i></div>
   <span class="mixt">0<em>休</em> 9<em>重</em></span>
 </td>
-<td class="pn">9</td>
+<td class="pn pnh" tabindex="0"><b>9</b><div class="stp"><i>Lotsa Slots - Casino Games<em>Google Play 畅销 #32</em></i><i>Cash Frenzy™ - Casino Slots<em>Google Play 畅销 #41</em></i><i>Jackpot World™ - Slots Casino<em>Google Play 畅销 #66</em></i><i>Cash Frenzy™ - Slots Casino<em>App Store 畅销 #72</em></i><i>Cash Club Casino - Vegas Slots<em>Google Play 畅销 #78</em></i><i>Lotsa Slots™ Casino Slots Game<em>App Store 畅销 #86</em></i><i>Cash Club Casino - Vegas Slots<em>App Store 畅销 #102</em></i><i>Jackpot World™ - Casino Slots<em>App Store 畅销 #105</em></i><i>Cash Rally - Slots Casino Game<em>App Store 畅销 #182</em></i></div></td>
 <td class="pn">9<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#32</td>
@@ -2200,7 +2212,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 4 / 重度 4"><i class="c" style="flex:4"></i><i class="h" style="flex:4"></i></div>
   <span class="mixt">4<em>休</em> 4<em>重</em></span>
 </td>
-<td class="pn">8</td>
+<td class="pn pnh" tabindex="0"><b>8</b><div class="stp"><i>Kingshot<em>Google Play 畅销 #7</em></i><i>Kingshot<em>App Store 畅销 #8</em></i><i>Whiteout Survival<em>App Store 畅销 #9</em></i><i>Whiteout Survival<em>Google Play 畅销 #9</em></i><i class="cas">Tasty Travels: Merge Game<em>App Store 畅销 #14</em></i><i class="cas">Tasty Travels: Merge Game<em>Google Play 畅销 #24</em></i><i class="cas">Truck Star<em>App Store 畅销 #120</em></i><i class="cas">Truck Star<em>Google Play 畅销 #178</em></i></div></td>
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#7</td>
@@ -2213,7 +2225,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 8 / 重度 0"><i class="c" style="flex:8"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">8<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">8</td>
+<td class="pn pnh" tabindex="0"><b>8</b><div class="stp"><i class="cas">Coin Master<em>Google Play 畅销 #10</em></i><i class="cas">Coin Master<em>App Store 畅销 #23</em></i><i class="cas">Jelly Busters: Puzzle Game<em>App Store 畅销 #29</em></i><i class="cas">Coin Master - Board Adventure<em>Google Play 畅销 #54</em></i><i class="cas">Travel Town - Merge Adventure<em>App Store 畅销 #55</em></i><i class="cas">Hole Stars: Puzzle Game<em>Google Play 畅销 #73</em></i><i class="cas">Coin Master - Board Adventure<em>App Store 畅销 #113</em></i><i class="cas">Hole Stars: Puzzle Game<em>App Store 畅销 #115</em></i></div></td>
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#10</td>
@@ -2226,7 +2238,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 3 / 重度 5"><i class="c" style="flex:3"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">3<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn">8</td>
+<td class="pn pnh" tabindex="0"><b>8</b><div class="stp"><i>Clash of Clans<em>App Store 畅销 #35</em></i><i class="cas">Hay Day<em>App Store 畅销 #51</em></i><i>Clash of Clans<em>Google Play 畅销 #52</em></i><i>Clash Royale<em>App Store 畅销 #57</em></i><i class="cas">Hay Day<em>Google Play 畅销 #79</em></i><i>Brawl Stars<em>App Store 免费 #83</em></i><i>Clash Royale<em>Google Play 畅销 #85</em></i><i class="cas">Brawl Stars<em>Google Play 畅销 #149</em></i></div></td>
 <td class="pn">8<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#35</td>
@@ -2239,7 +2251,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 7"><i class="c" style="flex:0"></i><i class="h" style="flex:7"></i></div>
   <span class="mixt">0<em>休</em> 7<em>重</em></span>
 </td>
-<td class="pn">7</td>
+<td class="pn pnh" tabindex="0"><b>7</b><div class="stp"><i>Tiles Survive!<em>App Store 免费 #57</em></i><i>Tiles Survive!<em>Google Play 免费 #117</em></i><i>Foundation: Galactic Frontier<em>App Store 畅销 #118</em></i><i>Foundation: Galactic Frontier<em>Google Play 畅销 #136</em></i><i>Guns of Glory: Lost Island<em>Google Play 畅销 #167</em></i><i>State of Survival: Zombie War<em>Google Play 畅销 #181</em></i><i>Frost &amp; Flame: King of Avalon<em>Google Play 畅销 #188</em></i></div></td>
 <td class="pn">7<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#57</td>
@@ -2252,7 +2264,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Gossip Harbor®: Merge &amp; Story<em>App Store 畅销 #3</em></i><i class="cas">Gossip Harbor: Merge &amp; Story<em>Google Play 畅销 #5</em></i><i class="cas">Flambé®: Merge and Cook<em>App Store 畅销 #43</em></i><i class="cas">Flambé®: Merge &amp; Cook<em>Google Play 畅销 #43</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>App Store 畅销 #66</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>Google Play 畅销 #103</em></i></div></td>
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#3</td>
@@ -2265,7 +2277,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Candy Crush Saga<em>Google Play 畅销 #3</em></i><i class="cas">Candy Crush Saga<em>App Store 畅销 #4</em></i><i class="cas">Candy Crush Soda Saga<em>Google Play 畅销 #23</em></i><i class="cas">Candy Crush Soda Saga<em>App Store 畅销 #39</em></i><i class="cas">Farm Heroes Saga<em>Google Play 畅销 #137</em></i><i class="cas">Farm Heroes Saga<em>App Store 畅销 #156</em></i></div></td>
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#3</td>
@@ -2278,7 +2290,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 1"><i class="c" style="flex:5"></i><i class="h" style="flex:1"></i></div>
   <span class="mixt">5<em>休</em> 1<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Pocket Sort: Coin Merge Puzzle<em>Google Play 免费 #7</em></i><i class="cas">Grass Master – Cutting Game<em>Google Play 免费 #130</em></i><i class="cas">Little Farm Story: Idle Tycoon<em>App Store 免费 #153</em></i><i class="cas">My Perfect Hotel<em>Google Play 免费 #164</em></i><i class="cas">My Perfect Hotel<em>App Store 免费 #168</em></i><i>RUSH: Xtreme<em>App Store 免费 #179</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#7</td>
@@ -2291,7 +2303,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Toon Blast<em>App Store 畅销 #12</em></i><i class="cas">Toon Blast<em>Google Play 畅销 #13</em></i><i class="cas">Match Factory!<em>App Store 畅销 #18</em></i><i class="cas">Match Factory!<em>Google Play 畅销 #22</em></i><i class="cas">Toy Blast<em>App Store 畅销 #56</em></i><i class="cas">Toy Blast<em>Google Play 畅销 #75</em></i></div></td>
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#12</td>
@@ -2304,7 +2316,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 6"><i class="c" style="flex:0"></i><i class="h" style="flex:6"></i></div>
   <span class="mixt">0<em>休</em> 6<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i>Honkai: Star Rail<em>App Store 畅销 #27</em></i><i>Honkai: Star Rail<em>Google Play 畅销 #39</em></i><i>Zenless Zone Zero - Anniv.<em>Google Play 畅销 #108</em></i><i>Genshin Impact<em>Google Play 畅销 #126</em></i><i>Genshin Impact<em>App Store 畅销 #168</em></i><i>Zenless Zone Zero - Anniv.<em>App Store 畅销 #178</em></i></div></td>
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#27</td>
@@ -2317,7 +2329,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 1"><i class="c" style="flex:5"></i><i class="h" style="flex:1"></i></div>
   <span class="mixt">5<em>休</em> 1<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Dice Dreams™️<em>Google Play 畅销 #30</em></i><i>Disney Solitaire<em>Google Play 畅销 #35</em></i><i class="cas">Disney Solitaire<em>App Store 畅销 #37</em></i><i class="cas">Dice Dreams™<em>App Store 畅销 #59</em></i><i class="cas">Domino Dreams™<em>Google Play 畅销 #111</em></i><i class="cas">Domino Dreams™<em>App Store 畅销 #146</em></i></div></td>
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#30</td>
@@ -2330,7 +2342,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Color Block Jam<em>App Store 畅销 #48</em></i><i class="cas">Sand Blocks: Drop Puzzle<em>App Store 免费 #74</em></i><i class="cas">Car Sort: Color Puzzle<em>App Store 畅销 #90</em></i><i class="cas">Color Block Jam<em>Google Play 畅销 #96</em></i><i class="cas">Car Sort: Color Puzzle<em>Google Play 免费 #140</em></i><i class="cas">Gecko Out<em>App Store 畅销 #200</em></i></div></td>
 <td class="pn">5<span class="rate">83%</span></td>
 <td class="pn">—</td>
 <td class="dt">#48</td>
@@ -2343,7 +2355,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">6</td>
+<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Bingo Voyage - Live Bingo Game<em>Google Play 畅销 #56</em></i><i class="cas">Matching Story - Puzzle Games<em>Google Play 畅销 #58</em></i><i class="cas">Bingo Voyage: Live Bingo Games<em>App Store 畅销 #60</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>Google Play 畅销 #70</em></i><i class="cas">Matching Story - Merge &amp; Match<em>App Store 畅销 #83</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>App Store 畅销 #129</em></i></div></td>
 <td class="pn">6<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#56</td>
@@ -2356,7 +2368,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Bus Traffic Fever!<em>App Store 免费 #6</em></i><i class="cas">CubeAway - 3DPuzzle<em>App Store 免费 #12</em></i><i class="cas">Bus Traffic Fever!<em>Google Play 免费 #25</em></i><i class="cas">CubeAway - 3DPuzzle<em>Google Play 免费 #31</em></i><i class="cas">Hexa Away<em>App Store 畅销 #131</em></i></div></td>
 <td class="pn">3<span class="rate">60%</span></td>
 <td class="pn">—</td>
 <td class="dt">#6</td>
@@ -2369,7 +2381,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Mahjong Blast<em>Google Play 免费 #11</em></i><i class="cas">Mahjong Blast<em>App Store 免费 #18</em></i><i class="cas">Tap Tile!<em>Google Play 免费 #28</em></i><i class="cas">Zoodoku<em>Google Play 免费 #33</em></i><i class="cas">Zoodoku！<em>App Store 免费 #98</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#11</td>
@@ -2382,7 +2394,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 1 / 重度 4"><i class="c" style="flex:1"></i><i class="h" style="flex:4"></i></div>
   <span class="mixt">1<em>休</em> 4<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>EA SPORTS FC Soccer Mobile 26<em>App Store 畅销 #16</em></i><i>Star Wars™: Galaxy of Heroes<em>App Store 畅销 #44</em></i><i>EA College Football Mobile 27<em>App Store 免费 #51</em></i><i>Golf Clash - Golfing Simulator<em>App Store 畅销 #89</em></i><i class="cas">Plants vs. Zombies™<em>App Store 免费 #147</em></i></div></td>
 <td class="pn">3<span class="rate">60%</span></td>
 <td class="pn">—</td>
 <td class="dt">#16</td>
@@ -2395,7 +2407,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Jackpot Party Casino Slots<em>Google Play 畅销 #18</em></i><i>Quick Hit Casino Slots Games<em>Google Play 畅销 #50</em></i><i>Gold Fish Casino Slot Games<em>Google Play 畅销 #115</em></i><i>MONOPOLY Slots - Casino Games<em>Google Play 畅销 #121</em></i><i>88 Fortunes™ Casino Slot Games<em>Google Play 畅销 #150</em></i></div></td>
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#18</td>
@@ -2408,7 +2420,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Block Craft 3D：Building Game<em>Google Play 免费 #19</em></i><i class="cas">Block Craft 3D: Building Games<em>App Store 免费 #163</em></i><i class="cas">Sniper 3D: Gun Shooting Games<em>App Store 免费 #164</em></i><i class="cas">Color by Number：Coloring Games<em>Google Play 免费 #169</em></i><i class="cas">Sniper 3D：Gun Shooting Games<em>Google Play 免费 #192</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">—</td>
 <td class="dt">#19</td>
@@ -2421,7 +2433,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Last Asylum: Plague<em>Google Play 畅销 #27</em></i><i>Puzzles &amp; Survival<em>Google Play 畅销 #42</em></i><i>Puzzles &amp; Chaos: Frozen Castle<em>Google Play 畅销 #53</em></i><i>Z Route: Redemption<em>Google Play 畅销 #60</em></i><i>Last Asylum: Plague<em>App Store 畅销 #62</em></i></div></td>
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#27</td>
@@ -2434,7 +2446,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 2 / 重度 3"><i class="c" style="flex:2"></i><i class="h" style="flex:3"></i></div>
   <span class="mixt">2<em>休</em> 3<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Lordrush<em>Google Play 免费 #65</em></i><i class="cas">Family Farm Merge<em>App Store 免费 #89</em></i><i class="cas">Hotel Legacy: Merge Game<em>App Store 畅销 #92</em></i><i>Lordrush<em>App Store 免费 #126</em></i><i>Top Force<em>Google Play 免费 #162</em></i></div></td>
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#65</td>
@@ -2447,7 +2459,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 2 / 重度 3"><i class="c" style="flex:2"></i><i class="h" style="flex:3"></i></div>
   <span class="mixt">2<em>休</em> 3<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Snake Clash!<em>Google Play 免费 #66</em></i><i>Pizza Ready!<em>Google Play 免费 #67</em></i><i>XP Hero<em>Google Play 免费 #95</em></i><i>XP Hero<em>App Store 免费 #103</em></i><i class="cas">Pizza Ready!<em>App Store 免费 #143</em></i></div></td>
 <td class="pn">1<span class="rate">20%</span></td>
 <td class="pn">—</td>
 <td class="dt">#66</td>
@@ -2460,7 +2472,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Slotomania™ Slots Casino Games<em>Google Play 畅销 #72</em></i><i>WSOP Poker: Texas Holdem Game<em>Google Play 畅销 #76</em></i><i>WSOP Poker: Texas Holdem Game<em>App Store 畅销 #93</em></i><i>Slotomania™ Slots Machine Game<em>App Store 畅销 #100</em></i><i>Caesars Slots - Casino Games<em>App Store 畅销 #176</em></i></div></td>
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">—</td>
 <td class="dt">#72</td>
@@ -2473,7 +2485,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">My Talking Angela 2<em>Google Play 免费 #105</em></i><i class="cas">My Talking Tom 2: Pet Game<em>Google Play 免费 #111</em></i><i class="cas">My Talking Tom<em>Google Play 免费 #167</em></i><i class="cas">My Talking Tom Friends 2<em>Google Play 免费 #181</em></i><i class="cas">My Talking Tom Friends<em>Google Play 免费 #187</em></i></div></td>
 <td class="pn">—<span class="rate"></span></td>
 <td class="pn">1</td>
 <td class="dt">#105</td>
@@ -2486,7 +2498,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn">5</td>
+<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>CSR 2 - Realistic Drag Racing<em>App Store 畅销 #134</em></i><i>Wizard of Oz Slots Games<em>Google Play 畅销 #142</em></i><i>Golf Rival - Multiplayer Game<em>Google Play 畅销 #144</em></i><i>Game of Thrones Slots Casino<em>Google Play 畅销 #172</em></i><i>CSR 2 Realistic Drag Racing<em>Google Play 畅销 #196</em></i></div></td>
 <td class="pn">5<span class="rate">100%</span></td>
 <td class="pn">1</td>
 <td class="dt">#134</td>
@@ -9292,7 +9304,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-28 00:00 UTC</span>
+  <span>生成于 2026-08-28 05:54 UTC</span>
 </footer>
 
 <script>
@@ -9316,21 +9328,23 @@ $$('.toc-list a').forEach(a=>a.addEventListener('click',e=>{
 }));
 document.addEventListener('click',e=>{if(!toc.contains(e.target))tocSet(false)});
 document.addEventListener('keydown',e=>{if(e.key==='Escape')tocSet(false)});
-// 统计格悬浮名单的点按开关：iOS Safari 对 tabindex div 的聚焦不可靠，纯 :hover 打开后还关不掉
+// 悬浮名单的点按开关（页头统计格 + 发行商榜「作品数」格子共用）：
+// iOS Safari 对 tabindex 元素的聚焦不可靠，纯 :hover 打开后还关不掉
+const TIPQ='.st.has,td.pnh';
 document.addEventListener('click',e=>{
-  const tile=e.target.closest('.st.has');
-  $$('.st.has.open').forEach(x=>{if(x!==tile){x.classList.remove('open');x.blur()}});
+  const tile=e.target.closest(TIPQ);
+  $$(TIPQ+'.open').forEach(x=>{if(x!==tile){x.classList.remove('open');x.blur()}});
   if(tile&&!e.target.closest('.stp')){
     const open=tile.classList.toggle('open');
     if(!open)tile.blur();
   }
 });
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){$$('.st.has.open').forEach(x=>{x.classList.remove('open');x.blur()});return}
+  if(e.key==='Escape'){$$(TIPQ+'.open').forEach(x=>{x.classList.remove('open');x.blur()});return}
   // 去掉 :focus-within 之后，键盘用户 Tab 到格子上没有任何打开方式，得自己接 Enter/空格
-  if((e.key==='Enter'||e.key===' ')&&e.target.classList&&e.target.classList.contains('has')){
+  if((e.key==='Enter'||e.key===' ')&&e.target.matches&&e.target.matches(TIPQ)){
     e.preventDefault();
-    $$('.st.has.open').forEach(x=>{if(x!==e.target)x.classList.remove('open')});
+    $$(TIPQ+'.open').forEach(x=>{if(x!==e.target)x.classList.remove('open')});
     e.target.classList.toggle('open');
   }
 });
