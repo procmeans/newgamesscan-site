@@ -96,15 +96,15 @@ h1 em{font-style:normal;color:var(--acc)}
    格子还聚焦着，面板照样显示 */
 @media (hover:hover){.st.has:hover .stp{display:block}}
 .st.has.open .stp{display:block}
-.stp{display:none;position:absolute;left:14px;top:calc(100% - 12px);z-index:55;
+.stp{display:none;font-weight:400;position:absolute;left:14px;top:calc(100% - 12px);z-index:55;
   min-width:264px;max-width:min(340px,88vw);max-height:320px;overflow:auto;
   background:var(--sf);border:1px solid var(--ln);border-radius:10px;
   box-shadow:0 8px 28px rgba(20,15,5,.14);padding:7px 0;text-align:left}
-.stp i{display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+.stp i{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 16px;
   font-style:normal;font-size:12.5px;line-height:1.4;padding:5px 14px;color:var(--tx)}
 .stp i+i{border-top:1px solid var(--ln2)}
 .stp em{font-style:normal;font-size:10px;color:var(--dim);font-family:var(--mono);
-  letter-spacing:.03em;white-space:nowrap}
+  letter-spacing:.03em;white-space:nowrap;margin-left:auto}
 /* 休闲作品和表格行一个语言：左侧一道绿条 */
 .stp i.cas{box-shadow:inset 3px 0 0 var(--cas)}
 /* 发行商榜「作品数」格子：同一套面板，锚点从统计格换成单元格。
@@ -116,6 +116,14 @@ td.pnh:focus-visible{outline:1px solid var(--acc);outline-offset:-2px}
 @media (hover:hover){td.pnh:hover .stp{display:block}}
 td.pnh.open .stp{display:block}
 td.pnh .stp{left:-8px;top:calc(100% - 8px)}
+/* 标记列的徽标（N 款新进 / N 款新游）：同一套面板，但它在最后一列，
+   面板必须往左伸，否则会把页面顶出横向滚动条 */
+b.bd.bdh{position:relative;cursor:pointer;
+  text-decoration:underline dotted;text-underline-offset:2.5px;text-decoration-thickness:1px}
+b.bd.bdh:focus-visible{outline:1px solid var(--acc);outline-offset:1px}
+@media (hover:hover){b.bd.bdh:hover .stp{display:block}}
+b.bd.bdh.open .stp{display:block}
+b.bd.bdh .stp{left:auto;right:-6px;top:calc(100% + 2px);text-align:left;letter-spacing:0}
 
 /* ── 区块标题 ── */
 .sec{padding:72px 0 0}
@@ -397,6 +405,7 @@ footer a:hover{text-decoration:underline}
   .st.has{position:static}
   .stp{left:12px;right:12px;top:auto;min-width:0;max-width:none;margin-top:4px}
   td.pnh .stp{left:-8px;right:auto;top:calc(100% - 8px);min-width:240px;max-width:min(320px,78vw);margin-top:0}
+  b.bd.bdh .stp{left:auto;right:-6px;top:calc(100% + 2px);min-width:220px;max-width:min(300px,74vw);margin-top:0}
 }
 @media (max-width:760px){
   .wrap{padding:0 16px}
@@ -442,16 +451,16 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="st lb"><b>今日</b><span>vs 上一抓取日</span></div>
   <div class="st hl"><b>45</b><span>新进榜</span></div>
   <div class="st cs"><b>21</b><span>其中休闲</span></div>
-  <div class="st hl has" tabindex="0"><b>11</b><span>首次上榜</span><div class="stp"><i>Find Hidden Cats - Spot it!<em>App Store 免费 #190</em></i><i>Lover Jigsaw<em>App Store 免费 #191</em></i><i>Stadium Vault: Rip Card Packs<em>App Store 免费 #196</em></i><i>IQ Boost: Training Brain Games<em>App Store 免费 #199</em></i><i>Yalla Ludo - Ludo&amp;Jackaroo<em>App Store 畅销 #99</em></i><i>GIRLS' FRONTLINE 2: EXILIUM<em>App Store 畅销 #114</em></i><i>Mystery Dumpling Glitter Unbox<em>Google Play 免费 #106</em></i><i>Solitaire Verse<em>Google Play 免费 #188</em></i><i>Toxic Love: Dark Boyfriends<em>Google Play 免费 #189</em></i><i>American Farming 2<em>Google Play 免费 #196</em></i><i>Epic Seven<em>Google Play 畅销 #185</em></i></div></div>
-  <div class="st has" tabindex="0"><b>6</b><span>其中120天新游</span><div class="stp"><i>Lover Jigsaw<em>37天 · App Store 免费 #191</em></i><i>CookieRun: Crumble - Idle RPG<em>30天 · App Store 畅销 #117</em></i><i>Mystery Dumpling Glitter Unbox<em>3天 · Google Play 免费 #106</em></i><i>Top Lords<em>64天 · Google Play 免费 #166</em></i><i>Garden Match: Win Cash<em>63天 · Google Play 免费 #179</em></i><i>American Farming 2<em>8天 · Google Play 免费 #196</em></i></div></div>
+  <div class="st hl has" tabindex="0"><b>11</b><span>首次上榜</span><span class="stp"><i>Find Hidden Cats - Spot it!<em>App Store 免费 #190</em></i><i>Lover Jigsaw<em>App Store 免费 #191</em></i><i>Stadium Vault: Rip Card Packs<em>App Store 免费 #196</em></i><i>IQ Boost: Training Brain Games<em>App Store 免费 #199</em></i><i>Yalla Ludo - Ludo&amp;Jackaroo<em>App Store 畅销 #99</em></i><i>GIRLS' FRONTLINE 2: EXILIUM<em>App Store 畅销 #114</em></i><i>Mystery Dumpling Glitter Unbox<em>Google Play 免费 #106</em></i><i>Solitaire Verse<em>Google Play 免费 #188</em></i><i>Toxic Love: Dark Boyfriends<em>Google Play 免费 #189</em></i><i>American Farming 2<em>Google Play 免费 #196</em></i><i>Epic Seven<em>Google Play 畅销 #185</em></i></span></div>
+  <div class="st has" tabindex="0"><b>6</b><span>其中120天新游</span><span class="stp"><i>Lover Jigsaw<em>37天 · App Store 免费 #191</em></i><i>CookieRun: Crumble - Idle RPG<em>30天 · App Store 畅销 #117</em></i><i>Mystery Dumpling Glitter Unbox<em>3天 · Google Play 免费 #106</em></i><i>Top Lords<em>64天 · Google Play 免费 #166</em></i><i>Garden Match: Win Cash<em>63天 · Google Play 免费 #179</em></i><i>American Farming 2<em>8天 · Google Play 免费 #196</em></i></span></div>
   <div class="st"><b>800</b><span>在榜条目</span></div>
 </div>
 <div class="stats">
   <div class="st lb"><b>近5日</b><span>滚动窗口</span></div>
   <div class="st hl"><b>48</b><span>新上榜</span></div>
   <div class="st cs"><b>23</b><span>其中休闲</span></div>
-  <div class="st hl has" tabindex="0"><b>22</b><span>已站住（≥2天且在榜）</span><div class="stp"><i>You Know: Associations<em>Google Play · 在榜5天</em></i><i>Ragdoll 3: Monster Playground<em>Google Play · 在榜5天</em></i><i>Overmortal<em>Google Play · 在榜5天</em></i><i>Unscrew Frenzy 3D<em>App Store · 在榜5天</em></i><i>Gold and Goblins: Mining Games<em>Google Play · 在榜4天</em></i><i>Hole Busters 3D<em>App Store · 在榜4天</em></i><i>Find The Cat 2 - Spot It!<em>Google Play · 在榜3天</em></i><i>Colorever: Gem Art Puzzle<em>App Store · 在榜3天</em></i><i>Cars Royale: League of Rocket<em>Google Play · 在榜3天</em></i><i>Blockudoku - Block Puzzle Game<em>App Store · 在榜3天</em></i><i>Brain Puzzle 2: Logic Twist<em>Google Play · 在榜3天</em></i><i>Superstore Story 3D<em>App Store · 在榜3天</em></i><i>You Know: Associations<em>App Store · 在榜3天</em></i><i>Hit Fortune - Casino Slots<em>Google Play · 在榜2天</em></i><i>Toxic Love: Dark Boyfriends<em>App Store · 在榜2天</em></i><i>Soul Land: New World<em>App Store · 在榜2天</em></i><i>CookieRun: Kingdom<em>App Store · 在榜2天</em></i><i>Angry Smash<em>Google Play · 在榜2天</em></i><i>Top Lords<em>Google Play · 在榜2天</em></i><i>Get Color - Water Sort Puzzle<em>Google Play · 在榜2天</em></i><i>Screw Out 3D: Nut Sort Jam<em>App Store · 在榜2天</em></i><i>Braindom: Brain Games Test Out<em>App Store · 在榜2天</em></i></div></div>
-  <div class="st has" tabindex="0"><b>16</b><span>其中120天新游</span><div class="stp"><i>Superstore Story 3D<em>App Store · 53天</em></i><i>Hit Fortune - Casino Slots<em>Google Play · 56天</em></i><i>Toxic Love: Dark Boyfriends<em>App Store · 22天</em></i><i>Soul Land: New World<em>App Store · 2天</em></i><i>Angry Smash<em>Google Play · 38天</em></i><i>Top Lords<em>Google Play · 64天</em></i><i>Mystery Dumpling Glitter Unbox<em>Google Play · 3天</em></i><i>Lover Jigsaw<em>App Store · 37天</em></i><i>American Farming 2<em>Google Play · 8天</em></i><i>Craft Builder: 3D Block World<em>Google Play · 75天 · 已掉榜</em></i><i>American Farming 2<em>App Store · 4天 · 已掉榜</em></i><i>Yarn Out 3D<em>Google Play · 87天 · 已掉榜</em></i><i>Tiny Room Stories Eclipse<em>App Store · 2天 · 已掉榜</em></i><i>Ultrapool: Pool Roguelite<em>App Store · 4天 · 已掉榜</em></i><i>Plants on Fire<em>App Store · 1天 · 已掉榜</em></i><i>NBA 2K HQ<em>Google Play · 18天 · 已掉榜</em></i></div></div>
+  <div class="st hl has" tabindex="0"><b>22</b><span>已站住（≥2天且在榜）</span><span class="stp"><i>You Know: Associations<em>Google Play · 在榜5天</em></i><i>Ragdoll 3: Monster Playground<em>Google Play · 在榜5天</em></i><i>Overmortal<em>Google Play · 在榜5天</em></i><i>Unscrew Frenzy 3D<em>App Store · 在榜5天</em></i><i>Gold and Goblins: Mining Games<em>Google Play · 在榜4天</em></i><i>Hole Busters 3D<em>App Store · 在榜4天</em></i><i>Find The Cat 2 - Spot It!<em>Google Play · 在榜3天</em></i><i>Colorever: Gem Art Puzzle<em>App Store · 在榜3天</em></i><i>Cars Royale: League of Rocket<em>Google Play · 在榜3天</em></i><i>Blockudoku - Block Puzzle Game<em>App Store · 在榜3天</em></i><i>Brain Puzzle 2: Logic Twist<em>Google Play · 在榜3天</em></i><i>Superstore Story 3D<em>App Store · 在榜3天</em></i><i>You Know: Associations<em>App Store · 在榜3天</em></i><i>Hit Fortune - Casino Slots<em>Google Play · 在榜2天</em></i><i>Toxic Love: Dark Boyfriends<em>App Store · 在榜2天</em></i><i>Soul Land: New World<em>App Store · 在榜2天</em></i><i>CookieRun: Kingdom<em>App Store · 在榜2天</em></i><i>Angry Smash<em>Google Play · 在榜2天</em></i><i>Top Lords<em>Google Play · 在榜2天</em></i><i>Get Color - Water Sort Puzzle<em>Google Play · 在榜2天</em></i><i>Screw Out 3D: Nut Sort Jam<em>App Store · 在榜2天</em></i><i>Braindom: Brain Games Test Out<em>App Store · 在榜2天</em></i></span></div>
+  <div class="st has" tabindex="0"><b>16</b><span>其中120天新游</span><span class="stp"><i>Superstore Story 3D<em>App Store · 53天</em></i><i>Hit Fortune - Casino Slots<em>Google Play · 56天</em></i><i>Toxic Love: Dark Boyfriends<em>App Store · 22天</em></i><i>Soul Land: New World<em>App Store · 2天</em></i><i>Angry Smash<em>Google Play · 38天</em></i><i>Top Lords<em>Google Play · 64天</em></i><i>Mystery Dumpling Glitter Unbox<em>Google Play · 3天</em></i><i>Lover Jigsaw<em>App Store · 37天</em></i><i>American Farming 2<em>Google Play · 8天</em></i><i>Craft Builder: 3D Block World<em>Google Play · 75天 · 已掉榜</em></i><i>American Farming 2<em>App Store · 4天 · 已掉榜</em></i><i>Yarn Out 3D<em>Google Play · 87天 · 已掉榜</em></i><i>Tiny Room Stories Eclipse<em>App Store · 2天 · 已掉榜</em></i><i>Ultrapool: Pool Roguelite<em>App Store · 4天 · 已掉榜</em></i><i>Plants on Fire<em>App Store · 1天 · 已掉榜</em></i><i>NBA 2K HQ<em>Google Play · 18天 · 已掉榜</em></i></span></div>
   <div class="st"><b>359</b><span>常青树（存量）</span></div>
 </div>
 </div></header>
@@ -2121,11 +2130,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 11 / 重度 3"><i class="c" style="flex:11"></i><i class="h" style="flex:3"></i></div>
   <span class="mixt">11<em>休</em> 3<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>14</b><div class="stp"><i class="cas">Loop Sort<em>App Store 免费 #10</em></i><i class="cas">Loop Sort<em>Google Play 免费 #10</em></i><i class="cas">Mob Control<em>Google Play 免费 #17</em></i><i>Castle Busters<em>App Store 免费 #23</em></i><i class="cas">Paper.io 2<em>Google Play 免费 #40</em></i><i class="cas">Paper.io 2<em>App Store 免费 #54</em></i><i class="cas">Hole.io<em>Google Play 免费 #54</em></i><i>Castle Busters<em>Google Play 免费 #55</em></i><i class="cas">Mob Control<em>App Store 免费 #59</em></i><i class="cas">Hole.io<em>App Store 免费 #68</em></i><i class="cas">Marble Sort!<em>App Store 畅销 #77</em></i><i class="cas">Marble Sort! - Color Puzzle<em>Google Play 畅销 #102</em></i><i>Epic Plane Evolution<em>Google Play 免费 #107</em></i><i class="cas">Draft Showdown<em>App Store 免费 #200</em></i></div></td>
-<td class="pn">8<span class="rate">57%</span></td>
-<td class="pn">1</td>
+<td class="pn pnh" tabindex="0"><b>14</b><span class="stp"><i class="cas">Loop Sort<em>App Store 免费 #10</em></i><i class="cas">Loop Sort<em>Google Play 免费 #10</em></i><i class="cas">Mob Control<em>Google Play 免费 #17</em></i><i>Castle Busters<em>App Store 免费 #23</em></i><i class="cas">Paper.io 2<em>Google Play 免费 #40</em></i><i class="cas">Paper.io 2<em>App Store 免费 #54</em></i><i class="cas">Hole.io<em>Google Play 免费 #54</em></i><i>Castle Busters<em>Google Play 免费 #55</em></i><i class="cas">Mob Control<em>App Store 免费 #59</em></i><i class="cas">Hole.io<em>App Store 免费 #68</em></i><i class="cas">Marble Sort!<em>App Store 畅销 #77</em></i><i class="cas">Marble Sort! - Color Puzzle<em>Google Play 畅销 #102</em></i><i>Epic Plane Evolution<em>Google Play 免费 #107</em></i><i class="cas">Draft Showdown<em>App Store 免费 #200</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="rate">57%</span><span class="stp"><i class="cas">Loop Sort<em>App Store 畅销 #185</em></i><i class="cas">Loop Sort<em>Google Play 畅销 #155</em></i><i class="cas">Mob Control<em>Google Play 畅销 #122</em></i><i>Castle Busters<em>App Store 畅销 #101</em></i><i>Castle Busters<em>Google Play 畅销 #104</em></i><i class="cas">Mob Control<em>App Store 畅销 #180</em></i><i class="cas">Marble Sort!<em>App Store 畅销 #77</em></i><i class="cas">Marble Sort! - Color Puzzle<em>Google Play 畅销 #102</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>1</b><span class="stp"><i class="cas">Draft Showdown<em>回榜 · App Store 免费 #200</em></i></span></td>
 <td class="dt">#10</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">法国</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">法国</b><b class="bd bd-first bdh" tabindex="0">1 款新进<span class="stp"><i class="cas">Draft Showdown<em>回榜 · App Store 免费 #200</em></i></span></b></td>
 </tr>
 <tr data-tag="heavy" style="--i:1">
 <td class="rk">2</td>
@@ -2134,9 +2143,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 12"><i class="c" style="flex:0"></i><i class="h" style="flex:12"></i></div>
   <span class="mixt">0<em>休</em> 12<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>12</b><div class="stp"><i>Cashman Casino Slots Games<em>Google Play 畅销 #21</em></i><i>Lightning Link Casino Slots<em>App Store 畅销 #25</em></i><i>Lightning Link Casino Slots<em>Google Play 畅销 #26</em></i><i>Cashman Casino Slots Games<em>App Store 畅销 #36</em></i><i>Slots: Heart of Vegas Casino<em>Google Play 畅销 #47</em></i><i>Big Fish Casino: Slots Games<em>App Store 畅销 #61</em></i><i>Heart of Vegas - Casino Slots<em>App Store 畅销 #79</em></i><i>Big Fish Casino - Slots Games<em>Google Play 畅销 #105</em></i><i>Jackpot Magic Slots &amp; Casino<em>App Store 畅销 #109</em></i><i>Mighty Fu Casino: Slots Game<em>App Store 畅销 #112</em></i><i>Mighty Fu Casino Slots Games<em>Google Play 畅销 #123</em></i><i>Jackpot Magic - Casino Slots<em>Google Play 畅销 #177</em></i></div></td>
-<td class="pn">12<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>12</b><span class="stp"><i>Cashman Casino Slots Games<em>Google Play 畅销 #21</em></i><i>Lightning Link Casino Slots<em>App Store 畅销 #25</em></i><i>Lightning Link Casino Slots<em>Google Play 畅销 #26</em></i><i>Cashman Casino Slots Games<em>App Store 畅销 #36</em></i><i>Slots: Heart of Vegas Casino<em>Google Play 畅销 #47</em></i><i>Big Fish Casino: Slots Games<em>App Store 畅销 #61</em></i><i>Heart of Vegas - Casino Slots<em>App Store 畅销 #79</em></i><i>Big Fish Casino - Slots Games<em>Google Play 畅销 #105</em></i><i>Jackpot Magic Slots &amp; Casino<em>App Store 畅销 #109</em></i><i>Mighty Fu Casino: Slots Game<em>App Store 畅销 #112</em></i><i>Mighty Fu Casino Slots Games<em>Google Play 畅销 #123</em></i><i>Jackpot Magic - Casino Slots<em>Google Play 畅销 #177</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>12</b><span class="rate">100%</span><span class="stp"><i>Cashman Casino Slots Games<em>Google Play 畅销 #21</em></i><i>Lightning Link Casino Slots<em>App Store 畅销 #25</em></i><i>Lightning Link Casino Slots<em>Google Play 畅销 #26</em></i><i>Cashman Casino Slots Games<em>App Store 畅销 #36</em></i><i>Slots: Heart of Vegas Casino<em>Google Play 畅销 #47</em></i><i>Big Fish Casino: Slots Games<em>App Store 畅销 #61</em></i><i>Heart of Vegas - Casino Slots<em>App Store 畅销 #79</em></i><i>Big Fish Casino - Slots Games<em>Google Play 畅销 #105</em></i><i>Jackpot Magic Slots &amp; Casino<em>App Store 畅销 #109</em></i><i>Mighty Fu Casino: Slots Game<em>App Store 畅销 #112</em></i><i>Mighty Fu Casino Slots Games<em>Google Play 畅销 #123</em></i><i>Jackpot Magic - Casino Slots<em>Google Play 畅销 #177</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#21</td>
 <td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">英国</b></td>
 </tr>
@@ -2147,11 +2156,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 10 / 重度 2"><i class="c" style="flex:10"></i><i class="h" style="flex:2"></i></div>
   <span class="mixt">10<em>休</em> 2<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>12</b><div class="stp"><i>You Know: Associations<em>Google Play 免费 #22</em></i><i class="cas">Stack Smash - Block 3D Puzzle<em>Google Play 免费 #34</em></i><i class="cas">Woodoku Blast<em>Google Play 免费 #41</em></i><i class="cas">Get Color Pack: Sort Puzzle<em>Google Play 免费 #91</em></i><i class="cas">Woodoku Blast: Block Puzzle<em>App Store 免费 #101</em></i><i class="cas">Cube Tap Sort<em>Google Play 免费 #132</em></i><i class="cas">Car Out! Traffic Parking Games<em>Google Play 免费 #133</em></i><i>Spades - Classic Cards<em>Google Play 免费 #137</em></i><i class="cas">Stack Smash - 3D Puzzle Game<em>App Store 免费 #141</em></i><i class="cas">Angry Smash<em>Google Play 免费 #153</em></i><i class="cas">Get Color - Water Sort Puzzle<em>Google Play 免费 #170</em></i><i class="cas">You Know: Associations<em>App Store 免费 #174</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>12</b><span class="stp"><i>You Know: Associations<em>Google Play 免费 #22</em></i><i class="cas">Stack Smash - Block 3D Puzzle<em>Google Play 免费 #34</em></i><i class="cas">Woodoku Blast<em>Google Play 免费 #41</em></i><i class="cas">Get Color Pack: Sort Puzzle<em>Google Play 免费 #91</em></i><i class="cas">Woodoku Blast: Block Puzzle<em>App Store 免费 #101</em></i><i class="cas">Cube Tap Sort<em>Google Play 免费 #132</em></i><i class="cas">Car Out! Traffic Parking Games<em>Google Play 免费 #133</em></i><i>Spades - Classic Cards<em>Google Play 免费 #137</em></i><i class="cas">Stack Smash - 3D Puzzle Game<em>App Store 免费 #141</em></i><i class="cas">Angry Smash<em>Google Play 免费 #153</em></i><i class="cas">Get Color - Water Sort Puzzle<em>Google Play 免费 #170</em></i><i class="cas">You Know: Associations<em>App Store 免费 #174</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#22</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">英国</b><b class="bd bd-fresh">3 款新游</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">英国</b><b class="bd bd-fresh bdh" tabindex="0">3 款新游<span class="stp"><i class="cas">Stack Smash - Block 3D Puzzle<em>46天 · Google Play 免费 #34</em></i><i class="cas">Stack Smash - 3D Puzzle Game<em>44天 · App Store 免费 #141</em></i><i class="cas">Angry Smash<em>38天 · Google Play 免费 #153</em></i></span></b></td>
 </tr>
 <tr data-tag="casual" style="--i:3">
 <td class="rk">4</td>
@@ -2160,11 +2169,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 11 / 重度 0"><i class="c" style="flex:11"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">11<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>11</b><div class="stp"><i class="cas">Meowdoku: Brain Puzzle Games<em>Google Play 免费 #1</em></i><i class="cas">Meowdoku!<em>App Store 免费 #2</em></i><i class="cas">Amaze GO!<em>Google Play 免费 #8</em></i><i class="cas">Amaze GO!<em>App Store 免费 #16</em></i><i class="cas">Zen Word® - Relax Puzzle Game<em>Google Play 免费 #30</em></i><i class="cas">Tile Explorer - Triple Match<em>Google Play 免费 #37</em></i><i class="cas">Tile Explorer: Tiles Clear!<em>App Store 免费 #40</em></i><i class="cas">Zen Word® - Relax Puzzle Game<em>App Store 免费 #60</em></i><i class="cas">Jigsawcard Solitaire Puzzle<em>Google Play 免费 #64</em></i><i class="cas">Jigsawcard Solitaire Puzzle<em>App Store 免费 #67</em></i><i class="cas">Colorever: Gem Art Puzzle<em>App Store 免费 #106</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>11</b><span class="stp"><i class="cas">Meowdoku: Brain Puzzle Games<em>Google Play 免费 #1</em></i><i class="cas">Meowdoku!<em>App Store 免费 #2</em></i><i class="cas">Amaze GO!<em>Google Play 免费 #8</em></i><i class="cas">Amaze GO!<em>App Store 免费 #16</em></i><i class="cas">Zen Word® - Relax Puzzle Game<em>Google Play 免费 #30</em></i><i class="cas">Tile Explorer - Triple Match<em>Google Play 免费 #37</em></i><i class="cas">Tile Explorer: Tiles Clear!<em>App Store 免费 #40</em></i><i class="cas">Zen Word® - Relax Puzzle Game<em>App Store 免费 #60</em></i><i class="cas">Jigsawcard Solitaire Puzzle<em>Google Play 免费 #64</em></i><i class="cas">Jigsawcard Solitaire Puzzle<em>App Store 免费 #67</em></i><i class="cas">Colorever: Gem Art Puzzle<em>App Store 免费 #106</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#1</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh">1 款新游</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh bdh" tabindex="0">1 款新游<span class="stp"><i class="cas">Meowdoku!<em>101天 · App Store 免费 #2</em></i></span></b></td>
 </tr>
 <tr data-tag="mixed" style="--i:4">
 <td class="rk">5</td>
@@ -2173,9 +2182,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 4"><i class="c" style="flex:6"></i><i class="h" style="flex:4"></i></div>
   <span class="mixt">6<em>休</em> 4<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>10</b><div class="stp"><i class="cas">MONOPOLY GO!<em>App Store 畅销 #1</em></i><i class="cas">MONOPOLY GO!<em>Google Play 畅销 #1</em></i><i>MARVEL Strike Force: Squad RPG<em>Google Play 畅销 #51</em></i><i>Tiki Solitaire TriPeaks<em>Google Play 畅销 #77</em></i><i class="cas">Yahtzee® With Buddies Dice Fun<em>Google Play 畅销 #81</em></i><i class="cas">Yahtzee® with Buddies Dice<em>App Store 畅销 #106</em></i><i>Star Trek Fleet Command<em>Google Play 畅销 #120</em></i><i class="cas">Tiki Solitaire TriPeaks<em>App Store 畅销 #128</em></i><i class="cas">Bingo Bash: Live Bingo Games<em>Google Play 畅销 #159</em></i><i>MARVEL Strike Force: Squad RPG<em>App Store 畅销 #167</em></i></div></td>
-<td class="pn">10<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>10</b><span class="stp"><i class="cas">MONOPOLY GO!<em>App Store 畅销 #1</em></i><i class="cas">MONOPOLY GO!<em>Google Play 畅销 #1</em></i><i>MARVEL Strike Force: Squad RPG<em>Google Play 畅销 #51</em></i><i>Tiki Solitaire TriPeaks<em>Google Play 畅销 #77</em></i><i class="cas">Yahtzee® With Buddies Dice Fun<em>Google Play 畅销 #81</em></i><i class="cas">Yahtzee® with Buddies Dice<em>App Store 畅销 #106</em></i><i>Star Trek Fleet Command<em>Google Play 畅销 #120</em></i><i class="cas">Tiki Solitaire TriPeaks<em>App Store 畅销 #128</em></i><i class="cas">Bingo Bash: Live Bingo Games<em>Google Play 畅销 #159</em></i><i>MARVEL Strike Force: Squad RPG<em>App Store 畅销 #167</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>10</b><span class="rate">100%</span><span class="stp"><i class="cas">MONOPOLY GO!<em>App Store 畅销 #1</em></i><i class="cas">MONOPOLY GO!<em>Google Play 畅销 #1</em></i><i>MARVEL Strike Force: Squad RPG<em>Google Play 畅销 #51</em></i><i>Tiki Solitaire TriPeaks<em>Google Play 畅销 #77</em></i><i class="cas">Yahtzee® With Buddies Dice Fun<em>Google Play 畅销 #81</em></i><i class="cas">Yahtzee® with Buddies Dice<em>App Store 畅销 #106</em></i><i>Star Trek Fleet Command<em>Google Play 畅销 #120</em></i><i class="cas">Tiki Solitaire TriPeaks<em>App Store 畅销 #128</em></i><i class="cas">Bingo Bash: Live Bingo Games<em>Google Play 畅销 #159</em></i><i>MARVEL Strike Force: Squad RPG<em>App Store 畅销 #167</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#1</td>
 <td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">美国</b></td>
 </tr>
@@ -2186,11 +2195,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 9 / 重度 0"><i class="c" style="flex:9"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">9<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>9</b><div class="stp"><i class="cas">Arrow Puzzle: Tap Puzzle Games<em>Google Play 免费 #12</em></i><i class="cas">Sudoku.com - Number Games<em>App Store 免费 #75</em></i><i class="cas">Number Match - Numbers Game<em>App Store 免费 #135</em></i><i class="cas">Number Match - Number Games<em>Google Play 免费 #145</em></i><i class="cas">Blockudoku - Block Puzzle Game<em>App Store 免费 #151</em></i><i class="cas">Brick Blast - Brick Breaker<em>Google Play 免费 #158</em></i><i class="cas">Crossword Master - Word Puzzle<em>Google Play 免费 #160</em></i><i class="cas">Jigsaw Puzzles - Puzzle Games<em>Google Play 免费 #184</em></i><i class="cas">Art Puzzle - Jigsaw Games<em>App Store 免费 #192</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">2</td>
+<td class="pn pnh" tabindex="0"><b>9</b><span class="stp"><i class="cas">Arrow Puzzle: Tap Puzzle Games<em>Google Play 免费 #12</em></i><i class="cas">Sudoku.com - Number Games<em>App Store 免费 #75</em></i><i class="cas">Number Match - Numbers Game<em>App Store 免费 #135</em></i><i class="cas">Number Match - Number Games<em>Google Play 免费 #145</em></i><i class="cas">Blockudoku - Block Puzzle Game<em>App Store 免费 #151</em></i><i class="cas">Brick Blast - Brick Breaker<em>Google Play 免费 #158</em></i><i class="cas">Crossword Master - Word Puzzle<em>Google Play 免费 #160</em></i><i class="cas">Jigsaw Puzzles - Puzzle Games<em>Google Play 免费 #184</em></i><i class="cas">Art Puzzle - Jigsaw Games<em>App Store 免费 #192</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn pnh" tabindex="0"><b>2</b><span class="stp"><i class="cas">Jigsaw Puzzles - Puzzle Games<em>回榜 · Google Play 免费 #184</em></i><i class="cas">Art Puzzle - Jigsaw Games<em>回榜 · App Store 免费 #192</em></i></span></td>
 <td class="dt">#12</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">塞浦路斯</b><b class="bd bd-first">2 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">塞浦路斯</b><b class="bd bd-first bdh" tabindex="0">2 款新进<span class="stp"><i class="cas">Jigsaw Puzzles - Puzzle Games<em>回榜 · Google Play 免费 #184</em></i><i class="cas">Art Puzzle - Jigsaw Games<em>回榜 · App Store 免费 #192</em></i></span></b></td>
 </tr>
 <tr data-tag="heavy" style="--i:6">
 <td class="rk">7</td>
@@ -2199,9 +2208,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 9"><i class="c" style="flex:0"></i><i class="h" style="flex:9"></i></div>
   <span class="mixt">0<em>休</em> 9<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>9</b><div class="stp"><i>Lotsa Slots - Casino Games<em>Google Play 畅销 #32</em></i><i>Cash Frenzy™ - Casino Slots<em>Google Play 畅销 #41</em></i><i>Jackpot World™ - Slots Casino<em>Google Play 畅销 #66</em></i><i>Cash Frenzy™ - Slots Casino<em>App Store 畅销 #72</em></i><i>Cash Club Casino - Vegas Slots<em>Google Play 畅销 #78</em></i><i>Lotsa Slots™ Casino Slots Game<em>App Store 畅销 #86</em></i><i>Cash Club Casino - Vegas Slots<em>App Store 畅销 #102</em></i><i>Jackpot World™ - Casino Slots<em>App Store 畅销 #105</em></i><i>Cash Rally - Slots Casino Game<em>App Store 畅销 #182</em></i></div></td>
-<td class="pn">9<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>9</b><span class="stp"><i>Lotsa Slots - Casino Games<em>Google Play 畅销 #32</em></i><i>Cash Frenzy™ - Casino Slots<em>Google Play 畅销 #41</em></i><i>Jackpot World™ - Slots Casino<em>Google Play 畅销 #66</em></i><i>Cash Frenzy™ - Slots Casino<em>App Store 畅销 #72</em></i><i>Cash Club Casino - Vegas Slots<em>Google Play 畅销 #78</em></i><i>Lotsa Slots™ Casino Slots Game<em>App Store 畅销 #86</em></i><i>Cash Club Casino - Vegas Slots<em>App Store 畅销 #102</em></i><i>Jackpot World™ - Casino Slots<em>App Store 畅销 #105</em></i><i>Cash Rally - Slots Casino Game<em>App Store 畅销 #182</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>9</b><span class="rate">100%</span><span class="stp"><i>Lotsa Slots - Casino Games<em>Google Play 畅销 #32</em></i><i>Cash Frenzy™ - Casino Slots<em>Google Play 畅销 #41</em></i><i>Jackpot World™ - Slots Casino<em>Google Play 畅销 #66</em></i><i>Cash Frenzy™ - Slots Casino<em>App Store 畅销 #72</em></i><i>Cash Club Casino - Vegas Slots<em>Google Play 畅销 #78</em></i><i>Lotsa Slots™ Casino Slots Game<em>App Store 畅销 #86</em></i><i>Cash Club Casino - Vegas Slots<em>App Store 畅销 #102</em></i><i>Jackpot World™ - Casino Slots<em>App Store 畅销 #105</em></i><i>Cash Rally - Slots Casino Game<em>App Store 畅销 #182</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#32</td>
 <td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
@@ -2212,9 +2221,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 4 / 重度 4"><i class="c" style="flex:4"></i><i class="h" style="flex:4"></i></div>
   <span class="mixt">4<em>休</em> 4<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>8</b><div class="stp"><i>Kingshot<em>Google Play 畅销 #7</em></i><i>Kingshot<em>App Store 畅销 #8</em></i><i>Whiteout Survival<em>App Store 畅销 #9</em></i><i>Whiteout Survival<em>Google Play 畅销 #9</em></i><i class="cas">Tasty Travels: Merge Game<em>App Store 畅销 #14</em></i><i class="cas">Tasty Travels: Merge Game<em>Google Play 畅销 #24</em></i><i class="cas">Truck Star<em>App Store 畅销 #120</em></i><i class="cas">Truck Star<em>Google Play 畅销 #178</em></i></div></td>
-<td class="pn">8<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="stp"><i>Kingshot<em>Google Play 畅销 #7</em></i><i>Kingshot<em>App Store 畅销 #8</em></i><i>Whiteout Survival<em>App Store 畅销 #9</em></i><i>Whiteout Survival<em>Google Play 畅销 #9</em></i><i class="cas">Tasty Travels: Merge Game<em>App Store 畅销 #14</em></i><i class="cas">Tasty Travels: Merge Game<em>Google Play 畅销 #24</em></i><i class="cas">Truck Star<em>App Store 畅销 #120</em></i><i class="cas">Truck Star<em>Google Play 畅销 #178</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="rate">100%</span><span class="stp"><i>Kingshot<em>Google Play 畅销 #7</em></i><i>Kingshot<em>App Store 畅销 #8</em></i><i>Whiteout Survival<em>App Store 畅销 #9</em></i><i>Whiteout Survival<em>Google Play 畅销 #9</em></i><i class="cas">Tasty Travels: Merge Game<em>App Store 畅销 #14</em></i><i class="cas">Tasty Travels: Merge Game<em>Google Play 畅销 #24</em></i><i class="cas">Truck Star<em>App Store 畅销 #120</em></i><i class="cas">Truck Star<em>Google Play 畅销 #178</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#7</td>
 <td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">中国</b></td>
 </tr>
@@ -2225,9 +2234,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 8 / 重度 0"><i class="c" style="flex:8"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">8<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>8</b><div class="stp"><i class="cas">Coin Master<em>Google Play 畅销 #10</em></i><i class="cas">Coin Master<em>App Store 畅销 #23</em></i><i class="cas">Jelly Busters: Puzzle Game<em>App Store 畅销 #29</em></i><i class="cas">Coin Master - Board Adventure<em>Google Play 畅销 #54</em></i><i class="cas">Travel Town - Merge Adventure<em>App Store 畅销 #55</em></i><i class="cas">Hole Stars: Puzzle Game<em>Google Play 畅销 #73</em></i><i class="cas">Coin Master - Board Adventure<em>App Store 畅销 #113</em></i><i class="cas">Hole Stars: Puzzle Game<em>App Store 畅销 #115</em></i></div></td>
-<td class="pn">8<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="stp"><i class="cas">Coin Master<em>Google Play 畅销 #10</em></i><i class="cas">Coin Master<em>App Store 畅销 #23</em></i><i class="cas">Jelly Busters: Puzzle Game<em>App Store 畅销 #29</em></i><i class="cas">Coin Master - Board Adventure<em>Google Play 畅销 #54</em></i><i class="cas">Travel Town - Merge Adventure<em>App Store 畅销 #55</em></i><i class="cas">Hole Stars: Puzzle Game<em>Google Play 畅销 #73</em></i><i class="cas">Coin Master - Board Adventure<em>App Store 畅销 #113</em></i><i class="cas">Hole Stars: Puzzle Game<em>App Store 畅销 #115</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="rate">100%</span><span class="stp"><i class="cas">Coin Master<em>Google Play 畅销 #10</em></i><i class="cas">Coin Master<em>App Store 畅销 #23</em></i><i class="cas">Jelly Busters: Puzzle Game<em>App Store 畅销 #29</em></i><i class="cas">Coin Master - Board Adventure<em>Google Play 畅销 #54</em></i><i class="cas">Travel Town - Merge Adventure<em>App Store 畅销 #55</em></i><i class="cas">Hole Stars: Puzzle Game<em>Google Play 畅销 #73</em></i><i class="cas">Coin Master - Board Adventure<em>App Store 畅销 #113</em></i><i class="cas">Hole Stars: Puzzle Game<em>App Store 畅销 #115</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#10</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">以色列</b></td>
 </tr>
@@ -2238,9 +2247,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 3 / 重度 5"><i class="c" style="flex:3"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">3<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>8</b><div class="stp"><i>Clash of Clans<em>App Store 畅销 #35</em></i><i class="cas">Hay Day<em>App Store 畅销 #51</em></i><i>Clash of Clans<em>Google Play 畅销 #52</em></i><i>Clash Royale<em>App Store 畅销 #57</em></i><i class="cas">Hay Day<em>Google Play 畅销 #79</em></i><i>Brawl Stars<em>App Store 免费 #83</em></i><i>Clash Royale<em>Google Play 畅销 #85</em></i><i class="cas">Brawl Stars<em>Google Play 畅销 #149</em></i></div></td>
-<td class="pn">8<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="stp"><i>Clash of Clans<em>App Store 畅销 #35</em></i><i class="cas">Hay Day<em>App Store 畅销 #51</em></i><i>Clash of Clans<em>Google Play 畅销 #52</em></i><i>Clash Royale<em>App Store 畅销 #57</em></i><i class="cas">Hay Day<em>Google Play 畅销 #79</em></i><i>Brawl Stars<em>App Store 免费 #83</em></i><i>Clash Royale<em>Google Play 畅销 #85</em></i><i class="cas">Brawl Stars<em>Google Play 畅销 #149</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>8</b><span class="rate">100%</span><span class="stp"><i>Clash of Clans<em>App Store 畅销 #35</em></i><i class="cas">Hay Day<em>App Store 畅销 #51</em></i><i>Clash of Clans<em>Google Play 畅销 #52</em></i><i>Clash Royale<em>App Store 畅销 #57</em></i><i class="cas">Hay Day<em>Google Play 畅销 #79</em></i><i>Brawl Stars<em>App Store 畅销 #116</em></i><i>Clash Royale<em>Google Play 畅销 #85</em></i><i class="cas">Brawl Stars<em>Google Play 畅销 #149</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#35</td>
 <td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">芬兰</b></td>
 </tr>
@@ -2251,9 +2260,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 7"><i class="c" style="flex:0"></i><i class="h" style="flex:7"></i></div>
   <span class="mixt">0<em>休</em> 7<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>7</b><div class="stp"><i>Tiles Survive!<em>App Store 免费 #57</em></i><i>Tiles Survive!<em>Google Play 免费 #117</em></i><i>Foundation: Galactic Frontier<em>App Store 畅销 #118</em></i><i>Foundation: Galactic Frontier<em>Google Play 畅销 #136</em></i><i>Guns of Glory: Lost Island<em>Google Play 畅销 #167</em></i><i>State of Survival: Zombie War<em>Google Play 畅销 #181</em></i><i>Frost &amp; Flame: King of Avalon<em>Google Play 畅销 #188</em></i></div></td>
-<td class="pn">7<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>7</b><span class="stp"><i>Tiles Survive!<em>App Store 免费 #57</em></i><i>Tiles Survive!<em>Google Play 免费 #117</em></i><i>Foundation: Galactic Frontier<em>App Store 畅销 #118</em></i><i>Foundation: Galactic Frontier<em>Google Play 畅销 #136</em></i><i>Guns of Glory: Lost Island<em>Google Play 畅销 #167</em></i><i>State of Survival: Zombie War<em>Google Play 畅销 #181</em></i><i>Frost &amp; Flame: King of Avalon<em>Google Play 畅销 #188</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>7</b><span class="rate">100%</span><span class="stp"><i>Tiles Survive!<em>App Store 畅销 #108</em></i><i>Tiles Survive!<em>Google Play 畅销 #117</em></i><i>Foundation: Galactic Frontier<em>App Store 畅销 #118</em></i><i>Foundation: Galactic Frontier<em>Google Play 畅销 #136</em></i><i>Guns of Glory: Lost Island<em>Google Play 畅销 #167</em></i><i>State of Survival: Zombie War<em>Google Play 畅销 #181</em></i><i>Frost &amp; Flame: King of Avalon<em>Google Play 畅销 #188</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#57</td>
 <td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
@@ -2264,9 +2273,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Gossip Harbor®: Merge &amp; Story<em>App Store 畅销 #3</em></i><i class="cas">Gossip Harbor: Merge &amp; Story<em>Google Play 畅销 #5</em></i><i class="cas">Flambé®: Merge and Cook<em>App Store 畅销 #43</em></i><i class="cas">Flambé®: Merge &amp; Cook<em>Google Play 畅销 #43</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>App Store 畅销 #66</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>Google Play 畅销 #103</em></i></div></td>
-<td class="pn">6<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Gossip Harbor®: Merge &amp; Story<em>App Store 畅销 #3</em></i><i class="cas">Gossip Harbor: Merge &amp; Story<em>Google Play 畅销 #5</em></i><i class="cas">Flambé®: Merge and Cook<em>App Store 畅销 #43</em></i><i class="cas">Flambé®: Merge &amp; Cook<em>Google Play 畅销 #43</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>App Store 畅销 #66</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>Google Play 畅销 #103</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="rate">100%</span><span class="stp"><i class="cas">Gossip Harbor®: Merge &amp; Story<em>App Store 畅销 #3</em></i><i class="cas">Gossip Harbor: Merge &amp; Story<em>Google Play 畅销 #5</em></i><i class="cas">Flambé®: Merge and Cook<em>App Store 畅销 #43</em></i><i class="cas">Flambé®: Merge &amp; Cook<em>Google Play 畅销 #43</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>App Store 畅销 #66</em></i><i class="cas">Seaside Escape®: Merge &amp; Story<em>Google Play 畅销 #103</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#3</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
@@ -2277,9 +2286,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Candy Crush Saga<em>Google Play 畅销 #3</em></i><i class="cas">Candy Crush Saga<em>App Store 畅销 #4</em></i><i class="cas">Candy Crush Soda Saga<em>Google Play 畅销 #23</em></i><i class="cas">Candy Crush Soda Saga<em>App Store 畅销 #39</em></i><i class="cas">Farm Heroes Saga<em>Google Play 畅销 #137</em></i><i class="cas">Farm Heroes Saga<em>App Store 畅销 #156</em></i></div></td>
-<td class="pn">6<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Candy Crush Saga<em>Google Play 畅销 #3</em></i><i class="cas">Candy Crush Saga<em>App Store 畅销 #4</em></i><i class="cas">Candy Crush Soda Saga<em>Google Play 畅销 #23</em></i><i class="cas">Candy Crush Soda Saga<em>App Store 畅销 #39</em></i><i class="cas">Farm Heroes Saga<em>Google Play 畅销 #137</em></i><i class="cas">Farm Heroes Saga<em>App Store 畅销 #156</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="rate">100%</span><span class="stp"><i class="cas">Candy Crush Saga<em>Google Play 畅销 #3</em></i><i class="cas">Candy Crush Saga<em>App Store 畅销 #4</em></i><i class="cas">Candy Crush Soda Saga<em>Google Play 畅销 #23</em></i><i class="cas">Candy Crush Soda Saga<em>App Store 畅销 #39</em></i><i class="cas">Farm Heroes Saga<em>Google Play 畅销 #137</em></i><i class="cas">Farm Heroes Saga<em>App Store 畅销 #156</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#3</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">英国</b></td>
 </tr>
@@ -2290,9 +2299,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 1"><i class="c" style="flex:5"></i><i class="h" style="flex:1"></i></div>
   <span class="mixt">5<em>休</em> 1<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Pocket Sort: Coin Merge Puzzle<em>Google Play 免费 #7</em></i><i class="cas">Grass Master – Cutting Game<em>Google Play 免费 #130</em></i><i class="cas">Little Farm Story: Idle Tycoon<em>App Store 免费 #153</em></i><i class="cas">My Perfect Hotel<em>Google Play 免费 #164</em></i><i class="cas">My Perfect Hotel<em>App Store 免费 #168</em></i><i>RUSH: Xtreme<em>App Store 免费 #179</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Pocket Sort: Coin Merge Puzzle<em>Google Play 免费 #7</em></i><i class="cas">Grass Master – Cutting Game<em>Google Play 免费 #130</em></i><i class="cas">Little Farm Story: Idle Tycoon<em>App Store 免费 #153</em></i><i class="cas">My Perfect Hotel<em>Google Play 免费 #164</em></i><i class="cas">My Perfect Hotel<em>App Store 免费 #168</em></i><i>RUSH: Xtreme<em>App Store 免费 #179</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#7</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">白俄罗斯</b></td>
 </tr>
@@ -2303,9 +2312,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Toon Blast<em>App Store 畅销 #12</em></i><i class="cas">Toon Blast<em>Google Play 畅销 #13</em></i><i class="cas">Match Factory!<em>App Store 畅销 #18</em></i><i class="cas">Match Factory!<em>Google Play 畅销 #22</em></i><i class="cas">Toy Blast<em>App Store 畅销 #56</em></i><i class="cas">Toy Blast<em>Google Play 畅销 #75</em></i></div></td>
-<td class="pn">6<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Toon Blast<em>App Store 畅销 #12</em></i><i class="cas">Toon Blast<em>Google Play 畅销 #13</em></i><i class="cas">Match Factory!<em>App Store 畅销 #18</em></i><i class="cas">Match Factory!<em>Google Play 畅销 #22</em></i><i class="cas">Toy Blast<em>App Store 畅销 #56</em></i><i class="cas">Toy Blast<em>Google Play 畅销 #75</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="rate">100%</span><span class="stp"><i class="cas">Toon Blast<em>App Store 畅销 #12</em></i><i class="cas">Toon Blast<em>Google Play 畅销 #13</em></i><i class="cas">Match Factory!<em>App Store 畅销 #18</em></i><i class="cas">Match Factory!<em>Google Play 畅销 #22</em></i><i class="cas">Toy Blast<em>App Store 畅销 #56</em></i><i class="cas">Toy Blast<em>Google Play 畅销 #75</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#12</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">土耳其</b></td>
 </tr>
@@ -2316,9 +2325,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 6"><i class="c" style="flex:0"></i><i class="h" style="flex:6"></i></div>
   <span class="mixt">0<em>休</em> 6<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i>Honkai: Star Rail<em>App Store 畅销 #27</em></i><i>Honkai: Star Rail<em>Google Play 畅销 #39</em></i><i>Zenless Zone Zero - Anniv.<em>Google Play 畅销 #108</em></i><i>Genshin Impact<em>Google Play 畅销 #126</em></i><i>Genshin Impact<em>App Store 畅销 #168</em></i><i>Zenless Zone Zero - Anniv.<em>App Store 畅销 #178</em></i></div></td>
-<td class="pn">6<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i>Honkai: Star Rail<em>App Store 畅销 #27</em></i><i>Honkai: Star Rail<em>Google Play 畅销 #39</em></i><i>Zenless Zone Zero - Anniv.<em>Google Play 畅销 #108</em></i><i>Genshin Impact<em>Google Play 畅销 #126</em></i><i>Genshin Impact<em>App Store 畅销 #168</em></i><i>Zenless Zone Zero - Anniv.<em>App Store 畅销 #178</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="rate">100%</span><span class="stp"><i>Honkai: Star Rail<em>App Store 畅销 #27</em></i><i>Honkai: Star Rail<em>Google Play 畅销 #39</em></i><i>Zenless Zone Zero - Anniv.<em>Google Play 畅销 #108</em></i><i>Genshin Impact<em>Google Play 畅销 #126</em></i><i>Genshin Impact<em>App Store 畅销 #168</em></i><i>Zenless Zone Zero - Anniv.<em>App Store 畅销 #178</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#27</td>
 <td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
@@ -2329,9 +2338,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 1"><i class="c" style="flex:5"></i><i class="h" style="flex:1"></i></div>
   <span class="mixt">5<em>休</em> 1<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Dice Dreams™️<em>Google Play 畅销 #30</em></i><i>Disney Solitaire<em>Google Play 畅销 #35</em></i><i class="cas">Disney Solitaire<em>App Store 畅销 #37</em></i><i class="cas">Dice Dreams™<em>App Store 畅销 #59</em></i><i class="cas">Domino Dreams™<em>Google Play 畅销 #111</em></i><i class="cas">Domino Dreams™<em>App Store 畅销 #146</em></i></div></td>
-<td class="pn">6<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Dice Dreams™️<em>Google Play 畅销 #30</em></i><i>Disney Solitaire<em>Google Play 畅销 #35</em></i><i class="cas">Disney Solitaire<em>App Store 畅销 #37</em></i><i class="cas">Dice Dreams™<em>App Store 畅销 #59</em></i><i class="cas">Domino Dreams™<em>Google Play 畅销 #111</em></i><i class="cas">Domino Dreams™<em>App Store 畅销 #146</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="rate">100%</span><span class="stp"><i class="cas">Dice Dreams™️<em>Google Play 畅销 #30</em></i><i>Disney Solitaire<em>Google Play 畅销 #35</em></i><i class="cas">Disney Solitaire<em>App Store 畅销 #37</em></i><i class="cas">Dice Dreams™<em>App Store 畅销 #59</em></i><i class="cas">Domino Dreams™<em>Google Play 畅销 #111</em></i><i class="cas">Domino Dreams™<em>App Store 畅销 #146</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#30</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">以色列</b></td>
 </tr>
@@ -2342,9 +2351,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Color Block Jam<em>App Store 畅销 #48</em></i><i class="cas">Sand Blocks: Drop Puzzle<em>App Store 免费 #74</em></i><i class="cas">Car Sort: Color Puzzle<em>App Store 畅销 #90</em></i><i class="cas">Color Block Jam<em>Google Play 畅销 #96</em></i><i class="cas">Car Sort: Color Puzzle<em>Google Play 免费 #140</em></i><i class="cas">Gecko Out<em>App Store 畅销 #200</em></i></div></td>
-<td class="pn">5<span class="rate">83%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Color Block Jam<em>App Store 畅销 #48</em></i><i class="cas">Sand Blocks: Drop Puzzle<em>App Store 免费 #74</em></i><i class="cas">Car Sort: Color Puzzle<em>App Store 畅销 #90</em></i><i class="cas">Color Block Jam<em>Google Play 畅销 #96</em></i><i class="cas">Car Sort: Color Puzzle<em>Google Play 免费 #140</em></i><i class="cas">Gecko Out<em>App Store 畅销 #200</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="rate">83%</span><span class="stp"><i class="cas">Color Block Jam<em>App Store 畅销 #48</em></i><i class="cas">Car Sort: Color Puzzle<em>App Store 畅销 #90</em></i><i class="cas">Color Block Jam<em>Google Play 畅销 #96</em></i><i class="cas">Car Sort: Color Puzzle<em>Google Play 畅销 #195</em></i><i class="cas">Gecko Out<em>App Store 畅销 #200</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#48</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">土耳其</b></td>
 </tr>
@@ -2355,9 +2364,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 6 / 重度 0"><i class="c" style="flex:6"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">6<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>6</b><div class="stp"><i class="cas">Bingo Voyage - Live Bingo Game<em>Google Play 畅销 #56</em></i><i class="cas">Matching Story - Puzzle Games<em>Google Play 畅销 #58</em></i><i class="cas">Bingo Voyage: Live Bingo Games<em>App Store 畅销 #60</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>Google Play 畅销 #70</em></i><i class="cas">Matching Story - Merge &amp; Match<em>App Store 畅销 #83</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>App Store 畅销 #129</em></i></div></td>
-<td class="pn">6<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="stp"><i class="cas">Bingo Voyage - Live Bingo Game<em>Google Play 畅销 #56</em></i><i class="cas">Matching Story - Puzzle Games<em>Google Play 畅销 #58</em></i><i class="cas">Bingo Voyage: Live Bingo Games<em>App Store 畅销 #60</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>Google Play 畅销 #70</em></i><i class="cas">Matching Story - Merge &amp; Match<em>App Store 畅销 #83</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>App Store 畅销 #129</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>6</b><span class="rate">100%</span><span class="stp"><i class="cas">Bingo Voyage - Live Bingo Game<em>Google Play 畅销 #56</em></i><i class="cas">Matching Story - Puzzle Games<em>Google Play 畅销 #58</em></i><i class="cas">Bingo Voyage: Live Bingo Games<em>App Store 畅销 #60</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>Google Play 畅销 #70</em></i><i class="cas">Matching Story - Merge &amp; Match<em>App Store 畅销 #83</em></i><i class="cas">Bingo Frenzy™-Live Bingo Games<em>App Store 畅销 #129</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#56</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b></td>
 </tr>
@@ -2368,9 +2377,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Bus Traffic Fever!<em>App Store 免费 #6</em></i><i class="cas">CubeAway - 3DPuzzle<em>App Store 免费 #12</em></i><i class="cas">Bus Traffic Fever!<em>Google Play 免费 #25</em></i><i class="cas">CubeAway - 3DPuzzle<em>Google Play 免费 #31</em></i><i class="cas">Hexa Away<em>App Store 畅销 #131</em></i></div></td>
-<td class="pn">3<span class="rate">60%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i class="cas">Bus Traffic Fever!<em>App Store 免费 #6</em></i><i class="cas">CubeAway - 3DPuzzle<em>App Store 免费 #12</em></i><i class="cas">Bus Traffic Fever!<em>Google Play 免费 #25</em></i><i class="cas">CubeAway - 3DPuzzle<em>Google Play 免费 #31</em></i><i class="cas">Hexa Away<em>App Store 畅销 #131</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>3</b><span class="rate">60%</span><span class="stp"><i class="cas">Bus Traffic Fever!<em>App Store 畅销 #82</em></i><i class="cas">Bus Traffic Fever!<em>Google Play 畅销 #116</em></i><i class="cas">Hexa Away<em>App Store 畅销 #131</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#6</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">日本</b></td>
 </tr>
@@ -2381,11 +2390,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Mahjong Blast<em>Google Play 免费 #11</em></i><i class="cas">Mahjong Blast<em>App Store 免费 #18</em></i><i class="cas">Tap Tile!<em>Google Play 免费 #28</em></i><i class="cas">Zoodoku<em>Google Play 免费 #33</em></i><i class="cas">Zoodoku！<em>App Store 免费 #98</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i class="cas">Mahjong Blast<em>Google Play 免费 #11</em></i><i class="cas">Mahjong Blast<em>App Store 免费 #18</em></i><i class="cas">Tap Tile!<em>Google Play 免费 #28</em></i><i class="cas">Zoodoku<em>Google Play 免费 #33</em></i><i class="cas">Zoodoku！<em>App Store 免费 #98</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#11</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh">2 款新游</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh bdh" tabindex="0">2 款新游<span class="stp"><i class="cas">Zoodoku<em>64天 · Google Play 免费 #33</em></i><i class="cas">Zoodoku！<em>33天 · App Store 免费 #98</em></i></span></b></td>
 </tr>
 <tr data-tag="heavy" style="--i:21">
 <td class="rk">22</td>
@@ -2394,11 +2403,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 1 / 重度 4"><i class="c" style="flex:1"></i><i class="h" style="flex:4"></i></div>
   <span class="mixt">1<em>休</em> 4<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>EA SPORTS FC Soccer Mobile 26<em>App Store 畅销 #16</em></i><i>Star Wars™: Galaxy of Heroes<em>App Store 畅销 #44</em></i><i>EA College Football Mobile 27<em>App Store 免费 #51</em></i><i>Golf Clash - Golfing Simulator<em>App Store 畅销 #89</em></i><i class="cas">Plants vs. Zombies™<em>App Store 免费 #147</em></i></div></td>
-<td class="pn">3<span class="rate">60%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i>EA SPORTS FC Soccer Mobile 26<em>App Store 畅销 #16</em></i><i>Star Wars™: Galaxy of Heroes<em>App Store 畅销 #44</em></i><i>EA College Football Mobile 27<em>App Store 免费 #51</em></i><i>Golf Clash - Golfing Simulator<em>App Store 畅销 #89</em></i><i class="cas">Plants vs. Zombies™<em>App Store 免费 #147</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>3</b><span class="rate">60%</span><span class="stp"><i>EA SPORTS FC Soccer Mobile 26<em>App Store 畅销 #16</em></i><i>Star Wars™: Galaxy of Heroes<em>App Store 畅销 #44</em></i><i>Golf Clash - Golfing Simulator<em>App Store 畅销 #89</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#16</td>
-<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b><b class="bd bd-fresh">1 款新游</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b><b class="bd bd-fresh bdh" tabindex="0">1 款新游<span class="stp"><i>EA College Football Mobile 27<em>50天 · App Store 免费 #51</em></i></span></b></td>
 </tr>
 <tr data-tag="heavy" style="--i:22">
 <td class="rk">23</td>
@@ -2407,9 +2416,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Jackpot Party Casino Slots<em>Google Play 畅销 #18</em></i><i>Quick Hit Casino Slots Games<em>Google Play 畅销 #50</em></i><i>Gold Fish Casino Slot Games<em>Google Play 畅销 #115</em></i><i>MONOPOLY Slots - Casino Games<em>Google Play 畅销 #121</em></i><i>88 Fortunes™ Casino Slot Games<em>Google Play 畅销 #150</em></i></div></td>
-<td class="pn">5<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i>Jackpot Party Casino Slots<em>Google Play 畅销 #18</em></i><i>Quick Hit Casino Slots Games<em>Google Play 畅销 #50</em></i><i>Gold Fish Casino Slot Games<em>Google Play 畅销 #115</em></i><i>MONOPOLY Slots - Casino Games<em>Google Play 畅销 #121</em></i><i>88 Fortunes™ Casino Slot Games<em>Google Play 畅销 #150</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="rate">100%</span><span class="stp"><i>Jackpot Party Casino Slots<em>Google Play 畅销 #18</em></i><i>Quick Hit Casino Slots Games<em>Google Play 畅销 #50</em></i><i>Gold Fish Casino Slot Games<em>Google Play 畅销 #115</em></i><i>MONOPOLY Slots - Casino Games<em>Google Play 畅销 #121</em></i><i>88 Fortunes™ Casino Slot Games<em>Google Play 畅销 #150</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#18</td>
 <td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b></td>
 </tr>
@@ -2420,9 +2429,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Block Craft 3D：Building Game<em>Google Play 免费 #19</em></i><i class="cas">Block Craft 3D: Building Games<em>App Store 免费 #163</em></i><i class="cas">Sniper 3D: Gun Shooting Games<em>App Store 免费 #164</em></i><i class="cas">Color by Number：Coloring Games<em>Google Play 免费 #169</em></i><i class="cas">Sniper 3D：Gun Shooting Games<em>Google Play 免费 #192</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i class="cas">Block Craft 3D：Building Game<em>Google Play 免费 #19</em></i><i class="cas">Block Craft 3D: Building Games<em>App Store 免费 #163</em></i><i class="cas">Sniper 3D: Gun Shooting Games<em>App Store 免费 #164</em></i><i class="cas">Color by Number：Coloring Games<em>Google Play 免费 #169</em></i><i class="cas">Sniper 3D：Gun Shooting Games<em>Google Play 免费 #192</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#19</td>
 <td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">巴西</b></td>
 </tr>
@@ -2433,11 +2442,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Last Asylum: Plague<em>Google Play 畅销 #27</em></i><i>Puzzles &amp; Survival<em>Google Play 畅销 #42</em></i><i>Puzzles &amp; Chaos: Frozen Castle<em>Google Play 畅销 #53</em></i><i>Z Route: Redemption<em>Google Play 畅销 #60</em></i><i>Last Asylum: Plague<em>App Store 畅销 #62</em></i></div></td>
-<td class="pn">5<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i>Last Asylum: Plague<em>Google Play 畅销 #27</em></i><i>Puzzles &amp; Survival<em>Google Play 畅销 #42</em></i><i>Puzzles &amp; Chaos: Frozen Castle<em>Google Play 畅销 #53</em></i><i>Z Route: Redemption<em>Google Play 畅销 #60</em></i><i>Last Asylum: Plague<em>App Store 畅销 #62</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="rate">100%</span><span class="stp"><i>Last Asylum: Plague<em>Google Play 畅销 #27</em></i><i>Puzzles &amp; Survival<em>Google Play 畅销 #42</em></i><i>Puzzles &amp; Chaos: Frozen Castle<em>Google Play 畅销 #53</em></i><i>Z Route: Redemption<em>Google Play 畅销 #60</em></i><i>Last Asylum: Plague<em>App Store 畅销 #62</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#27</td>
-<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh">1 款新游</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh bdh" tabindex="0">1 款新游<span class="stp"><i>Z Route: Redemption<em>10天 · Google Play 畅销 #60</em></i></span></b></td>
 </tr>
 <tr data-tag="mixed" style="--i:25">
 <td class="rk">26</td>
@@ -2446,11 +2455,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 2 / 重度 3"><i class="c" style="flex:2"></i><i class="h" style="flex:3"></i></div>
   <span class="mixt">2<em>休</em> 3<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Lordrush<em>Google Play 免费 #65</em></i><i class="cas">Family Farm Merge<em>App Store 免费 #89</em></i><i class="cas">Hotel Legacy: Merge Game<em>App Store 畅销 #92</em></i><i>Lordrush<em>App Store 免费 #126</em></i><i>Top Force<em>Google Play 免费 #162</em></i></div></td>
-<td class="pn">5<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i>Lordrush<em>Google Play 免费 #65</em></i><i class="cas">Family Farm Merge<em>App Store 免费 #89</em></i><i class="cas">Hotel Legacy: Merge Game<em>App Store 畅销 #92</em></i><i>Lordrush<em>App Store 免费 #126</em></i><i>Top Force<em>Google Play 免费 #162</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="rate">100%</span><span class="stp"><i>Lordrush<em>Google Play 畅销 #194</em></i><i class="cas">Family Farm Merge<em>App Store 畅销 #175</em></i><i class="cas">Hotel Legacy: Merge Game<em>App Store 畅销 #92</em></i><i>Lordrush<em>App Store 畅销 #139</em></i><i>Top Force<em>Google Play 畅销 #179</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#65</td>
-<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh">4 款新游</b></td>
+<td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">中国</b><b class="bd bd-fresh bdh" tabindex="0">4 款新游<span class="stp"><i>Lordrush<em>73天 · Google Play 免费 #65</em></i><i class="cas">Family Farm Merge<em>111天 · App Store 免费 #89</em></i><i>Lordrush<em>40天 · App Store 免费 #126</em></i><i>Top Force<em>28天 · Google Play 免费 #162</em></i></span></b></td>
 </tr>
 <tr data-tag="mixed" style="--i:26">
 <td class="rk">27</td>
@@ -2459,9 +2468,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 2 / 重度 3"><i class="c" style="flex:2"></i><i class="h" style="flex:3"></i></div>
   <span class="mixt">2<em>休</em> 3<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">Snake Clash!<em>Google Play 免费 #66</em></i><i>Pizza Ready!<em>Google Play 免费 #67</em></i><i>XP Hero<em>Google Play 免费 #95</em></i><i>XP Hero<em>App Store 免费 #103</em></i><i class="cas">Pizza Ready!<em>App Store 免费 #143</em></i></div></td>
-<td class="pn">1<span class="rate">20%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i class="cas">Snake Clash!<em>Google Play 免费 #66</em></i><i>Pizza Ready!<em>Google Play 免费 #67</em></i><i>XP Hero<em>Google Play 免费 #95</em></i><i>XP Hero<em>App Store 免费 #103</em></i><i class="cas">Pizza Ready!<em>App Store 免费 #143</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>1</b><span class="rate">20%</span><span class="stp"><i>XP Hero<em>App Store 畅销 #186</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#66</td>
 <td class="bg"><b class="bd bd-cross">混合</b><b class="bd bd-rg">韩国</b></td>
 </tr>
@@ -2472,9 +2481,9 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>Slotomania™ Slots Casino Games<em>Google Play 畅销 #72</em></i><i>WSOP Poker: Texas Holdem Game<em>Google Play 畅销 #76</em></i><i>WSOP Poker: Texas Holdem Game<em>App Store 畅销 #93</em></i><i>Slotomania™ Slots Machine Game<em>App Store 畅销 #100</em></i><i>Caesars Slots - Casino Games<em>App Store 畅销 #176</em></i></div></td>
-<td class="pn">5<span class="rate">100%</span></td>
-<td class="pn">—</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i>Slotomania™ Slots Casino Games<em>Google Play 畅销 #72</em></i><i>WSOP Poker: Texas Holdem Game<em>Google Play 畅销 #76</em></i><i>WSOP Poker: Texas Holdem Game<em>App Store 畅销 #93</em></i><i>Slotomania™ Slots Machine Game<em>App Store 畅销 #100</em></i><i>Caesars Slots - Casino Games<em>App Store 畅销 #176</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="rate">100%</span><span class="stp"><i>Slotomania™ Slots Casino Games<em>Google Play 畅销 #72</em></i><i>WSOP Poker: Texas Holdem Game<em>Google Play 畅销 #76</em></i><i>WSOP Poker: Texas Holdem Game<em>App Store 畅销 #93</em></i><i>Slotomania™ Slots Machine Game<em>App Store 畅销 #100</em></i><i>Caesars Slots - Casino Games<em>App Store 畅销 #176</em></i></span></td>
+<td class="pn"><b>—</b></td>
 <td class="dt">#72</td>
 <td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">以色列</b></td>
 </tr>
@@ -2485,11 +2494,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 5 / 重度 0"><i class="c" style="flex:5"></i><i class="h" style="flex:0"></i></div>
   <span class="mixt">5<em>休</em> 0<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i class="cas">My Talking Angela 2<em>Google Play 免费 #105</em></i><i class="cas">My Talking Tom 2: Pet Game<em>Google Play 免费 #111</em></i><i class="cas">My Talking Tom<em>Google Play 免费 #167</em></i><i class="cas">My Talking Tom Friends 2<em>Google Play 免费 #181</em></i><i class="cas">My Talking Tom Friends<em>Google Play 免费 #187</em></i></div></td>
-<td class="pn">—<span class="rate"></span></td>
-<td class="pn">1</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i class="cas">My Talking Angela 2<em>Google Play 免费 #105</em></i><i class="cas">My Talking Tom 2: Pet Game<em>Google Play 免费 #111</em></i><i class="cas">My Talking Tom<em>Google Play 免费 #167</em></i><i class="cas">My Talking Tom Friends 2<em>Google Play 免费 #181</em></i><i class="cas">My Talking Tom Friends<em>Google Play 免费 #187</em></i></span></td>
+<td class="pn"><b>—</b><span class="rate"></span></td>
+<td class="pn pnh" tabindex="0"><b>1</b><span class="stp"><i class="cas">My Talking Tom Friends 2<em>回榜 · Google Play 免费 #181</em></i></span></td>
 <td class="dt">#105</td>
-<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-cas">休闲盘</b><b class="bd bd-rg">中国</b><b class="bd bd-first bdh" tabindex="0">1 款新进<span class="stp"><i class="cas">My Talking Tom Friends 2<em>回榜 · Google Play 免费 #181</em></i></span></b></td>
 </tr>
 <tr data-tag="heavy" style="--i:29">
 <td class="rk">30</td>
@@ -2498,11 +2507,11 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
   <div class="mix" title="休闲 0 / 重度 5"><i class="c" style="flex:0"></i><i class="h" style="flex:5"></i></div>
   <span class="mixt">0<em>休</em> 5<em>重</em></span>
 </td>
-<td class="pn pnh" tabindex="0"><b>5</b><div class="stp"><i>CSR 2 - Realistic Drag Racing<em>App Store 畅销 #134</em></i><i>Wizard of Oz Slots Games<em>Google Play 畅销 #142</em></i><i>Golf Rival - Multiplayer Game<em>Google Play 畅销 #144</em></i><i>Game of Thrones Slots Casino<em>Google Play 畅销 #172</em></i><i>CSR 2 Realistic Drag Racing<em>Google Play 畅销 #196</em></i></div></td>
-<td class="pn">5<span class="rate">100%</span></td>
-<td class="pn">1</td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="stp"><i>CSR 2 - Realistic Drag Racing<em>App Store 畅销 #134</em></i><i>Wizard of Oz Slots Games<em>Google Play 畅销 #142</em></i><i>Golf Rival - Multiplayer Game<em>Google Play 畅销 #144</em></i><i>Game of Thrones Slots Casino<em>Google Play 畅销 #172</em></i><i>CSR 2 Realistic Drag Racing<em>Google Play 畅销 #196</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>5</b><span class="rate">100%</span><span class="stp"><i>CSR 2 - Realistic Drag Racing<em>App Store 畅销 #134</em></i><i>Wizard of Oz Slots Games<em>Google Play 畅销 #142</em></i><i>Golf Rival - Multiplayer Game<em>Google Play 畅销 #144</em></i><i>Game of Thrones Slots Casino<em>Google Play 畅销 #172</em></i><i>CSR 2 Realistic Drag Racing<em>Google Play 畅销 #196</em></i></span></td>
+<td class="pn pnh" tabindex="0"><b>1</b><span class="stp"><i>CSR 2 Realistic Drag Racing<em>回榜 · Google Play 畅销 #196</em></i></span></td>
 <td class="dt">#134</td>
-<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b><b class="bd bd-first">1 款新进</b></td>
+<td class="bg"><b class="bd bd-return">重度盘</b><b class="bd bd-rg">美国</b><b class="bd bd-first bdh" tabindex="0">1 款新进<span class="stp"><i>CSR 2 Realistic Drag Racing<em>回榜 · Google Play 畅销 #196</em></i></span></b></td>
 </tr></tbody></table>
     </div>
     <div class="panel pmapp">
@@ -9304,7 +9313,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-08-28 05:54 UTC</span>
+  <span>生成于 2026-08-28 06:04 UTC</span>
 </footer>
 
 <script>
@@ -9330,7 +9339,7 @@ document.addEventListener('click',e=>{if(!toc.contains(e.target))tocSet(false)})
 document.addEventListener('keydown',e=>{if(e.key==='Escape')tocSet(false)});
 // 悬浮名单的点按开关（页头统计格 + 发行商榜「作品数」格子共用）：
 // iOS Safari 对 tabindex 元素的聚焦不可靠，纯 :hover 打开后还关不掉
-const TIPQ='.st.has,td.pnh';
+const TIPQ='.st.has,td.pnh,b.bdh';
 document.addEventListener('click',e=>{
   const tile=e.target.closest(TIPQ);
   $$(TIPQ+'.open').forEach(x=>{if(x!==tile){x.classList.remove('open');x.blur()}});
