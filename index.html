@@ -491,6 +491,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
     <a href="#spot">今日新进榜</a>
     <a href="#trend">近 5 日新上榜</a>
     <a href="#bigpub">大厂新游</a>
+    <a href="#steam">Steam 上榜新游</a>
     <a href="#tree">玩法树</a>
     <a href="#pubs">发行商榜</a>
     <a href="#ever">常青树</a>
@@ -533,7 +534,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <main class="wrap">
   <section class="sec" id="spot">
     <div class="sh"><h2>今日新进榜</h2><span>Spotlight</span></div>
-    <p class="sd">昨日不在榜、今日出现的游戏。<strong style="color:var(--cas)">左侧青色边条</strong>为休闲/超休闲品类；标「畅销榜缺席」的走的是广告/买量变现，<strong>是另一条变现路，不是差一档</strong>。已剔除 4 条常青树的回榜抖动（Madden NFL 27 Mobile Football、PUBG MOBILE、Free Fire MAX: Storm Arena、Rise of Castles: Ice and Fire——完整榜单里带 🌲 标）。</p>
+    <p class="sd">昨日不在榜、今日出现的游戏。<strong style="color:var(--cas)">左侧青色边条</strong>为休闲/超休闲品类；标「畅销榜缺席」的走的是广告/买量变现，<strong>是另一条变现路，不是差一档</strong>。已剔除 4 条常青树的回榜抖动（Madden NFL 27 Mobile Football、PUBG MOBILE、Free Fire MAX: Storm Arena、Rise of Castles: Ice and Fire——完整榜单里带 🌲 标）。末尾标「盘中」的 2 款是昨天白天进过 App Store 前 200、但每天 00:00 那一次快照至今没抓到过的——不计入上面的统计格，名次是盘中最好名次。</p>
     <div class="cards"><article class="card casual" style="--i:0">
 <div class="chd"><span class="cr">#148</span><span class="cc">App Store · 免费榜</span></div>
 <h3><a href="https://apps.apple.com/us/app/sort-streak-color-puzzle/id6812166638?uo=4" target="_blank" rel="noopener">Sort Streak: Color Puzzle</a></h3>
@@ -701,6 +702,20 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <p class="cdev">Wanda Cinemas Games</p>
 <div class="cmeta"><span>Role Playing</span><span>2026-11-11</span></div>
 <div class="bg"><b class="bd bd-first">首次</b><b class="bd bd-fresh">4天新游</b></div>
+</article>
+<article class="card" style="--i:24">
+<div class="chd"><span class="cr">#153</span><span class="cc">App Store · 免费榜 · 盘中最好</span></div>
+<h3><a href="https://apps.apple.com/us/app/id6795585457" target="_blank" rel="noopener">Sand Hole: Block Sort Jam</a></h3>
+<p class="cdev">Tripledot Studios Limited</p>
+<div class="cmeta"><span>盘中累计 1 天</span><span>2026-09-12</span></div>
+<div class="bg"><b class="bd bd-return" title="昨天盘中进过前 200，但 00:00 的每日快照至今没抓到过">盘中</b><b class="bd bd-fresh">64天新游</b></div>
+</article>
+<article class="card" style="--i:25">
+<div class="chd"><span class="cr">#163</span><span class="cc">App Store · 免费榜 · 盘中最好</span></div>
+<h3><a href="https://apps.apple.com/us/app/id6755482314" target="_blank" rel="noopener">Arrow Puzzle - Tap Arrows Away</a></h3>
+<p class="cdev">Easybrain Ltd</p>
+<div class="cmeta"><span>盘中累计 1 天</span><span>2026-02-18</span></div>
+<div class="bg"><b class="bd bd-return" title="昨天盘中进过前 200，但 00:00 的每日快照至今没抓到过">盘中</b></div>
 </article></div>
   </section>
 
@@ -1326,6 +1341,77 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 <td class="gn">Puzzle</td>
 <td class="dt">2026-11-06</td>
 <td class="bg"><b class="bd bd-rise">进美区</b><b class="bd bd-ad">小号</b><b class="bd bd-cas">休闲</b></td>
+</tr></tbody></table>
+    </div>
+  </section>
+
+
+  <section class="sec" id="steam">
+    <div class="sh"><h2>Steam 上榜新游</h2><span>Steam First · 7 款</span></div>
+    <p class="sd">Steam 同时在线前 1000 名（SteamCharts，每天 22:50 UTC 抓一次）里<strong>此前从没出现过</strong>的游戏，只列发售 180 天内的新游，最近 14 个抓取日。有些玩法先在 Steam 上被验证、几个月后才到手机。「🎯 可移植候选」= 纯单人、≤ $15——回测里手机上跟成的全是这一类；带联机的只列不追。<strong>2026-11-15 这一趟新进 93 款：新游 7 款（🎯 2 + 其他 5），老游戏 53 款，详情没查到 33 款</strong>（老游戏多半是打折、更新或门槛线抖动，不列）。</p>
+    <div class="filters">
+      <button class="f sf on" data-sf="all">全部</button>
+      <button class="f sf" data-sf="cand">仅 🎯 可移植候选</button>
+      <button class="f sf" data-sf="single">仅单人</button>
+    </div>
+    <div class="panel spanel on">
+      <table><thead><tr><th>首进</th><th>游戏 / 开发者 · 简介</th><th>类型</th><th>发售</th><th>名次 · 在线</th><th>模式 · 价格</th><th>标记</th></tr></thead>
+      <tbody><tr class="casual" data-scand="1" data-ssingle="1" style="--i:0">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/3546610/" target="_blank" rel="noopener">Wielders of the Essence</a></span><span class="dev">Lavapotion · Single-player horde survival with a touch of incremental base building. Cast spells, command troops, and take your town from puddle to paradise. Eight-minute runs. Eight hours to complete.</span></td>
+<td class="gn">Action / Indie</td>
+<td class="dt">2026-11-05</td>
+<td class="dt">#824 · 837 人</td>
+<td class="gn">单人 · $5.39</td>
+<td class="bg"><b class="bd bd-rise">🎯 可移植候选</b><b class="bd bd-fresh">10天新游</b></td>
+</tr><tr class="casual" data-scand="1" data-ssingle="1" style="--i:1">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/4140700/" target="_blank" rel="noopener">Cash is King! Business Simulator</a></span><span class="dev">BlackBeak Games · Start with nothing and build your own business empire in sunny Miami Beach! Sell lemonade, run vending machines, automate your companies and turn small side jobs into big profits in this relaxed first-person simulator.</span></td>
+<td class="gn">Casual / Indie / Simulation</td>
+<td class="dt">2026-11-05</td>
+<td class="dt">#902 · 722 人</td>
+<td class="gn">单人 · $14.39</td>
+<td class="bg"><b class="bd bd-rise">🎯 可移植候选</b><b class="bd bd-fresh">10天新游</b></td>
+</tr><tr class="" data-scand="0" data-ssingle="0" style="--i:2">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/2315050/" target="_blank" rel="noopener">We Were Here Tomorrow</a></span><span class="dev">Total Mayhem Games · You and your partner awaken inside a mysterious Norček facility with little recollection of how you got there. Communicate, cooperate, and unravel the secrets in this asymmetrical co-op adventure. Only together will you decide the fate of Tomorrow…</span></td>
+<td class="gn">Action / Adventure / Casual</td>
+<td class="dt">2026-10-20</td>
+<td class="dt">#670 · 1,120 人</td>
+<td class="gn">联机 · $19.99</td>
+<td class="bg"><b class="bd bd-fresh">26天新游</b><b class="bd bd-ad">联机</b></td>
+</tr><tr class="" data-scand="0" data-ssingle="0" style="--i:3">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/2902720/" target="_blank" rel="noopener">SPAM</a></span><span class="dev">Ticroco Entreprise · SPAM is a free-to-play online turn-based combat game. Jump into dynamic battles where you’ll have to adapt to your opponents and try to impose your strategy. Earn new cards through your victories and create devastating combos!!</span></td>
+<td class="gn">RPG / Strategy / Free To Play</td>
+<td class="dt">2026-10-07</td>
+<td class="dt">#807 · 859 人</td>
+<td class="gn">标单人·简介提到联机 · 免费</td>
+<td class="bg"><b class="bd bd-fresh">39天新游</b><b class="bd bd-ad">联机</b></td>
+</tr><tr class="" data-scand="0" data-ssingle="0" style="--i:4">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/2826790/" target="_blank" rel="noopener">Stormforge</a></span><span class="dev">Roboto Games · Brave magical storms where tornadoes hunt you in this open-world survival crafting game for 1 to 8 players. Outrun the tornadoes or ride their winds, sail to new islands, defeat bosses to unlock classes, and build a home that can weather the next chaos storm.</span></td>
+<td class="gn">Action / Adventure / Indie</td>
+<td class="dt">2026-11-10</td>
+<td class="dt">#923 · 694 人</td>
+<td class="gn">单人+联机 · $16.99</td>
+<td class="bg"><b class="bd bd-fresh">5天新游</b><b class="bd bd-ad">联机</b></td>
+</tr><tr class="" data-scand="0" data-ssingle="1" style="--i:5">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/2059170/" target="_blank" rel="noopener">Quasimorph</a></span><span class="dev">Magnum Scriptum · Take on a role of a hardened PMC fighter in a dark turn-based cyberpunk RPG. Engage in unforgiving combat, manage your ship and pile up the bodies of your clones to unravel the dark mystery behind threat to all life.</span></td>
+<td class="gn">Action / Adventure / Indie</td>
+<td class="dt">2026-07-31</td>
+<td class="dt">#937 · 676 人</td>
+<td class="gn">单人 · $24.99</td>
+<td class="bg"><b class="bd bd-fresh">107天新游</b></td>
+</tr><tr class="" data-scand="0" data-ssingle="1" style="--i:6">
+<td class="dt">11-15</td>
+<td class="nm"><span class="t"><a href="https://store.steampowered.com/app/2209900/" target="_blank" rel="noopener">Moonlight Peaks</a></span><span class="dev">Little Chicken · Welcome to your new vampiric life in the magical town of Moonlight Peaks. Raise mystical crops, learn spell-casting and potion-making, and befriend – or even romance – the local werewolves, witches, and mermaids in this heartwarming supernatural life-sim. Eternity awaits!</span></td>
+<td class="gn">Casual / Indie / RPG</td>
+<td class="dt">2026-07-06</td>
+<td class="dt">#999 · 607 人</td>
+<td class="gn">单人 · $34.99</td>
+<td class="bg"><b class="bd bd-fresh">132天新游</b></td>
 </tr></tbody></table>
     </div>
   </section>
@@ -10659,7 +10745,7 @@ try{var _t=localStorage.getItem('theme');if(_t==='dark')document.documentElement
 
 <footer class="wrap">
   <span>数据来源：Apple iTunes Store API · Google Play。仅供研究参考。</span>
-  <span>生成于 2026-11-15 00:01 UTC</span>
+  <span>生成于 2026-11-15 03:15 UTC</span>
 </footer>
 
 <script>
@@ -10838,6 +10924,14 @@ $$('.bf').forEach(b=>b.onclick=()=>{
   const m=b.dataset.bf; $$('.bf').forEach(x=>x.classList.toggle('on',x===b));
   $$('.bpanel tbody tr').forEach(r=>{
     const ok = m==='all' || (m==='casual'&&r.dataset.bcasual==='1') || (m==='soft'&&r.dataset.bsoft==='1') || (m==='us'&&r.dataset.bsoft==='0');
+    r.style.display = ok ? '' : 'none';
+  });
+});
+// Steam 上榜新游的筛选
+$$('.sf').forEach(b=>b.onclick=()=>{
+  const m=b.dataset.sf; $$('.sf').forEach(x=>x.classList.toggle('on',x===b));
+  $$('.spanel tbody tr').forEach(r=>{
+    const ok = m==='all' || (m==='cand'&&r.dataset.scand==='1') || (m==='single'&&r.dataset.ssingle==='1');
     r.style.display = ok ? '' : 'none';
   });
 });
